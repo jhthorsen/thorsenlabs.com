@@ -39,7 +39,9 @@
   {% block footer %}
     <footer id="footer">
       <div class="document-width">
-        <p>&copy; 2024</p>
+    {% filter markdown %}
+&copy; 2024
+    {% endfilter %}
       </div>
     </footer>
   {% endblock %}

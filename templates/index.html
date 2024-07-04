@@ -1,9 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-<main role="document" class="document-width">
-  <section>
-    <h1>Thorsen.pm</h1>
-  </section>
+
+{% set projects = [
+  "convos",
+  "proxyforurl",
+  "mojopaste",
+  "cpantestreport",
+  "timekeeper",
+  "frank",
+  "other",
+] %}
+
+<main role="document" class="document-width feed-document">
+  <article>
+    <header id="intro">
+      {{ markdown(file = "about/intro") | safe }}
+    </header>
+
+    <h2>Projects</h2>
+    {% for project in projects %}
+      <section id="{{ project | slugify }}">
+        {{ markdown(file = "about/projects/" ~ project) | safe }}
+      </section>
+    {% endfor %}
+  </article>
 </main>
 {% endblock %}
