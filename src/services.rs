@@ -1,9 +1,10 @@
-use actix_web::{get, web, HttpRequest, HttpResponse, ResponseError};
+use actix_files::Files;
 use actix_web::http::StatusCode;
-use serde::{Serialize, Deserialize};
+use actix_web::{get, web, HttpRequest, HttpResponse, ResponseError};
+use serde::{Deserialize, Serialize};
 
-use crate::AppState;
 use crate::template::relative_to_markdown_file;
+use crate::AppState;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum ServerError {
@@ -67,6 +68,11 @@ pub async fn get_markdown(
 }
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
+    let static_dir = std::env::var("THORSEN_STATIC_FILES").unwrap_or("./static".to_string());
+
     cfg.service(get_index);
+    cfg.service(Files::new("/css", format!("{}/css", static_dir)).prefer_utf8(true));
+    cfg.service(Files::new("/js", format!("{}/js", static_dir)).prefer_utf8(true));
+    cfg.service(Files::new("/images", format!("{}/images", static_dir)).prefer_utf8(true));
     cfg.service(get_markdown);
 }

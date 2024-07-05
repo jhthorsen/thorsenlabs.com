@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>thorsen.pm</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.jade.min.css">
-    {% include "css/base.html" %}
+    <link rel="stylesheet" href="/css/pico2.jade.min.css">
+    <link rel="stylesheet" href="/css/pico2.jade.override.css">
   </head>
   <body hx-on:htmx:response-error="window.thorsen.onResponseError(event)">
 {% endif %}
@@ -18,7 +18,11 @@
       <div class="document-width" hx-boost="true">
         <nav>
           <ul>
-            <li><a href="/" class="brand">thorsen.pm</li>
+            <li>
+              <a href="/" class="brand">
+                <img src="/images/brand.png" alt="Profile picture of Jan Henning Thorsen"> thorsen.pm
+              </a>
+            </li>
           </ul>
           <ul>
             <li><a href="/">About</a></li>
@@ -54,16 +58,14 @@
     {% filter markdown %}
 &copy; 2024 - Powered by
 [Trafikkmaskin](https://trafikkmaskin.no/),
-[Rust](https://www.rust-lang.org/) and
-[htmx](https://htmx.org/).
+[htmx](https://htmx.org/) and
+[Rust](https://www.rust-lang.org/).
     {% endfilter %}
       </div>
     </footer>
   {% endblock %}
 
-  <script src="https://unpkg.com/htmx.org@1.9.6"
-    integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni"
-    crossorigin="anonymous"></script>
+  <script src="/js/htmx.org@1.9.6.js"></script>
   <script>
     const thorsen = window.thorsen = {};
     thorsen.error = (err) => {
