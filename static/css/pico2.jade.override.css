@@ -1,6 +1,8 @@
 :root {
   --pico-form-element-spacing-vertical: 0.4em;
   --pico-form-element-spacing-horizontal: 0.7em;
+  --pico-typography-spacing-vertical: 1.5em;
+  --pico-border-radius: 1rem;
 }
 
 html, body {
@@ -21,6 +23,11 @@ body {
 main > article {
   --pico-block-spacing-vertical: 2rem;
   background-color: transparent;
+
+  img {
+    border-radius: 1rem;
+    max-width: 60vh;
+  }
 }
 
 article h1 sub,
@@ -70,4 +77,16 @@ article h3 sub {
 .document-width {
   margin-inline: auto;
   max-width: 48rem;
+}
+
+#about_intro {
+  overflow: hidden;
+
+  img {
+    float: right;
+    margin-right: 0;
+    max-width: 35%;
+    margin-left: 1rem;
+    margin-top: -0.5rem;
+  }
 }
