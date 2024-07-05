@@ -1,17 +1,6 @@
 {% extends "layouts/base.html" %}
 
 {% block content %}
-
-{% set projects = [
-  "convos",
-  "proxyforurl",
-  "mojopaste",
-  "cpantestreport",
-  "timekeeper",
-  "frank",
-  "other",
-] %}
-
 <main role="document" class="document-width">
   <article>
     <header id="intro">
@@ -19,11 +8,7 @@
     </header>
 
     <h2>Projects</h2>
-    {% for project in projects %}
-      <section id="{{ project | slugify }}">
-        {{ markdown(name = "about/projects/" ~ project) | safe }}
-      </section>
-    {% endfor %}
+    {{ markdown(name = "about/projects") | safe }}
   </article>
 </main>
 {% endblock %}
