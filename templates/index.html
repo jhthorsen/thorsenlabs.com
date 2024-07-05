@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "layouts/base.html" %}
 
 {% block content %}
 
@@ -12,16 +12,16 @@
   "other",
 ] %}
 
-<main role="document" class="document-width feed-document">
+<main role="document" class="document-width">
   <article>
     <header id="intro">
-      {{ markdown(file = "about/intro") | safe }}
+      {{ markdown(name = "about/intro") | safe }}
     </header>
 
     <h2>Projects</h2>
     {% for project in projects %}
       <section id="{{ project | slugify }}">
-        {{ markdown(file = "about/projects/" ~ project) | safe }}
+        {{ markdown(name = "about/projects/" ~ project) | safe }}
       </section>
     {% endfor %}
   </article>

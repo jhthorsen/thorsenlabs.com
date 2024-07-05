@@ -1,0 +1,9 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<main role="document" class="document-width">
+  <article>
+    {{ markdown(path = markdown_path) | safe }}
+  </article>
+</main>
+{% endblock %}

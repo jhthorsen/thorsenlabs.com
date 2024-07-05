@@ -1,0 +1,17 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<main role="document" class="document-width">
+  <article>
+    <h1>Not found! (404)</h1>
+    <p>
+      We looked everywhere, but could not find <a href="{{path}}">{{path}}</a>.
+      Maybe you want to <a href="/">start over</a> again?
+      You can also <a href="/contact">let us know</a> if you indeed expect something to found.
+    </p>
+
+    <h2>Details</h2>
+    <pre style="white-space:pre-line"><small>{{error}}</small></pre>
+  </article>
+</main>
+{% endblock %}

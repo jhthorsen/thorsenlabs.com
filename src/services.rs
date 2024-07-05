@@ -3,6 +3,7 @@ use actix_web::http::StatusCode;
 use serde::{Serialize, Deserialize};
 
 use crate::AppState;
+use crate::template::relative_to_markdown_file;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum ServerError {
@@ -42,6 +43,30 @@ pub async fn get_index(
     return Ok(HttpResponse::Ok().body(rendered));
 }
 
+#[get("/{markdown:.*}")]
+pub async fn get_markdown(
+    state: web::Data<AppState>,
+    req: HttpRequest,
+) -> Result<HttpResponse, ServerError> {
+    let path = req.match_info().get("markdown");
+    let path = relative_to_markdown_file(path.unwrap_or("index"));
+    let mut ctx = crate::template::template_context(req);
+
+    match path {
+        Ok(path) => {
+            ctx.insert("markdown_path".to_string(), &path);
+            let rendered = state.tera.render("article.html", &ctx)?;
+            return Ok(HttpResponse::Ok().body(rendered));
+        }
+        Err(err) => {
+            ctx.insert("error".to_string(), &err.to_string());
+            let rendered = state.tera.render("not_found.html", &ctx)?;
+            return Ok(HttpResponse::NotFound().body(rendered));
+        }
+    }
+}
+
 pub fn configure(cfg: &mut web::ServiceConfig) {
     cfg.service(get_index);
+    cfg.service(get_markdown);
 }

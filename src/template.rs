@@ -32,6 +32,25 @@ fn header_value_to_string(value: Option<&HeaderValue>) -> String {
         .to_string()
 }
 
+pub fn relative_to_markdown_file(path: &str) -> Result<String, Error> {
+    let mut file = path.trim_end_matches('/').trim_start_matches("/");
+    if file.len() <= 1 {
+        file = "index";
+    }
+
+    let mut path = format!("templates/{}.md", file);
+    let path_metadata = fs::metadata(path.clone());
+    match path_metadata {
+        Ok(metadata) => {
+            if metadata.is_dir() {
+                path = format!("{}/index.md", path);
+            }
+            Ok(path)
+        }
+        Err(err) => Err(format!("Could not resolve markdown file {}: {}", file, err.to_string()).into()),
+    }
+}
+
 pub fn template_context(req: HttpRequest) -> Context {
     let mut ctx = Context::new();
     let h = req.headers();
@@ -64,25 +83,22 @@ fn template_filter_markdown(
 }
 
 fn template_function_markdown(args: &HashMap<String, Value>) -> Result<Value, Error> {
-    match args.get("file") {
-        Some(file) => {
-            let mut file = file.as_str().unwrap_or("index").trim_end_matches('/');
-            if file.len() <= 1 {
-                file = "index";
-            }
-
-            let mut path = format!("templates/{}.md", file);
-            let path_metadata = fs::metadata(path.clone())?;
-            if path_metadata.is_dir() {
-                path = format!("{}/index.md", path);
-            }
-
-            let contents = fs::read_to_string(path.clone());
-            match contents {
-                Ok(contents) => template_filter_markdown(&Value::String(contents), args),
-                Err(err) => Ok(Value::String(format!("Could not open {}: {}", path, err))),
-            }
-        },
-        None => Ok(Value::String(format!("Missing file argument"))),
+    if let Some(name) = args.get("name") {
+        let path = relative_to_markdown_file(name.as_str().unwrap_or("invalid"))?;
+        let contents = fs::read_to_string(path.clone());
+        match contents {
+            Ok(contents) => template_filter_markdown(&Value::String(contents), args),
+            Err(err) => Ok(Value::String(format!("Could not read {}: {}", path, err))),
+        }
+    }
+    else if let Some(path) = args.get("path") {
+        let contents = fs::read_to_string(path.as_str().unwrap_or("invalid"));
+        match contents {
+            Ok(contents) => template_filter_markdown(&Value::String(contents), args),
+            Err(err) => Ok(Value::String(format!("Could not read {}: {}", path, err))),
+        }
+    }
+    else {
+        Err(format!("Missing name or path argument").into())
     }
 }
