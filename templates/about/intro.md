@@ -1,7 +1,7 @@
 Hei! <sub>hēi</sub>
 ========
 
-![](/uploads/2019/03/jht-profilbilde-e1553101127296-300x271.jpg)
+![](/images/jht-profilbilde-e1553101127296-768x693.jpg)
 
 I live and breathe web technologies. I have about a hundred projects on
 [Github](https://github.com/jhthorsen), many libraries for developers, but also

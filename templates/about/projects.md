@@ -9,7 +9,7 @@ browser window.
 
 ### Proxy For URL <sub>An online PAC file tester</sub>
 
-[![](/uploads/2022/02/2022-02-20-proxyforurl-1024x768.jpg)](https://thorsen.pm/proxyforurl)
+[![](/images/2022-02-20-proxyforurl.jpg)](https://thorsen.pm/proxyforurl)
 
 [Proxy For URL](https://thorsen.pm/proxyforurl) is a tool for testing [proxy
 auto-config](https://developer.mozilla.org/en-US/docs/Web/HTTP/Proxy_servers_and_tunneling/Proxy_Auto-Configuration_PAC_file)
@@ -18,7 +18,7 @@ destination or are forwarded to a web proxy server.
 
 ### Timekeeper <sub>A shareable timer</sub>
 
-[![](/uploads/2022/02/2022-02-20-timekeeper-1024x768.jpg)](https://thorsen.pm/timer)
+[![](/images/2022-02-20-timekeeper.jpg)](https://thorsen.pm/timer)
 
 [Timekeeper](https://thorsen.pm/timer) is a web app for creating shareable
 timers. Simply copy and paste the URL in your browser to a friend or coworker
@@ -26,7 +26,7 @@ after setting a timer.
 
 ### Mojopaste <sub>A pastebin</sub>
 
-[![Mojopaste - A pastebin](/uploads/2022/02/2022-02-20-mojopaste-1024x768.jpg)](https://thorsen.pm/paste/)
+[![Mojopaste - A pastebin](/images/2022-02-20-mojopaste.jpg)](https://thorsen.pm/paste/)
 
 [Mojopaste](https://thorsen.pm/paste/) is a pastebin application. There are
 about one million of these out there, but if you need to run something
@@ -35,14 +35,14 @@ application.
 
 ### CPAN Test Report <sub>A frontend for cpan test reports</sub>
 
-[![](/uploads/2022/02/2022-02-20-cpants-1024x606.jpg)](https://thorsen.pm/cpants)
+[![](/images/2022-02-20-cpants.jpg)](https://thorsen.pm/cpants)
 
 [Cpan Test Report](https://thorsen.pm/cpants) is a web page where you can
 search for CPAN Testers reports by module, distribution or author and see test
 reports created by [cpantesters.org](https://cpantesters.org/).
 ### Frank Thorsen <sub>My dad’s website</sub>
 
-[![](/uploads/2019/03/20190323-frank.thorsen.pm_-1024x576.png)](https://frank.thorsen.pm/)
+[![](/images/2019-03-23-frank.thorsen.pm.png)](https://frank.thorsen.pm/)
 
 My dad wrote a book, and [this page](https://frank.thorsen.pm/) is about him
 and his book.
