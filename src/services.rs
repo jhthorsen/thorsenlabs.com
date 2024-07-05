@@ -12,7 +12,7 @@ pub enum ServerError {
 
 impl From<tera::Error> for ServerError {
     fn from(err: tera::Error) -> ServerError {
-        println!("type=\"Residential\" {:?}", err);
+        log::error!("type=\"tera::Error\" error=\"{:?}\"", err);
         ServerError::UserError(err.to_string())
     }
 }
