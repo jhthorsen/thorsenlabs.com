@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+actix-files = { version = "0.6.6", features = ["actix-server"] }
 actix-web = "4.5.1"
 dotenv = "0.15.0"
 env_logger = "0.11.3"
