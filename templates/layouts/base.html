@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.jade.min.css">
     {% include "css/base.html" %}
   </head>
-  <body>
+  <body hx-on:htmx:response-error="window.thorsen.onResponseError(event)">
 {% endif %}
 {% if htmx.boosted %}
   <header id="header" hx-preserve="true"></header>
@@ -29,6 +29,18 @@
       </div>
     </header>
   {% endblock %}
+
+  <dialog id="error_dialog">
+    <article>
+      <header>
+        <h2>Error</h2>
+      </header>
+      <p>Unknown error.</p>
+      <footer>
+        <button class="secondary" hx-on:click="window.thorsen.error()">Close</button>
+      </footer>
+    </article>
+  </dialog>
 {% endif %}
 
 {% block content %}<p>content missing!</p>{% endblock %}
@@ -52,6 +64,23 @@
   <script src="https://unpkg.com/htmx.org@1.9.6"
     integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni"
     crossorigin="anonymous"></script>
+  <script>
+    const thorsen = window.thorsen = {};
+    thorsen.error = (err) => {
+      const dialog = document.getElementById("error_dialog");
+      if (err) {
+        dialog.querySelector("p").innerText = err;
+        dialog.showModal();
+      }
+      else {
+        dialog.close();
+      }
+    };
+
+    thorsen.onResponseError = ({detail}) => {
+      window.thorsen.error(detail.error);
+    };
+  </script>
 </body>
 </html>
 {% endif %}
