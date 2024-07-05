@@ -32,10 +32,32 @@ article h3 sub {
   display: block;
 }
 
+#header,
+#footer {
+  > .document-width {
+    padding-inline: var(--pico-block-spacing-horizontal);
+  }
+}
+
+#header a.brand {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+#footer {
+  font-size: 0.85em;
+  background-color: var(--pico-card-background-color);
+  border-block-start: 1px solid var(--pico-table-border-color);
+  margin-block-start: 2rem;
+  padding-block: 2rem;
+
+  p {
+    margin-block: 1rem;
+  }
+}
+
 .document-width {
-  padding-inline: var(--pico-spacing);
   margin-inline: auto;
-  width: 100%;
   max-width: 50rem;
 }
 </style>
