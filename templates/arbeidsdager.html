@@ -1,0 +1,177 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+{% set checked = query.to is not defined %}
+{% set default_to = now() | date(format="%Y-%m-%d") %}
+{% set to = query.to | default(value=default_to) %}
+{% set year = to | split(pat="-") | first %}
+<main role="document" class="document-width">
+  <article id="arbeidsdager" hx-select="[role=document]" hx-target="[role=document]">
+    <header>
+      {{ markdown(name = "arbeidsdager/intro.md") | safe }}
+    </header>
+
+    <form method="get" action="/arbeidsdager" hx-on:submit="thorsen.calculateWorkingDays(event)">
+      <table>
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th>Beskrivelse</th>
+            <th>Antall</th>
+            <th>Inkluder</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>&nbsp;</td>
+            <td class="pre"><strong>{{ year }}-01-01</strong> til <input name="to" type="text" value="{{ to }}"></td>
+            <td class="pre"><span class="total-days">&mdash;</span> dager</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>—</td>
+            <td>Feriedager du har brukt</td>
+            <td><input name="vacation_days" type="number" value="{{ query.vacation_days | default(value=0) }}"></td>
+            <td>Ja</td>
+          </tr>
+          <tr>
+            <td>—</td>
+            <td>Lør- og søndager</td>
+            <td><span class="total-weekends">&mdash;</span> dager</td>
+            <td><input type="checkbox" name="weekends" {% if query.weekends | default(value=checked) %}checked{% endif %}></td>
+          </tr>
+          <tr>
+            <td>—</td>
+            <td>Hellig- og høytidsdager</td>
+            <td><span class="total-holidays">&mdash;</span> dager</td>
+            <td><input type="checkbox" name="holidays" {% if query.holidays | default(value=checked) %}checked{% endif %}></td>
+          </tr>
+          <tr>
+            <td>—</td>
+            <td>Inneklemte dager i påsken</td>
+            <td><span class="total-easter">&mdash;</span> dager</td>
+            <td><input type="checkbox" name="easter" {% if query.easter | default(value=false) %}checked{% endif %}></td>
+          </tr>
+          <tr>
+            <td>—</td>
+            <td>Inneklemte dager i julen</td>
+            <td><span class="total-christmas">&mdash;</span> dager</td>
+            <td><input type="checkbox" name="christmas" {% if query.christmas | default(value=false) %}checked{% endif %}></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>=</td>
+            <td>Arbeidsdager</td>
+            <td class="pre"><span class="total-working-days">&mdash;</span> dager</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>=</td>
+            <td>Arbeidstid * 7,5t/dag</td>
+            <td class="pre"><span class="total-working-hours">&mdash;</span> timer</td>
+            <td>&nbsp;</td>
+          </tr>
+        </tfoot>
+      </table>
+      <p><button class="button">Regn ut</button></p>
+    </form>
+
+    <h2>Helligdager</h2>
+    <table id="holidays-table"
+      hx-get="/arbeidsdager/table/{{ year }}"
+      hx-trigger="load"
+      hx-target="#holidays-table"
+      hx-select="#holidays-table"
+      hx-swap="outerHTML">
+      <tbody>
+        <tr><td>Laster data...</td></tr>
+      </tbody>
+    </table>
+    <blockquote>Tabellen over er hentet fra <a href="https://webapi.no/">webapi.no</a>.</blockquote>
+  </article>
+</main>
+<script>
+  ((thorsen) => {
+    const ONE_DAY = 1000 * 60 * 60 * 24;
+    const MONDAY = 1;
+    const SATURDAY = 6;
+
+    const el = ($el, sel) => $el.querySelector(sel);
+
+    const calculateTrappedDays = ($form, from, to) => {
+      const nextWeek = new Date(from.valueOf() + ONE_DAY * 7);
+      if (nextWeek.valueOf() < to.valueOf()) to = nextWeek;
+
+      let n = 0;
+      while (from.valueOf() <= to.valueOf()) {
+        const ymd = from.toISOString().split("T")[0];
+        const day = from.getDay();
+        if (!el(document, `td[data-date="${ymd}"]`) && day >= MONDAY && day <= SATURDAY) n++;
+        from.setDate(from.getDate() + 1);
+      }
+
+      return n;
+    };
+
+    const str2date = (str) => {
+      const ymd = str.trim().split("-").map(v => v.replace(/^0+/, "")).map(v => parseInt(v, 10));
+      return new Date(ymd[0], ymd[1] - 1, ymd[2]);
+    };
+
+    thorsen.calculateWorkingDays = (event) => {
+      event.preventDefault();
+      const $form = event.currentTarget;
+
+      const to = str2date(el($form, "input[name=to]").value);
+      let from = new Date(to.getFullYear(), 0, 1);
+
+      const result = {holidays: 0, weekends: 0};
+      result.days = ((to.valueOf() - from.valueOf()) / ONE_DAY) + 1;
+
+      let easter;
+      for (const $tr of document.querySelectorAll("#holidays-table [data-kind]")) {
+        const $cols = $tr.querySelectorAll("td");
+        const date = str2date($cols[0].textContent);
+        const month = date.getMonth() + 1;
+        if (date.valueOf() > to.valueOf()) {
+          break;
+        }
+
+        if ($cols[1].textContent.match(/Palme.*dag/i)) {
+          easter = date;
+        }
+
+        const kind = $tr.dataset.kind;
+        if (kind === "saturday" || kind === "sunday") {
+          result.weekends++;
+        } else {
+          result.holidays++;
+        }
+      }
+
+      result.christmas = calculateTrappedDays($form, new Date(to.getFullYear(), 12 - 1, 24), to);
+      result.easter = calculateTrappedDays($form, easter, to);
+
+      for (const key of Object.keys(result)) {
+        el($form, `.total-${key}`).textContent = result[key];
+      }
+
+      let workingDays = result.days;
+      workingDays -= parseInt(el($form, "[name=vacation_days]").value);
+      if (el($form, "[name=christmas]").checked) workingDays -= result.christmas;
+      if (el($form, "[name=easter]").checked) workingDays -= result.easter;
+      if (el($form, "[name=holidays]").checked) workingDays -= result.holidays;
+      if (el($form, "[name=weekends]").checked) workingDays -= result.weekends;
+
+      el($form, `.total-working-days`).textContent = workingDays;
+      el($form, `.total-working-hours`).textContent = workingDays * 7.5;
+
+      const url = new URL(location.href);
+      url.search = new URLSearchParams(new FormData($form)).toString()
+      history.replaceState({total: workingDays}, null, url.toString());
+    };
+  })(window.thorsen || (window.thorsen = {}));
+</script>
+
+{% endblock %}

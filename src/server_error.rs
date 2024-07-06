@@ -10,6 +10,13 @@ pub enum ServerError {
     NotFound(String),
 }
 
+impl From<reqwest::Error> for ServerError {
+    fn from(err: reqwest::Error) -> ServerError {
+        log::error!("type=\"reqwest::Error\" error=\"{:?}\"", err);
+        ServerError::InternalServerError(err.to_string())
+    }
+}
+
 impl From<std::io::Error> for ServerError {
     fn from(err: std::io::Error) -> ServerError {
         log::error!("type=\"std::io::Error\" error=\"{:?}\"", err);
@@ -30,7 +37,9 @@ impl std::fmt::Display for ServerError {
             ServerError::InternalServerError(err) => {
                 let mut ctx = tera::Context::new();
                 ctx.insert("error", &err);
-                let html = global_tera().render("internal_server_error.html", &ctx).unwrap();
+                let html = global_tera()
+                    .render("internal_server_error.html", &ctx)
+                    .unwrap();
                 f.write_str(&html.as_str())
             }
             ServerError::NotFound(err) => {
