@@ -3,7 +3,6 @@ use actix_web::http::StatusCode;
 use actix_web::{get, web, HttpRequest, HttpResponse, ResponseError};
 use serde::{Deserialize, Serialize};
 
-use crate::template::relative_to_markdown_file;
 use crate::AppState;
 
 const INTERNAL_SERVER_ERROR: &str = include_str!(concat!(
@@ -47,7 +46,7 @@ impl std::fmt::Display for ServerError {
 impl ResponseError for ServerError {
     fn error_response(&self) -> HttpResponse {
         match self {
-            ServerError::InternalServerError(_) => HttpResponse::build(self.status_code())
+            ServerError::InternalServerError(_) => HttpResponse::build(StatusCode::INTERNAL_SERVER_ERROR)
                 .insert_header(("Content-Type", "text/html"))
                 .body(self.to_string()),
             ServerError::NotFound(_) => HttpResponse::build(StatusCode::NOT_FOUND)
@@ -57,33 +56,48 @@ impl ResponseError for ServerError {
     }
 }
 
+fn template_type_from_path(path: &String) -> Result<String, ServerError> {
+    for ext in &["html", "md"] {
+        let full_path = format!("{}/templates/{}.{}", env!("CARGO_MANIFEST_DIR"), path, ext);
+        if std::path::Path::new(&full_path).exists() {
+            return Ok(ext.to_string())
+        }
+    }
+
+    Err(ServerError::NotFound(format!("path=\"{}\" error=unknown_type", path)))
+}
+
 #[get("/")]
 pub async fn get_index(
     state: web::Data<AppState>,
     req: HttpRequest,
 ) -> Result<HttpResponse, ServerError> {
-    let ctx = crate::template::template_context(req);
+    let ctx = crate::template::template_context(&req);
     let rendered = state.tera.render("index.html", &ctx)?;
     return Ok(HttpResponse::Ok().body(rendered));
 }
 
-#[get("/{markdown:.*}")]
+#[get("/{dynamic:.*}")]
 pub async fn get_markdown(
     state: web::Data<AppState>,
     req: HttpRequest,
 ) -> Result<HttpResponse, ServerError> {
-    let path = req.match_info().get("markdown");
-    let path = relative_to_markdown_file(path.unwrap_or("index"));
-    let mut ctx = crate::template::template_context(req);
+    let mut ctx = crate::template::template_context(&req);
+    let path = req.match_info().get("dynamic").unwrap_or("index").trim_end_matches('/').trim_start_matches("/");
+    let ext = template_type_from_path(&path.to_string())?;
 
-    match path {
-        Ok(path) => {
-            ctx.insert("markdown_path".to_string(), &path);
-            let rendered = state.tera.render("article.html", &ctx)?;
-            return Ok(HttpResponse::Ok().body(rendered));
-        }
-        Err(err) => Err(ServerError::NotFound(err.to_string())),
+    if ext == "html" {
+        let path = format!("{}.{}", path, ext);
+        let rendered = state.tera.render(&path, &ctx)?;
+        return Ok(HttpResponse::Ok().body(rendered));
     }
+    if ext == "md" {
+        ctx.insert("markdown_path".to_string(), &path);
+        let rendered = state.tera.render("article.html", &ctx)?;
+        return Ok(HttpResponse::Ok().body(rendered));
+    }
+
+    Err(ServerError::NotFound(format!("path=\"{}\" error=unknown_ext", ext)))
 }
 
 pub fn configure(cfg: &mut web::ServiceConfig) {

@@ -2,8 +2,10 @@
 
 {% block content %}
 <main role="document" class="document-width">
-  <article>
-    {{ markdown(name = markdown_path) | safe }}
+  <article id="blog">
+    <header id="about_intro">
+      {{ markdown(name = "blog/intro") | safe }}
+    </header>
   </article>
 </main>
 {% endblock %}
