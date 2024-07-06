@@ -56,7 +56,17 @@ fn template_filter_markdown(
     _args: &HashMap<String, Value>,
 ) -> Result<Value, Error> {
     let text = serde_json::from_value::<String>(value.clone())?;
-    let parser = pulldown_cmark::Parser::new(&text);
+    let mut options = pulldown_cmark::Options::empty();
+    options.insert(pulldown_cmark::Options::ENABLE_GFM);
+    options.insert(pulldown_cmark::Options::ENABLE_HEADING_ATTRIBUTES);
+    options.insert(pulldown_cmark::Options::ENABLE_MATH);
+    options.insert(pulldown_cmark::Options::ENABLE_SMART_PUNCTUATION);
+    options.insert(pulldown_cmark::Options::ENABLE_STRIKETHROUGH);
+    options.insert(pulldown_cmark::Options::ENABLE_TABLES);
+    options.insert(pulldown_cmark::Options::ENABLE_TASKLISTS);
+    options.insert(pulldown_cmark::Options::ENABLE_YAML_STYLE_METADATA_BLOCKS);
+
+    let parser = pulldown_cmark::Parser::new_ext(&text, options);
     let mut html_output = String::new();
     pulldown_cmark::html::push_html(&mut html_output, parser);
     Ok(to_value(html_output)?)
