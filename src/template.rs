@@ -18,7 +18,7 @@ struct HtmxHeaders {
 }
 
 pub fn build_tera() -> Tera {
-    let mut tera = Tera::new(concat!(env!("CARGO_MANIFEST_DIR"), "/templates/**/*")).unwrap();
+    let mut tera = Tera::new(concat!(env!("CARGO_MANIFEST_DIR"), "/templates/**/*.html")).unwrap();
     tera.register_filter("markdown", template_filter_markdown);
     tera.register_function("markdown", template_function_markdown);
     tera
