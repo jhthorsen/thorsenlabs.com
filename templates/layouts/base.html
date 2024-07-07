@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/pico2.jade.min.css">
     <link rel="stylesheet" href="/css/pico2.jade.override.css">
   </head>
-  <body hx-on:htmx:response-error="window.thorsen.onResponseError(event)">
+  <body hx-on:htmx:response-error="thorsen.onResponseError(event)">
 {% endif %}
 {% if htmx.boosted %}
   <header id="header" hx-preserve="true"></header>
@@ -41,7 +41,7 @@
       </header>
       <p>Unknown error.</p>
       <footer>
-        <button class="secondary" hx-on:click="window.thorsen.error()">Close</button>
+        <button class="secondary" hx-on:click="thorsen.error()">Close</button>
       </footer>
     </article>
   </dialog>
@@ -67,21 +67,22 @@
 
   <script src="/js/htmx.org@1.9.6.js"></script>
   <script>
-    const thorsen = window.thorsen = {};
-    thorsen.error = (err) => {
-      const dialog = document.getElementById("error_dialog");
-      if (err) {
-        dialog.querySelector("p").innerText = err;
-        dialog.showModal();
-      }
-      else {
-        dialog.close();
-      }
-    };
+    ((thorsen) => {
+      thorsen.error = (err) => {
+        const dialog = document.getElementById("error_dialog");
+        if (err) {
+          dialog.querySelector("p").innerText = err;
+          dialog.showModal();
+        }
+        else {
+          dialog.close();
+        }
+      };
 
-    thorsen.onResponseError = ({detail}) => {
-      window.thorsen.error(detail.error);
-    };
+      thorsen.onResponseError = ({detail}) => {
+        window.thorsen.error(detail.error);
+      };
+    })(window.thorsen || (window.thorsen = {}));
   </script>
 </body>
 </html>

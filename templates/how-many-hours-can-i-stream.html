@@ -1,0 +1,41 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<main role="document" class="document-width">
+  <article id="how_many_hours_can_i_stream">
+    {{ markdown(name = "how-many-hours-can-i-stream/intro") | safe }}
+
+    <h2>Calculate</h2>
+    <form method="get" action="/how-many-hours-can-i-stream" hx-on:submit="thorsen.planAndStreamToHours(event)">
+      <div class="cluster">
+        <label>
+          <strong>Plan (GB/month)</strong>
+          <input name="plan" type="number" value="5">
+        </label>
+        <label>
+          <strong>Stream (kb/s)</strong>
+          <input name="kbps" type="number" value="160">
+        </label>
+        <button class="button">Calculate!</button>
+      </div>
+      <hr>
+      <p>
+        <strong>Total hours of streaming: <span class="hours">69.4</span></strong>
+      </p>
+    </form>
+  </article>
+</main>
+<script>
+  ((thorsen) => {
+    thorsen.planAndStreamToHours = (event) => {
+      event.preventDefault();
+      const $form = event.currentTarget;
+      const G = 1000000000;
+      const k = 1000;
+      const plan = parseFloat($form.querySelector("[name=plan]").value);
+      const kbps = parseFloat($form.querySelector("[name=kbps]").value);
+      $form.querySelector(".hours").innerText = parseInt((plan * 8 * G) / (kbps * k) / (3600 / 10)) / 10;
+    };
+  })(window.thorsen || (window.thorsen = {}));
+</script>
+{% endblock %}
