@@ -1,5 +1,6 @@
 use actix_web::{middleware::Logger, web, App, HttpServer};
 
+mod server_error;
 mod services;
 mod template;
 
