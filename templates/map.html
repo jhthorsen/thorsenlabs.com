@@ -1,0 +1,30 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<main role="document" class="document-width">
+  <article id="where_i_have_been">
+    <header>
+      <h1>Where I have been and where I want to go</h1>
+      <p>
+        Here is an interactive map and a table of the places I have visited.
+        In addition, I have a list of <a href="https://thorsen.pm/backpack/">what to Pack</a>.
+      </p>
+    </header>
+
+    <iframe style="width: 100%; height: 480px;" src="https://www.google.com/maps/d/embed?mid=1ArPzl3uZHGBAuB-O37gWx-GoIRc070IB" width="640" height="480"></iframe>
+
+    <br>
+    <br>
+
+    <ul class="cluster">
+      <li><img src="/images/vacation.png"> Vacation</li>
+      <li><img src="/images/food.png">Food trip</li>
+      <li><img src="/images/conference.png">Conference</li>
+      <li><img src="/images/work.png">Work</li>
+      <li><img src="/images/want-to-go.png">Todo</li>
+    </ul>
+
+    {{ markdown(name = "map/table") | safe }}
+  </article>
+</main>
+{% endblock %}
