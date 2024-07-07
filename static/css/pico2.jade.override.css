@@ -20,6 +20,11 @@ body {
   }
 }
 
+pre {
+  border-radius: 0.3rem;
+  padding: var(--pico-spacing);
+}
+
 main > article {
   --pico-block-spacing-vertical: 2rem;
   background-color: transparent;
