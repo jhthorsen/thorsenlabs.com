@@ -1,7 +1,6 @@
-# rt.cpan.org -- great fun!
-
-[9th of September,
-2009](/blog/2009-09-09/rt-tickets.html){.blog_info_published}
+---
+title: rt.cpan.org -- great fun!
+---
 
 I must say I enjoy getting rt-tickets. "Why?", you might ask. Well, It's
 probably the only way I can actually know that someone use, or has tried

@@ -1,7 +1,6 @@
-# Multimedia updates (partially old news)
-
-[25th of May,
-2008](/blog/2008-05-25/multimedia_updates__partially_old_news_.html){.blog_info_published}
+---
+title: Multimedia updates (partially old news)
+---
 
 I've been enjoying xbox mediacenter on my xbox 1.x for several years now
 and I've finally gotten the opportunity to install it on my

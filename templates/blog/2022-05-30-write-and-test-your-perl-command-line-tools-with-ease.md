@@ -1,7 +1,6 @@
-# Write and test Perl command line tools with ease
-
-[30th of May,
-2022](/blog/2022-05-30/write-and-test-your-perl-command-line-tools-with-ease.html){.blog_info_published}
+---
+title: Write and test Perl command line tools with ease
+---
 
 Writing command line tools often involves a lot of boilerplate and they
 can be hard to test. [Getopt::App](https://metacpan.org/pod/Getopt::App)

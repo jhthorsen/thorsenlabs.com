@@ -1,7 +1,6 @@
-# CatalystX::Controller::Sugar
-
-[10th of September,
-2009](/blog/2009-09-10/catalyst-controller-sugar.html){.blog_info_published}
+---
+title: CatalystX::Controller::Sugar
+---
 
 I've written a module I think is rather useful:
 [CatalystX::Controller::Sugar](http://search.cpan.org/perldoc?CatalystX::Controller::Sugar).

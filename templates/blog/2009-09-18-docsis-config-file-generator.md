@@ -1,7 +1,6 @@
-# Online DOCSIS config file editor
-
-[18th of September,
-2009](/blog/2009-09-18/docsis-config-file-generator.html){.blog_info_published}
+---
+title: Online DOCSIS config file editor
+---
 
 I've written an [online DOCSIS config file
 editor](http://home.thorsen.pm/services/docsis) which (of course) can be

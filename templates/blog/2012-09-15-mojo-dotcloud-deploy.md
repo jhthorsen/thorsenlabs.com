@@ -1,9 +1,6 @@
-# Howto deploy #Mojolicious to \@dotcloud
-
-[15th of September,
-2012](/blog/2012-09-15/mojo-dotcloud-deploy.html){.blog_info_published}
-
-## ---
+---
+title: Howto deploy #Mojolicious to \@dotcloud
+---
 
 After sending some
 [tweets](https://twitter.com/jhthorsen/status/246716307741999106)\

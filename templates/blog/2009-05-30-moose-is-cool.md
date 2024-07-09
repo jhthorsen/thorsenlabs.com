@@ -1,7 +1,6 @@
-# Wow, Moose is cool!
-
-[30th of May,
-2009](/blog/2009-05-30/moose-is-cool.html){.blog_info_published}
+---
+title: Wow, Moose is cool!
+---
 
 I was introducing [Moose](http://search.cpan.org/dist/Moose) (and perl
 oo) to a java guy the other day, and he replied: "No, shit. Is that

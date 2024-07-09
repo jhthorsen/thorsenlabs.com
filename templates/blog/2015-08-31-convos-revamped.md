@@ -1,7 +1,6 @@
-# Convos revamped!
-
-[31th of August,
-2015](/blog/2015-08-31/convos-revamped.html){.blog_info_published}
+---
+title: Convos revamped!
+---
 
 [Convos](http://convos.by/) is a chat application that runs in your
 browser. It allows you to be persistently connected to IRC servers,

@@ -1,7 +1,6 @@
-# Rewriting Mojolicious::Plugin::AssetPack
-
-[21th of February,
-2016](/blog/2016-02-21/rewriting-assetpack-plugin.html){.blog_info_published}
+---
+title: Rewriting Mojolicious::Plugin::AssetPack
+---
 
 Update: I suggest checking out
 [Mojolicious::Plugin::Webpack](https://metacpan.org/pod/Mojolicious::Plugin::Webpack)

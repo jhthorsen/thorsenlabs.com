@@ -1,7 +1,6 @@
-# How to deploy #Mojolicious apps on \@DigitalOcean
-
-[9th of March,
-2014](/blog/2014-03-09/mojolicious-on-digitalocean.html){.blog_info_published}
+---
+title: How to deploy #Mojolicious apps on \@DigitalOcean
+---
 
 [Mojolicious](http://mojolicious.org) is truly a modern web framework.
 It keeps up to date with the HTTP, HTML, WebSockets and JSON

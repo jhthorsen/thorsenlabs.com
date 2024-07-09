@@ -1,7 +1,6 @@
-# More perl modules
-
-[6th of May,
-2008](/blog/2008-05-06/more-perl-modules.html){.blog_info_published}
+---
+title: More perl modules
+---
 
 I'm working on some more perl-modules now:
 [YAML::Object](http://search.cpan.org/dist/YAML-Object) and

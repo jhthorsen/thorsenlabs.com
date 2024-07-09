@@ -1,7 +1,6 @@
-# How to deliver your images through Cloudinary with Perl
-
-[10th of July,
-2012](/blog/2012-07-10/cloudinary-how-to-deliver-your-static-images.html){.blog_info_published}
+---
+title: How to deliver your images through Cloudinary with Perl
+---
 
 [Cloudinary](http://cloudinary.com) is a cloud-based service for image
 management & manipulation. From [their about

@@ -1,7 +1,6 @@
-# Mojopaste -- A #pastebin based on #Mojolicious
-
-[5th of September,
-2013](/blog/2013-09-05/mojopaste.html){.blog_info_published}
+---
+title: Mojopaste -- A #pastebin based on #Mojolicious
+---
 
     // From errno.h
     #define EPASTEBINAGAIN 133 /* mojopaste */

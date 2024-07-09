@@ -1,7 +1,6 @@
-# Mojo::IOLoop likes running programs asynchronously
-
-[12th of June,
-2022](/blog/2022-06-12/mojo-ioloop-and-subprocesses.html){.blog_info_published}
+---
+title: Mojo::IOLoop likes running programs asynchronously
+---
 
 Want to be able to run programs and arbitrary Perl code asynchronously,
 while being able to read from STDOUT and STDERR, and also write to

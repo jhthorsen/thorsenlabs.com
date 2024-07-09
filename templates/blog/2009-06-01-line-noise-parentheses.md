@@ -1,7 +1,6 @@
-# Line noise: parentheses
-
-[1st of June,
-2009](/blog/2009-06-01/line-noise-parentheses.html){.blog_info_published}
+---
+title: Line noise: parentheses
+---
 
 I've been discussing how bad perl code looks and I'm a bit surprised: I
 consider () more noisy than \$, %, @ and friends, while the people I

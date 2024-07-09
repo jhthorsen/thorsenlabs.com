@@ -1,7 +1,6 @@
-# Howto set up Convos on \@digitalocean
-
-[2nd of March,
-2014](/blog/2014-03-02/convos-on-digitalocean.html){.blog_info_published}
+---
+title: Howto set up Convos on \@digitalocean
+---
 
 From [convos.by](http://convos.by):
 

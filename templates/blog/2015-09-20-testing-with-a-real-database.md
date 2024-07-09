@@ -1,7 +1,6 @@
-# Testing with a real database
-
-[20th of September,
-2015](/blog/2015-09-20/testing-with-a-real-database.html){.blog_info_published}
+---
+title: Testing with a real database
+---
 
 Writing tests against a database is a struggle. Maybe the best way is to
 not test against a database at all, but providing a mocked interface

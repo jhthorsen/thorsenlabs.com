@@ -1,7 +1,6 @@
-# \@swaggerapi and #Mojolicious -- How to validate your input/output with a schema
-
-[5th of July,
-2015](/blog/2015-07-05/mojolicious-swagger2.html){.blog_info_published}
+---
+title: @swaggerapi and #Mojolicious -- How to validate your input/output with a schema
+---
 
 ## OUTDATED
 

@@ -1,7 +1,6 @@
-# YAPC::Europe::2007 Vienna
-
-[30th of August,
-2007](/blog/2007-08-30/yapc-europe-2007-vienna.html){.blog_info_published}
+---
+title: YAPC::Europe::2007 Vienna
+---
 
 [YAPC::Europe::2007](http://vienna.yapceurope.org/ye2007) was a blast! I
 can't really put my finger on what was the best, because it was all

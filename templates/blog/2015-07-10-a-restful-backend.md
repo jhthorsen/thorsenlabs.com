@@ -1,7 +1,6 @@
-# Reasons for choosing Mojolicious
-
-[10th of July,
-2015](/blog/2015-07-10/a-restful-backend.html){.blog_info_published}
+---
+title: Reasons for choosing Mojolicious
+---
 
 This blog post is a response to <http://perlmonks.org/?node_id=1133505>.
 I tried to reply directly, but I got "access denied" for some reason, so

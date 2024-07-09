@@ -1,7 +1,6 @@
-# Which name to pick?
-
-[12th of May,
-2009](/blog/2009-05-12/dhcpd-module-name.html){.blog_info_published}
+---
+title: Which name to pick?
+---
 
 I'm writing a new [module](http://github.com/jhthorsen/net-isc-dhcpd),
 which is currently named "Net::DHCPd". It's not a good name imo, since

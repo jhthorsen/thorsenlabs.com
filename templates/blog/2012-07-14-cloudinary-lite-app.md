@@ -1,7 +1,6 @@
-# A #Mojolicious lite app that use \@Cloudinary
-
-[14th of July,
-2012](/blog/2012-07-14/cloudinary-lite-app.html){.blog_info_published}
+---
+title: A #Mojolicious lite app that use \@Cloudinary
+---
 
 So earlier this week I've written about [How to deliver your images
 through Cloudinary with

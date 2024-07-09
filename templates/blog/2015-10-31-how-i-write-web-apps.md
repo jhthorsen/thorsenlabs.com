@@ -1,7 +1,6 @@
-# How I write web applications
-
-[31th of October,
-2015](/blog/2015-10-31/how-i-write-web-apps.html){.blog_info_published}
+---
+title: How I write web applications
+---
 
 This blog post is about the standard components I use when I develop and
 deploy my web applications.

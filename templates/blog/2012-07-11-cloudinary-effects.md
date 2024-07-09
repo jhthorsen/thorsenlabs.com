@@ -1,7 +1,6 @@
-# Cloudinary examples for applying effects to your images
-
-[11th of July,
-2012](/blog/2012-07-11/cloudinary-effects.html){.blog_info_published}
+---
+title: Cloudinary examples for applying effects to your images
+---
 
 So yesterday I
 [blogged](/perl/2012/07/10/cloudinary-how-to-deliver-your-static-images.html)

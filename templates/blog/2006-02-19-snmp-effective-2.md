@@ -1,7 +1,6 @@
-# SNMP::Effective
-
-[19th of February,
-2006](/blog/2006-02-19/snmp-effective-2.html){.blog_info_published}
+---
+title: SNMP::Effective
+---
 
 I'm done writing the code for SNMP::Effective now. It has show to be
 quite promising after some tests: 4000 hosts in 50 seconds is quite

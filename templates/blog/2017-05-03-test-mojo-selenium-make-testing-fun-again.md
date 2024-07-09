@@ -1,7 +1,6 @@
-# Browser testing is hard. Let's go shopping
-
-[3rd of May,
-2017](/blog/2017-05-03/test-mojo-selenium-make-testing-fun-again.html){.blog_info_published}
+---
+title: Browser testing is hard. Let's go shopping
+---
 
 Tonight at the monthly Oslo.pm
 [meetup](https://www.meetup.com/Oslo-pm/events/239533530/), I gave a
