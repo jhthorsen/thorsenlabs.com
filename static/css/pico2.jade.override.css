@@ -85,7 +85,10 @@ article h3 sub {
   max-width: 100%;
 }
 
-#about_intro {
+/*
+ * About page
+ */
+#about > header {
   overflow: hidden;
 
   img {
@@ -94,6 +97,30 @@ article h3 sub {
     max-width: 35%;
     margin-left: 1rem;
     margin-top: -0.5rem;
+  }
+}
+
+/*
+ * Blog list and single post
+ */
+#blog_list,
+#blog_post {
+  h2 {
+    margin-block-end: 0.3rem;
+  }
+
+  h2 + p {
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-block-end: var(--pico-spacing);
+
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
   }
 }
 

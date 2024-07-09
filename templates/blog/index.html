@@ -2,10 +2,12 @@
 
 {% block content %}
 <main role="document" class="document-width">
-  <article id="blog">
-    <header id="about_intro">
+  <article id="blog_list">
+    <header>
       {{ markdown(name = "blog/intro") | safe }}
     </header>
+
+    {{ markdown(name = "blog/list") | safe }}
   </article>
 </main>
 {% endblock %}

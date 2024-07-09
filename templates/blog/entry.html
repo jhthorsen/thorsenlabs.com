@@ -1,0 +1,11 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<main role="document" class="document-width">
+  <article id="blog_post">
+    <h2>{{ blog.title }}</h2>
+    <p><a href="/blog/{{ blog.id }}">{{ blog.date }}</a></p>
+    {{ blog.content | safe }}
+  </article>
+</main>
+{% endblock %}

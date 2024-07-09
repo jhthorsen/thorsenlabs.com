@@ -1,2 +1,3 @@
 /target
+/templates/blog/list.md
 .env

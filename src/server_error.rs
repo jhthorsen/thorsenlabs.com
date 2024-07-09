@@ -18,6 +18,13 @@ pub enum ServerError {
     NotFound(String),
 }
 
+impl From<std::io::Error> for ServerError {
+    fn from(err: std::io::Error) -> ServerError {
+        log::error!("type=\"std::io::Error\" error=\"{:?}\"", err);
+        ServerError::InternalServerError(err.to_string())
+    }
+}
+
 impl From<tera::Error> for ServerError {
     fn from(err: tera::Error) -> ServerError {
         log::error!("type=\"tera::Error\" error=\"{:?}\"", err);

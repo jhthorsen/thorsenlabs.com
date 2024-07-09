@@ -1,11 +1,13 @@
-use actix_web::HttpRequest;
 use actix_web::http::header::HeaderValue;
-use pulldown_cmark;
+use actix_web::HttpRequest;
+use markdown::Markdown;
 use serde::{Deserialize, Serialize};
 use serde_json::value::to_value;
 use std::collections::HashMap;
-use std::fs;
+use std::path::Path;
 use tera::{Context, Error, Tera, Value};
+
+pub mod markdown;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct HtmxHeaders {
@@ -51,36 +53,25 @@ pub fn template_context(req: &HttpRequest) -> Context {
     ctx
 }
 
-fn template_filter_markdown(
-    value: &Value,
-    _args: &HashMap<String, Value>,
-) -> Result<Value, Error> {
-    let text = serde_json::from_value::<String>(value.clone())?;
-    let mut options = pulldown_cmark::Options::empty();
-    options.insert(pulldown_cmark::Options::ENABLE_GFM);
-    options.insert(pulldown_cmark::Options::ENABLE_HEADING_ATTRIBUTES);
-    options.insert(pulldown_cmark::Options::ENABLE_MATH);
-    options.insert(pulldown_cmark::Options::ENABLE_SMART_PUNCTUATION);
-    options.insert(pulldown_cmark::Options::ENABLE_STRIKETHROUGH);
-    options.insert(pulldown_cmark::Options::ENABLE_TABLES);
-    options.insert(pulldown_cmark::Options::ENABLE_TASKLISTS);
-    options.insert(pulldown_cmark::Options::ENABLE_YAML_STYLE_METADATA_BLOCKS);
-
-    let parser = pulldown_cmark::Parser::new_ext(&text, options);
-    let mut html_output = String::new();
-    pulldown_cmark::html::push_html(&mut html_output, parser);
-    Ok(to_value(html_output)?)
+fn template_filter_markdown(value: &Value, _args: &HashMap<String, Value>) -> Result<Value, Error> {
+    let mut markdown = Markdown::new_from_path(&Path::new("/dev/null"));
+    markdown.parse(serde_json::from_value::<String>(value.clone())?);
+    Ok(to_value(markdown.content)?)
 }
 
 fn template_function_markdown(args: &HashMap<String, Value>) -> Result<Value, Error> {
     let mut path = String::new();
     if let Some(rel) = args.get("name") {
-        path = format!("{}/templates/{}.md", env!("CARGO_MANIFEST_DIR"), rel.as_str().unwrap());
+        path = format!(
+            "{}/templates/{}.md",
+            env!("CARGO_MANIFEST_DIR"),
+            rel.as_str().unwrap()
+        );
     }
     if path.len() > 0 {
-        let contents = fs::read_to_string(path.clone());
-        if let Ok(contents) = contents {
-            return template_filter_markdown(&Value::String(contents), args);
+        let mut markdown = Markdown::new_from_path(&Path::new(&path));
+        if markdown.read() {
+            return Ok(to_value(markdown.content)?);
         }
     }
 
