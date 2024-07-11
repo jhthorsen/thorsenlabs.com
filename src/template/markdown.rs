@@ -24,7 +24,7 @@ impl Markdown {
         let basename = path.file_name().unwrap().to_str().unwrap();
 
         let date = if basename.len() > 10 {
-            basename[0..10].to_string()
+            basename[0..10].to_owned()
         } else {
             String::from("")
         };
@@ -32,7 +32,7 @@ impl Markdown {
         Markdown {
             content: String::from(""),
             date,
-            id: basename.trim_end_matches(".md").to_string(),
+            id: basename.trim_end_matches(".md").to_owned(),
             ingress: String::from(""),
             path: path.to_path_buf(),
             title: basename.trim_end_matches(".md").replace("-", " "),
@@ -60,9 +60,9 @@ impl Markdown {
                 Event::Text(ref text) => {
                     if section == Section::Metadata {
                         if text.starts_with("title:") {
-                            self.title = text.replace("title:", "").trim().to_string();
+                            self.title = text.replace("title:", "").trim().to_owned();
                         } else if text.starts_with("date:") {
-                            self.date = text.replace("date:", "").trim().to_string();
+                            self.date = text.replace("date:", "").trim().to_owned();
                         }
                     } else if section == Section::Ingress {
                         if self.ingress.len() < 256 {

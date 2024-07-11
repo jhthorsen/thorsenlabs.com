@@ -10,7 +10,7 @@ mod index;
 mod wildcard;
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
-    let static_dir = std::env::var("THORSEN_STATIC_DIR").unwrap_or("./static".to_string());
+    let static_dir = std::env::var("THORSEN_STATIC_DIR").unwrap_or("./static".to_owned());
 
     cfg.service(web::resource("/").route(web::get().to(get_index)));
     cfg.service(web::resource("/blog").route(web::get().to(get_blog_index)));

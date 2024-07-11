@@ -14,7 +14,7 @@ async fn main() -> std::io::Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
     let port: u16 = std::env::var("PORT")
-        .unwrap_or("3032".to_string())
+        .unwrap_or("3032".to_owned())
         .parse()
         .unwrap();
 

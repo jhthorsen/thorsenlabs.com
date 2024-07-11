@@ -31,7 +31,7 @@ fn header_value_to_string(value: Option<&HeaderValue>) -> String {
         .unwrap_or(&HeaderValue::from_static(""))
         .to_str()
         .unwrap_or_default()
-        .to_string()
+        .to_owned()
 }
 
 pub fn template_context(req: &HttpRequest) -> Context {

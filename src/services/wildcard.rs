@@ -28,14 +28,14 @@ pub async fn get_wildcard(
         .trim_start_matches("/");
 
     let mut ctx = crate::template::template_context(&req);
-    let ext = template_type_from_path(&path.to_string())?;
+    let ext = template_type_from_path(&path.to_owned())?;
     if ext == "html" {
         let path = format!("{}.{}", path, ext);
         let rendered = state.tera.render(&path, &ctx)?;
         return Ok(HttpResponse::Ok().body(rendered));
     }
     if ext == "md" {
-        ctx.insert("markdown_path".to_string(), &path);
+        ctx.insert("markdown_path".to_owned(), &path);
         let rendered = state.tera.render("article.html", &ctx)?;
         return Ok(HttpResponse::Ok().body(rendered));
     }

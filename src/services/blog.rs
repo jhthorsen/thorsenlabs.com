@@ -5,7 +5,7 @@ use crate::server_error::ServerError;
 use crate::template::markdown::Markdown;
 
 fn blog_dir() -> String {
-    std::env::var("THORSEN_BLOG_DIR").unwrap_or("./templates/blog".to_string())
+    std::env::var("THORSEN_BLOG_DIR").unwrap_or("./templates/blog".to_owned())
 }
 
 fn create_blog_list_file() -> Result<bool, ServerError> {
@@ -59,11 +59,11 @@ pub async fn get_blog_index(
     req: actix_web::HttpRequest,
 ) -> Result<actix_web::HttpResponse, ServerError> {
     let mut ctx = crate::template::template_context(&req);
-    ctx.insert("updated".to_string(), &false);
+    ctx.insert("updated".to_owned(), &false);
 
     let blog_dir = blog_dir();
     if mtime(blog_dir.as_str()) > mtime(format!("{}/list.md", &blog_dir).as_str()) {
-        ctx.insert("updated".to_string(), &create_blog_list_file());
+        ctx.insert("updated".to_owned(), &create_blog_list_file());
     }
 
     let rendered = state.tera.render("blog/index.html", &ctx)?;
@@ -81,11 +81,11 @@ pub async fn get_blog_post(
     let mut blog = Markdown::new_from_path(&Path::new(&blog_path));
     if !blog.read() {
         return Err(ServerError::NotFound(
-            "Could not find blog post.".to_string(),
+            "Could not find blog post.".to_owned(),
         ));
     }
 
-    ctx.insert("blog".to_string(), &blog);
+    ctx.insert("blog".to_owned(), &blog);
 
     let rendered = state.tera.render("blog/entry.html", &ctx)?;
     return Ok(actix_web::HttpResponse::Ok().body(rendered));
