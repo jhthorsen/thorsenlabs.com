@@ -4,10 +4,10 @@
 <main role="document" class="document-width">
   <article id="blog_list">
     <header>
-      {{ markdown(name = "blog/intro") | safe }}
+      {{ markdown(name = "blog/intro.md") | safe }}
     </header>
 
-    {{ markdown(name = "blog/list") | safe }}
+    {{ markdown(name = "blog/list.md") | safe }}
   </article>
 </main>
 {% endblock %}

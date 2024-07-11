@@ -3,7 +3,7 @@
 {% block content %}
 <main role="document" class="document-width">
   <article>
-    {{ markdown(name = markdown_path) | safe }}
+    {{ markdown(name = markdown_path ~ ".md") | safe }}
   </article>
 </main>
 {% endblock %}

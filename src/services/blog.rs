@@ -2,16 +2,12 @@ use std::time::UNIX_EPOCH;
 use std::{fs, path::Path};
 
 use crate::server_error::ServerError;
-use crate::template::markdown::Markdown;
-
-fn blog_dir() -> String {
-    std::env::var("THORSEN_BLOG_DIR").unwrap_or("./templates/blog".to_owned())
-}
+use crate::template::{markdown::Markdown, document_path};
 
 fn create_blog_list_file() -> Result<bool, ServerError> {
     let mut blogs: Vec<(String, String)> = Vec::new();
 
-    let blog_dir = blog_dir();
+    let blog_dir = document_path("blog");
     for blog_dir_item in fs::read_dir(&blog_dir)? {
         let blog_files_item = blog_dir_item?;
         let basename = blog_files_item.file_name().into_string().unwrap();
@@ -31,11 +27,7 @@ fn create_blog_list_file() -> Result<bool, ServerError> {
     }
 
     blogs.sort_by(|a, b| b.0.cmp(&a.0));
-    let content = blogs
-        .iter()
-        .map(|i| i.1.clone())
-        .collect::<Vec<String>>();
-
+    let content = blogs.iter().map(|i| i.1.clone()).collect::<Vec<String>>();
     fs::write(format!("{}/list.md", &blog_dir), content.join("\n"))?;
 
     Ok(true)
@@ -61,7 +53,7 @@ pub async fn get_blog_index(
     let mut ctx = crate::template::template_context(&req);
     ctx.insert("updated".to_owned(), &false);
 
-    let blog_dir = blog_dir();
+    let blog_dir = document_path("blog");
     if mtime(blog_dir.as_str()) > mtime(format!("{}/list.md", &blog_dir).as_str()) {
         ctx.insert("updated".to_owned(), &create_blog_list_file());
     }
@@ -77,7 +69,7 @@ pub async fn get_blog_post(
     let mut ctx = crate::template::template_context(&req);
 
     let blog_id = req.match_info().get("blog_id").unwrap_or("not_found");
-    let blog_path = format!("{}/{}.md", blog_dir(), blog_id);
+    let blog_path = document_path(&format!("blog/{}.md", blog_id));
     let mut blog = Markdown::new_from_path(&Path::new(&blog_path));
     if !blog.read() {
         return Err(ServerError::NotFound(

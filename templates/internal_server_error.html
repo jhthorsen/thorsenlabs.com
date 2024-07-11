@@ -1,46 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Internal Server Error - thorsen.pm</title>
-    <link rel="stylesheet" href="/css/pico2.jade.min.css">
-    <link rel="stylesheet" href="/css/pico2.jade.override.css">
-  </head>
-  <body>
-    <header id="header">
-      <div class="document-width" hx-boost="true">
-        <nav>
-          <ul>
-            <li>
-              <a href="/" class="brand">
-                <img src="/images/brand.png" alt="Profile picture of Jan Henning Thorsen"> thorsen.pm
-              </a>
-            </li>
-          </ul>
-          <ul>
-            <li><a href="/">About</a></li>
-            <li><a href="/blog">Blog</a></li>
-            <li><a href="/contact">Contact</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+{% extends "layouts/base.html" %}
 
-  <dialog id="error_dialog">
-    <article>
-      <header>
-        <h2>Error</h2>
-      </header>
-      <p>Unknown error.</p>
-      <footer>
-        <button class="secondary" hx-on:click="window.thorsen.error()">Close</button>
-      </footer>
-    </article>
-  </dialog>
-
+{% block content %}
 <main role="document" class="document-width">
-  <article>
+  <article id="internal_server_error">
     <h1>Internal Server Error! (500)</h1>
     <p>
       Yikes! This was unexpected... Something went terrible wrong while trying
@@ -50,18 +12,7 @@
     </p>
 
     <h2>Details</h2>
-    <pre style="white-space:pre-line"><small>NO_DETAILS</small></pre>
+    <pre style="white-space:pre-line"><small>{{ error }}</small></pre>
   </article>
 </main>
-
-  <footer id="footer">
-    <div class="document-width">
-      <p>© 2024 - Powered by
-        <a href="https://trafikkmaskin.no/">Trafikkmaskin</a>,
-        <a href="https://htmx.org/">htmx</a> and
-        <a href="https://www.rust-lang.org/">Rust</a>.
-      </p>
-    </div>
-  </footer>
-</body>
-</html>
+{% endblock %}

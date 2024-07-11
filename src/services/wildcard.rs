@@ -1,17 +1,19 @@
 use actix_web::{web, HttpRequest, HttpResponse};
+use std::path::Path;
 
 use crate::server_error::ServerError;
+use crate::template::document_path;
 
 fn template_type_from_path(path: &String) -> Result<String, ServerError> {
     for ext in &["html", "md"] {
-        let full_path = format!("{}/templates/{}.{}", env!("CARGO_MANIFEST_DIR"), path, ext);
-        if std::path::Path::new(&full_path).exists() {
+        let full_path = document_path(&format!("{}.{}", path, ext));
+        if Path::new(&full_path).exists() {
             return Ok(ext.to_string());
         }
     }
 
     Err(ServerError::NotFound(format!(
-        "path=\"{}\" error=unknown_type",
+        "path=\"{}\" error=\"Type not found\"",
         path
     )))
 }

@@ -23,7 +23,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(AppState {
-                tera: crate::template::build_tera().clone(),
+                tera: crate::template::global_tera().clone(),
             }))
             .configure(services::configure)
             .wrap(Logger::default())
