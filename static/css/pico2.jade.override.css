@@ -97,8 +97,8 @@ article#about > header {
   }
 }
 
-article#blog_list,
-article#blog_post {
+article#blog-list,
+article#blog-post {
   h2 {
     margin-block-end: 0.3rem;
   }

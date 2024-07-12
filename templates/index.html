@@ -2,7 +2,7 @@
 
 {% block content %}
 <main role="document" class="document-width">
-  <article id="about">
+  <article id="about" hx-boost="true">
     <header>
       {{ markdown(name = "about/intro.md") | safe }}
     </header>
