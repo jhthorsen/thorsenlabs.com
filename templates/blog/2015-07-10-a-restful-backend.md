@@ -106,7 +106,7 @@ sending it to your backend.
 The [Swagger](https://metacpan.org/pod/Swagger2) project and the
 Mojolicious plugin makes it a breeze to create RESTful interfaces with
 input/output validation. You can read more about it in my [blog
-post](http://thorsen.pm/perl/programming/2015/07/05/mojolicious-swagger2.html).
+post](http://thorsen.pm/perl/programming/2015-07-05-mojolicious-swagger2).
 
 ## Projects
 

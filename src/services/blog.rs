@@ -68,7 +68,7 @@ pub async fn get_blog_post(
 ) -> Result<actix_web::HttpResponse, ServerError> {
     let mut ctx = crate::template::template_context(&req);
 
-    let blog_id = req.match_info().get("blog_id").unwrap_or("not_found");
+    let blog_id = req.match_info().get("blog_id").unwrap_or("not_found").trim_end_matches(".html");
     let blog_path = document_path(&format!("blog/{}.md", blog_id));
     let mut blog = Markdown::new_from_path(&Path::new(&blog_path));
     if !blog.read() {

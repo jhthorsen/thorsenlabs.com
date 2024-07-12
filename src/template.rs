@@ -59,6 +59,7 @@ pub fn template_context(req: &HttpRequest) -> Context {
     );
 
     ctx.insert("path", req.path());
+    ctx.insert("base_url", &env::var("THORSEN_BASE_URL").unwrap_or("https://thorsen.pm".to_owned()));
     ctx
 }
 

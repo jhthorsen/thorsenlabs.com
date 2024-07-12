@@ -14,7 +14,9 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
 
     cfg.service(web::resource("/").route(web::get().to(get_index)));
     cfg.service(web::resource("/blog").route(web::get().to(get_blog_index)));
+    cfg.service(web::resource("/blog.html").route(web::get().to(get_blog_index)));
     cfg.service(web::resource("/blog/{blog_id}").route(web::get().to(get_blog_post)));
+    cfg.service(web::resource("/blog/{blog_id}.html").route(web::get().to(get_blog_post)));
     cfg.service(Files::new("/css", format!("{}/css", static_dir)).prefer_utf8(true));
     cfg.service(Files::new("/js", format!("{}/js", static_dir)).prefer_utf8(true));
     cfg.service(Files::new("/images", format!("{}/images", static_dir)).prefer_utf8(true));

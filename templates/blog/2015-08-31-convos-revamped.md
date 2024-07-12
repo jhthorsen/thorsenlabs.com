@@ -123,7 +123,7 @@ Riotjs ".tag" files to JavaScript.
 ### Swagger2
 
 The next version of Convos is focused around the API.
-[Swagger2](http://thorsen.pm/perl/programming/2015/07/05/mojolicious-swagger2.html)
+[Swagger2](http://thorsen.pm/blog/2015-07-05-mojolicious-swagger2)
 is "The Worldâ€™s Most Popular Framework for APIs". We use this
 framework in Convos to document and define the API resources.
 

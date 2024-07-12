@@ -26,8 +26,9 @@ pub async fn get_wildcard(
         .match_info()
         .get("wildcard")
         .unwrap_or("index")
-        .trim_end_matches('/')
-        .trim_start_matches("/");
+        .trim_start_matches("/")
+        .trim_end_matches("/")
+        .trim_end_matches(".html");
 
     let mut ctx = crate::template::template_context(&req);
     let ext = template_type_from_path(&path.to_owned())?;

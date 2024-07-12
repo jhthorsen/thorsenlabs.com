@@ -57,7 +57,7 @@ instead.
 [Swagger](http://swagger.io) is "The World's Most Popular Framework for
 APIs". I've covered my [Swagger](https://metacpan.org/release/Swagger2)
 module and why you want to use Swagger in [another blog
-post](/perl/programming/2015/07/05/mojolicious-swagger2.html)
+post](/blog/2015-07-05-mojolicious-swagger2)
 
 The reason why I want to have a proper API to my web server is that it
 makes it so much easier to develop nice JavaScript powered web

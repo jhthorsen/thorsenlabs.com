@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>thorsen.pm</title>
+    {% if base_url is defined and path is defined %}
+    <link rel="canonical" href="{{ base_url }}{{ path | replace(from=".html", to="") }}"/>
+    {% endif %}
     <link rel="stylesheet" href="/css/pico2.jade.min.css">
     <link rel="stylesheet" href="/css/pico2.jade.override.css">
   </head>
