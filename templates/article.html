@@ -2,7 +2,7 @@
 
 {% block content %}
 <main role="document" class="document-width">
-  <article>
+  <article id="{{ markdown_path | slugify }}">
     {{ markdown(name = markdown_path ~ ".md") | safe }}
   </article>
 </main>

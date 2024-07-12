@@ -85,10 +85,7 @@ article h3 sub {
   max-width: 100%;
 }
 
-/*
- * About page
- */
-#about > header {
+article#about > header {
   overflow: hidden;
 
   img {
@@ -100,11 +97,8 @@ article h3 sub {
   }
 }
 
-/*
- * Blog list and single post
- */
-#blog_list,
-#blog_post {
+article#blog_list,
+article#blog_post {
   h2 {
     margin-block-end: 0.3rem;
   }
@@ -121,6 +115,17 @@ article h3 sub {
     a:hover {
       text-decoration: underline;
     }
+  }
+}
+
+article#curriculum-vitae {
+  h1 + p > img {
+    float: right;
+    width: 25vw;
+  }
+
+  h1 + p + table {
+    width: auto;
   }
 }
 
