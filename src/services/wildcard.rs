@@ -1,4 +1,4 @@
-use actix_web::{web, HttpRequest, HttpResponse};
+use actix_web::{http::header::ContentType, web, HttpRequest, HttpResponse};
 use std::path::Path;
 
 use crate::server_error::ServerError;
@@ -35,7 +35,7 @@ pub async fn get_wildcard(
     if ext == "html" {
         let path = format!("{}.{}", path, ext);
         let rendered = state.tera.render(&path, &ctx)?;
-        return Ok(HttpResponse::Ok().body(rendered));
+        return Ok(HttpResponse::Ok().content_type(ContentType::html()).body(rendered));
     }
     if ext == "md" {
         ctx.insert("markdown_path".to_owned(), &path);

@@ -1,3 +1,4 @@
+use actix_web::{http::header::ContentType, HttpResponse};
 use std::time::UNIX_EPOCH;
 use std::{fs, path::Path};
 
@@ -49,7 +50,7 @@ fn mtime(path: &str) -> u64 {
 pub async fn get_blog_index(
     state: actix_web::web::Data<crate::AppState>,
     req: actix_web::HttpRequest,
-) -> Result<actix_web::HttpResponse, ServerError> {
+) -> Result<HttpResponse, ServerError> {
     let mut ctx = crate::template::template_context(&req);
     ctx.insert("updated".to_owned(), &false);
 
@@ -59,13 +60,13 @@ pub async fn get_blog_index(
     }
 
     let rendered = state.tera.render("blog/index.html", &ctx)?;
-    return Ok(actix_web::HttpResponse::Ok().body(rendered));
+    Ok(HttpResponse::Ok().content_type(ContentType::html()).body(rendered))
 }
 
 pub async fn get_blog_post(
     state: actix_web::web::Data<crate::AppState>,
     req: actix_web::HttpRequest,
-) -> Result<actix_web::HttpResponse, ServerError> {
+) -> Result<HttpResponse, ServerError> {
     let mut ctx = crate::template::template_context(&req);
 
     let blog_id = req.match_info().get("blog_id").unwrap_or("not_found").trim_end_matches(".html");
@@ -80,5 +81,5 @@ pub async fn get_blog_post(
     ctx.insert("blog".to_owned(), &blog);
 
     let rendered = state.tera.render("blog/entry.html", &ctx)?;
-    return Ok(actix_web::HttpResponse::Ok().body(rendered));
+    Ok(HttpResponse::Ok().content_type(ContentType::html()).body(rendered))
 }
