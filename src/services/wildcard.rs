@@ -48,7 +48,7 @@ pub async fn get_wildcard(
     if ext == "md" {
         ctx.insert("markdown_path".to_owned(), &path);
         let rendered = state.tera.render("article.html", &ctx)?;
-        return Ok(HttpResponse::Ok().body(rendered));
+        return Ok(HttpResponse::Ok().content_type(ContentType::html()).body(rendered));
     }
 
     Err(ServerError::NotFound(format!(
