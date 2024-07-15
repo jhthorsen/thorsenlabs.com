@@ -13,6 +13,8 @@ enum Section {
 pub struct Markdown {
     pub content: String,
     pub date: String,
+    pub footer: String,
+    pub header: String,
     pub id: String,
     pub ingress: String,
     pub path: PathBuf,
@@ -32,6 +34,8 @@ impl Markdown {
         Markdown {
             content: String::from(""),
             date,
+            footer: String::from(""),
+            header: String::from(""),
             id: basename.trim_end_matches(".md").to_owned(),
             ingress: String::from(""),
             path: path.to_path_buf(),
@@ -59,10 +63,19 @@ impl Markdown {
                 }
                 Event::Text(ref text) => {
                     if section == Section::Metadata {
-                        if text.starts_with("title:") {
-                            self.title = text.replace("title:", "").trim().to_owned();
-                        } else if text.starts_with("date:") {
-                            self.date = text.replace("date:", "").trim().to_owned();
+                        for line in text.lines() {
+                            let kv = line.trim().splitn(2, ':').collect::<Vec<&str>>();
+                            if kv.len() != 2 {
+                                continue;
+                            }
+
+                            match kv[0] {
+                                "date" => self.date = kv[1].trim().to_owned(),
+                                "footer" => self.footer = kv[1].trim().to_owned(),
+                                "header" => self.header = kv[1].trim().to_owned(),
+                                "title" => self.title = kv[1].trim().to_owned(),
+                                _ => {}
+                            }
                         }
                     } else if section == Section::Ingress {
                         if self.ingress.len() < 256 {
