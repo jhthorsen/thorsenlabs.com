@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::value::to_value;
 use std::collections::HashMap;
 use std::env;
+use std::fs;
 use std::path::Path;
 use std::sync::OnceLock;
 use tera::{Context, Error, Tera, Value};
@@ -31,6 +32,7 @@ pub fn global_tera () -> Tera {
         let mut tera = Tera::new(document_path("**/*.html").as_str()).unwrap();
         tera.register_filter("markdown", template_filter_markdown);
         tera.register_function("markdown", template_function_markdown);
+        tera.register_function("slurp", template_function_slurp);
         tera
     }).to_owned()
 }
@@ -82,6 +84,22 @@ fn template_function_markdown(args: &HashMap<String, Value>) -> Result<Value, Er
     }
 
     Err(format!("markdown path=\"{}\" could not be loaded", path).into())
+}
+
+fn template_function_slurp(args: &HashMap<String, Value>) -> Result<Value, Error> {
+    let mut path = String::new();
+    if let Some(rel) = args.get("name") {
+        path = document_path(rel.as_str().unwrap());
+        if let Ok(content) = fs::read_to_string(&path) {
+            return Ok(to_value(content)?);
+        }
+        if let Some(fallback) = args.get("fallback") {
+            return Ok(to_value(fallback)?);
+        }
+        return Ok(to_value("<!-- not found -->")?);
+    }
+
+    Err(format!("Raw path=\"{}\" could not be slurped", path).into())
 }
 
 pub fn document_path(rel: &str) -> String {

@@ -9,7 +9,7 @@ enum Section {
     Skip,
 }
 
-#[derive(Serialize)]
+#[derive(Default, Serialize)]
 pub struct Markdown {
     pub content: String,
     pub date: String,
@@ -18,6 +18,7 @@ pub struct Markdown {
     pub id: String,
     pub ingress: String,
     pub path: PathBuf,
+    pub scoped_css: String,
     pub status: String,
     pub title: String,
 }
@@ -43,6 +44,7 @@ impl Markdown {
             id: basename.to_owned(),
             ingress: String::from(""),
             path: path.to_path_buf(),
+            scoped_css: String::from(""),
             status: String::from("published"),
             title: basename.replace("-", " "),
         }
@@ -79,6 +81,7 @@ impl Markdown {
                                 "footer" => self.footer = kv[1].trim().to_owned(),
                                 "header" => self.header = kv[1].trim().to_owned(),
                                 "id" => self.id = kv[1].trim().to_owned(),
+                                "scoped_css" => self.scoped_css = kv[1].trim().to_owned(),
                                 "status" => self.status = kv[1].trim().to_owned(),
                                 "title" => self.title = kv[1].trim().to_owned(),
                                 _ => {}

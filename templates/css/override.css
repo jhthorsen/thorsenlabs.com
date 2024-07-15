@@ -1,4 +1,3 @@
-<style>
 :root {
   --pico-form-element-spacing-vertical: 0.4em;
   --pico-form-element-spacing-horizontal: 0.7em;
@@ -44,6 +43,13 @@ article h3 sub {
   font-weight: 300;
   margin-block-start: 0.5em;
   display: block;
+}
+
+article > header table {
+  th,
+  td {
+    background-color: transparent;
+  }
 }
 
 table {
@@ -107,59 +113,6 @@ table {
   max-width: 100%;
 }
 
-article#about > header {
-  overflow: hidden;
-
-  img {
-    float: right;
-    margin-right: 0;
-    max-width: 35%;
-    margin-left: 1rem;
-    margin-top: -0.5rem;
-  }
-}
-
-article#arbeidsdager {
-  [data-kind="saturday"],
-  [data-kind="sunday"] {
-    display: none;
-  }
-}
-
-article#blog,
-article#blog-post {
-  > h1,
-  > h2 {
-    margin-block-end: 0.3rem;
-  }
-
-  > h1 + p,
-  > h2 + p {
-    font-size: 0.9rem;
-    font-style: italic;
-    margin-block-end: var(--pico-spacing);
-
-    a {
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-article#curriculum-vitae {
-  h1 + p > img {
-    float: right;
-    width: 25vw;
-  }
-
-  h1 + p + table {
-    width: auto;
-  }
-}
-
 /*
  * Useful & Responsive Layouts, no Media Queries required - Kevin Powell
  * https://www.youtube.com/watch?v=p3_xN2Zp1TY
@@ -207,4 +160,3 @@ article#curriculum-vitae {
     scroll-snap-align: start;
   }
 }
-</style>

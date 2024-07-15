@@ -9,9 +9,16 @@
     <link rel="canonical" href="{{ base_url }}{{ path | replace(from=".html", to="") }}"/>
     {% endif %}
     <link rel="stylesheet" href="/css/pico2.jade.min.css">
-    {% include "css/override.html" %}
+    <style>
+      {{ slurp(name="css/override.css", fallback="/* override.css */") | safe }}
+    </style>
+    {% if article is defined %}
+      <style data-scope-id="{{ article.scoped_css | slugify }}">
+        {{ slurp(name=article.scoped_css, fallback="/* not found */") | safe }}
+      </style>
+    {% endif %}
   </head>
-  <body hx-on:htmx:response-error="thorsen.onResponseError(event)">
+  <body>
 {% endif %}
 {% if htmx.boosted %}
   <header id="header" hx-preserve="true"></header>
@@ -54,6 +61,12 @@
 
 {% block content %}<p>content missing!</p>{% endblock %}
 
+{% if htmx.boosted and article is defined %}
+<style data-scope-id="{{ article.scoped_css | slugify }}">
+  {{ slurp(name=article.scoped_css, fallback="/* scoped.css */") | safe }}
+</style>
+{% endif %}
+
 {% if htmx.boosted %}
   <footer id="footer" hx-preserve="true"></footer>
 {% else %}
@@ -84,12 +97,20 @@
         }
       };
 
-      thorsen.onResponseError = ({detail}) => {
-        window.thorsen.error(detail.error);
-      };
-    })(window.thorsen || (window.thorsen = {}));
+      document.body.addEventListener('htmx:afterSwap', ({detail}) => {
+        const $head = document.documentElement.querySelector("head");
+        for (const $added of detail.elt.querySelectorAll("style")) {
+          const scopeId = $added.dataset.scopeId;
+          const $existing = scopeId && $head.querySelector(`[data-scope-id="${scopeId}"]`)
+          if ($existing) $existing.remove();
+          document.documentElement.querySelector("head").append($added);
+        }
+      });
 
-    // Loading indicator!
+      document.body.addEventListener('htmx:responseError', ({detail}) => {
+        window.thorsen.error(detail.error);
+      });
+    })(window.thorsen || (window.thorsen = {}));
   </script>
 </body>
 </html>

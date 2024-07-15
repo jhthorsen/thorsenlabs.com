@@ -1,0 +1,10 @@
+article#curriculum-vitae {
+  h1 + p > img {
+    float: right;
+    width: 25vw;
+  }
+
+  h1 + p + table {
+    width: auto;
+  }
+}

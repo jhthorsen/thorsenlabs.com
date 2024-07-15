@@ -40,6 +40,11 @@ pub async fn get_article(
         let qs = web::Query::<QueryParams>::from_query(req.query_string()).unwrap();
         ctx.insert("query".to_owned(), &qs.into_inner());
 
+        let mut article = Markdown::default();
+        article.scoped_css = format!("{}/scoped.css", article_rel_path);
+        article.status = "published".to_owned();
+        ctx.insert("article".to_owned(), &article);
+
         let article_abs_path = format!("{}/index.html", article_rel_path);
         let rendered = state.tera.render(&article_abs_path, &ctx)?;
         return Ok(HttpResponse::Ok()
@@ -53,6 +58,10 @@ pub async fn get_article(
             return Err(ServerError::NotFound(
                 "Could not find article post.".to_owned(),
             ));
+        }
+
+        if article.scoped_css.len() == 0 {
+            article.scoped_css = format!("{}/scoped.css", article_rel_path);
         }
 
         ctx.insert("article".to_owned(), &article);

@@ -85,6 +85,7 @@ pub async fn get_blog_index(
         ));
     }
 
+    article.scoped_css = "blog/scoped.css".to_owned();
     ctx.insert("article".to_owned(), &article);
     let rendered = state.tera.render("layouts/article.html", &ctx)?;
     Ok(HttpResponse::Ok()
@@ -109,6 +110,10 @@ pub async fn get_blog_post(
         return Err(ServerError::NotFound(
             "Could not find blog post.".to_owned(),
         ));
+    }
+
+    if article.scoped_css.len() == 0 {
+        article.scoped_css = "blog/scoped.css".to_owned();
     }
 
     ctx.insert("article".to_owned(), &article);

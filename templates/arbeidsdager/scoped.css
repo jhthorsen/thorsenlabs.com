@@ -1,0 +1,6 @@
+article#arbeidsdager {
+  [data-kind="saturday"],
+  [data-kind="sunday"] {
+    display: none;
+  }
+}
