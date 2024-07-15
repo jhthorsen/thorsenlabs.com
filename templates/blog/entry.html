@@ -2,7 +2,7 @@
 
 {% block content %}
 <main role="document" class="document-width">
-  <article id="blog-post" class="status-{{ blog.status }}" hx-boost="true">
+  <article id="blog-post" class="status-{{ blog.status }}" hx-boost="true" hx-indicator="#loader">
     <h1>{{ blog.title }}</h1>
     <p><a href="/blog/{{ blog.id }}">{{ blog.date }}</a></p>
     {% if blog.status != "published" %}

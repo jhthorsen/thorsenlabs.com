@@ -18,7 +18,7 @@
 {% else %}
   {% block header %}
     <header id="header">
-      <div class="document-width" hx-boost="true">
+      <div class="document-width" hx-boost="true" hx-indicator="#loader">
         <nav>
           <ul>
             <li>
@@ -49,6 +49,8 @@
     </article>
   </dialog>
 {% endif %}
+
+<progress id="loader" class="htmx-indicator"></progress>
 
 {% block content %}<p>content missing!</p>{% endblock %}
 
@@ -86,6 +88,8 @@
         window.thorsen.error(detail.error);
       };
     })(window.thorsen || (window.thorsen = {}));
+
+    // Loading indicator!
   </script>
 </body>
 </html>
