@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use std::path::Path;
 
 use crate::server_error::ServerError;
-use crate::template::document_path;
+use crate::template::{document_path, markdown::Markdown};
 
 type QueryParams = HashMap<String, String>;
 
@@ -46,11 +46,21 @@ pub async fn get_article(
             .content_type(ContentType::html())
             .body(rendered));
     }
-
     if ext == "md" {
-        ctx.insert("markdown_path".to_owned(), &article_rel_path);
+        let article_abs_path = document_path(&format!("{}.md", article_rel_path));
+        let mut article = Markdown::new_from_path(&Path::new(&article_abs_path));
+        if !article.read() {
+            return Err(ServerError::NotFound(
+                "Could not find article post.".to_owned(),
+            ));
+        }
+
+        ctx.insert("article".to_owned(), &article);
+
         let rendered = state.tera.render("layouts/article.html", &ctx)?;
-        return Ok(HttpResponse::Ok().content_type(ContentType::html()).body(rendered));
+        return Ok(HttpResponse::Ok()
+            .content_type(ContentType::html())
+            .body(rendered));
     }
 
     Err(ServerError::NotFound(format!(

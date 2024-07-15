@@ -2,8 +2,8 @@
 
 {% block content %}
 <main role="document" class="document-width">
-  <article id="{{ markdown_path | slugify }}" hx-boost="true">
-    {{ markdown(name = markdown_path ~ ".md") | safe }}
+  <article id="{{ article.id | slugify }}" hx-boost="true">
+    {{ article.content | safe }}
   </article>
 </main>
 {% endblock %}
