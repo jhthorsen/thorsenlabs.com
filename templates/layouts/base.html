@@ -9,7 +9,7 @@
     <link rel="canonical" href="{{ base_url }}{{ path | replace(from=".html", to="") }}"/>
     {% endif %}
     <link rel="stylesheet" href="/css/pico2.jade.min.css">
-    <link rel="stylesheet" href="/css/pico2.jade.override.css">
+    {% include "css/override.html" %}
   </head>
   <body hx-on:htmx:response-error="thorsen.onResponseError(event)">
 {% endif %}
