@@ -17,14 +17,19 @@ fn create_blog_index_file(blog_index_path: &str) -> Result<bool, ServerError> {
         }
 
         let mut blog = Markdown::new_from_path(&blog_files_item.path());
-        if blog.read() {
-            blog.content = format!(
-                "---\nheader: blog/header.md\nfooter: blog/footer.md\n---\n\n## {}\n\n<a href=\"/blog/{}\">{}</a>\n\n{}\n",
-                blog.title, blog.id, blog.date, blog.ingress,
-            );
-
-            blogs.push((blog.date, blog.content));
+        if !blog.read() {
+            continue;
         }
+        if blog.status != "published" {
+            continue;
+        }
+
+        blog.content = format!(
+            "---\nheader: blog/header.md\nfooter: blog/footer.md\n---\n\n## {}\n\n<a href=\"/blog/{}\">{}</a>\n\n{}\n",
+            blog.title, blog.id, blog.date, blog.ingress,
+        );
+
+        blogs.push((blog.date, blog.content));
     }
 
     blogs.sort_by(|a, b| b.0.cmp(&a.0));

@@ -18,6 +18,7 @@ pub struct Markdown {
     pub id: String,
     pub ingress: String,
     pub path: PathBuf,
+    pub status: String,
     pub title: String,
 }
 
@@ -42,6 +43,7 @@ impl Markdown {
             id: basename.to_owned(),
             ingress: String::from(""),
             path: path.to_path_buf(),
+            status: String::from("published"),
             title: basename.replace("-", " "),
         }
     }
@@ -77,6 +79,7 @@ impl Markdown {
                                 "footer" => self.footer = kv[1].trim().to_owned(),
                                 "header" => self.header = kv[1].trim().to_owned(),
                                 "id" => self.id = kv[1].trim().to_owned(),
+                                "status" => self.status = kv[1].trim().to_owned(),
                                 "title" => self.title = kv[1].trim().to_owned(),
                                 _ => {}
                             }
