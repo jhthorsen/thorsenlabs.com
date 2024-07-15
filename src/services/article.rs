@@ -9,8 +9,8 @@ type QueryParams = HashMap<String, String>;
 
 fn template_type_from_path(path: &String) -> Result<String, ServerError> {
     for ext in &["html", "md"] {
-        let full_path = document_path(&format!("{}.{}", path, ext));
-        if Path::new(&full_path).exists() {
+        let abs_path = document_path(&format!("{}/index.{}", path, ext));
+        if Path::new(&abs_path).exists() {
             return Ok(ext.to_string());
         }
     }
@@ -40,14 +40,14 @@ pub async fn get_article(
         let qs = web::Query::<QueryParams>::from_query(req.query_string()).unwrap();
         ctx.insert("query".to_owned(), &qs.into_inner());
 
-        let article_abs_path = format!("{}.{}", article_rel_path, ext);
+        let article_abs_path = format!("{}/index.html", article_rel_path);
         let rendered = state.tera.render(&article_abs_path, &ctx)?;
         return Ok(HttpResponse::Ok()
             .content_type(ContentType::html())
             .body(rendered));
     }
     if ext == "md" {
-        let article_abs_path = document_path(&format!("{}.md", article_rel_path));
+        let article_abs_path = document_path(&format!("{}/index.md", article_rel_path));
         let mut article = Markdown::new_from_path(&Path::new(&article_abs_path));
         if !article.read() {
             return Err(ServerError::NotFound(

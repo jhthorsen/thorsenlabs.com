@@ -8,7 +8,7 @@
 <main role="document" class="document-width">
   <article id="arbeidsdager" hx-select="[role=document]" hx-target="[role=document]">
     <header>
-      {{ markdown(name = "arbeidsdager/intro.md") | safe }}
+      {{ markdown(name = "arbeidsdager/header.md") | safe }}
     </header>
 
     <form method="get" action="/arbeidsdager" hx-on:submit="thorsen.calculateWorkingDays(event)">

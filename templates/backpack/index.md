@@ -1,11 +1,8 @@
-What to pack
-============
+---
+header: backpack/header.md
+---
 
-This list is curated from a blog many years ago. Unfortunately, I can't
-remember the address.
-
-The short list
---------------
+## The short list
 
 ### Important Documents and Necessities
 

@@ -1,3 +1,10 @@
+---
+id: about
+header: header.md
+---
+
+## Projects
+
 ### Convos <sub>A browser based IRC client</sub>
 
 [![Mojopaste - A pastebin](https://convos.chat/screenshots/2020-05-28-convos-chat.jpg)](https://convos.chat/)

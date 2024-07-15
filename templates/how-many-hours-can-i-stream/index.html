@@ -3,7 +3,7 @@
 {% block content %}
 <main role="document" class="document-width">
   <article id="how_many_hours_can_i_stream" hx-boost="true">
-    {{ markdown(name = "how-many-hours-can-i-stream/intro.md") | safe }}
+    {{ markdown(name = "how-many-hours-can-i-stream/header.md") | safe }}
 
     <h2>Calculate</h2>
     <form method="get" action="/how-many-hours-can-i-stream" hx-on:submit="thorsen.planAndStreamToHours(event)">

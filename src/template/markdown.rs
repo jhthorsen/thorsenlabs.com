@@ -23,7 +23,10 @@ pub struct Markdown {
 
 impl Markdown {
     pub fn new_from_path(path: &Path) -> Markdown {
-        let basename = path.file_name().unwrap().to_str().unwrap();
+        let mut basename = path.file_name().unwrap().to_str().unwrap().trim_end_matches(".md");
+        if basename == "index" {
+            basename = path.parent().unwrap().file_name().unwrap().to_str().unwrap();
+        }
 
         let date = if basename.len() > 10 {
             basename[0..10].to_owned()
@@ -36,10 +39,10 @@ impl Markdown {
             date,
             footer: String::from(""),
             header: String::from(""),
-            id: basename.trim_end_matches(".md").to_owned(),
+            id: basename.to_owned(),
             ingress: String::from(""),
             path: path.to_path_buf(),
-            title: basename.trim_end_matches(".md").replace("-", " "),
+            title: basename.replace("-", " "),
         }
     }
 
@@ -73,6 +76,7 @@ impl Markdown {
                                 "date" => self.date = kv[1].trim().to_owned(),
                                 "footer" => self.footer = kv[1].trim().to_owned(),
                                 "header" => self.header = kv[1].trim().to_owned(),
+                                "id" => self.id = kv[1].trim().to_owned(),
                                 "title" => self.title = kv[1].trim().to_owned(),
                                 _ => {}
                             }
