@@ -5,7 +5,7 @@ use std::{fs, path::Path};
 use crate::server_error::ServerError;
 use crate::template::{markdown::Markdown, document_path};
 
-fn create_blog_list_file() -> Result<bool, ServerError> {
+fn create_blog_index_file(blog_index_path: &str) -> Result<bool, ServerError> {
     let mut blogs: Vec<(String, String)> = Vec::new();
 
     let blog_dir = document_path("blog");
@@ -19,7 +19,7 @@ fn create_blog_list_file() -> Result<bool, ServerError> {
         let mut blog = Markdown::new_from_path(&blog_files_item.path());
         if blog.read() {
             blog.content = format!(
-                "## {}\n\n<a href=\"/blog/{}\">{}</a>\n\n{}\n",
+                "---\nheader: blog/header.md\nfooter: blog/footer.md\n---\n\n## {}\n\n<a href=\"/blog/{}\">{}</a>\n\n{}\n",
                 blog.title, blog.id, blog.date, blog.ingress,
             );
 
@@ -29,7 +29,7 @@ fn create_blog_list_file() -> Result<bool, ServerError> {
 
     blogs.sort_by(|a, b| b.0.cmp(&a.0));
     let content = blogs.iter().map(|i| i.1.clone()).collect::<Vec<String>>();
-    fs::write(format!("{}/list.md", &blog_dir), content.join("\n"))?;
+    fs::write(&blog_index_path, content.join("\n"))?;
 
     Ok(true)
 }
@@ -52,14 +52,20 @@ pub async fn get_blog_index(
     req: actix_web::HttpRequest,
 ) -> Result<HttpResponse, ServerError> {
     let mut ctx = crate::template::template_context(&req);
-    ctx.insert("updated".to_owned(), &false);
 
     let blog_dir = document_path("blog");
+    let blog_index_path = &format!("{}/index.md", &blog_dir);
     if mtime(blog_dir.as_str()) > mtime(format!("{}/list.md", &blog_dir).as_str()) {
-        ctx.insert("updated".to_owned(), &create_blog_list_file());
+        ctx.insert("updated".to_owned(), &create_blog_index_file(&blog_index_path)?);
     }
 
-    let rendered = state.tera.render("blog/index.html", &ctx)?;
+    let mut article = Markdown::new_from_path(&Path::new(&blog_index_path));
+    if !article.read() {
+        return Err(ServerError::NotFound("Blog index was not generated.".to_owned()));
+    }
+
+    ctx.insert("article".to_owned(), &article);
+    let rendered = state.tera.render("layouts/article.html", &ctx)?;
     Ok(HttpResponse::Ok().content_type(ContentType::html()).body(rendered))
 }
 

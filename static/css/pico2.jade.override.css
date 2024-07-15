@@ -117,13 +117,15 @@ article#arbeidsdager {
   }
 }
 
-article#blog-list,
+article#blog,
 article#blog-post {
-  h2 {
+  > h1,
+  > h2 {
     margin-block-end: 0.3rem;
   }
 
-  h2 + p {
+  > h1 + p,
+  > h2 + p {
     font-size: 0.9rem;
     font-style: italic;
     margin-block-end: var(--pico-spacing);
