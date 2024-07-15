@@ -3,7 +3,7 @@ use std::time::UNIX_EPOCH;
 use std::{fs, path::Path};
 
 use crate::server_error::ServerError;
-use crate::template::{markdown::Markdown, document_path};
+use crate::template::{document_path, markdown::Markdown};
 
 fn create_blog_index_file(blog_index_path: &str) -> Result<bool, ServerError> {
     let mut blogs: Vec<(String, String)> = Vec::new();
@@ -25,8 +25,19 @@ fn create_blog_index_file(blog_index_path: &str) -> Result<bool, ServerError> {
         }
 
         blog.content = format!(
-            "---\nheader: blog/header.md\nfooter: blog/footer.md\n---\n\n## {}\n\n<a href=\"/blog/{}\">{}</a>\n\n{}\n",
-            blog.title, blog.id, blog.date, blog.ingress,
+            r##"
+---
+header: blog/header.md
+footer: blog/footer.md
+---
+
+## {}
+
+[{}](/blog/{})
+
+{}
+"##,
+            blog.title, blog.date, blog.id, blog.ingress
         );
 
         blogs.push((blog.date, blog.content));
@@ -61,17 +72,24 @@ pub async fn get_blog_index(
     let blog_dir = document_path("blog");
     let blog_index_path = &format!("{}/index.md", &blog_dir);
     if mtime(blog_dir.as_str()) > mtime(format!("{}/list.md", &blog_dir).as_str()) {
-        ctx.insert("updated".to_owned(), &create_blog_index_file(&blog_index_path)?);
+        ctx.insert(
+            "updated".to_owned(),
+            &create_blog_index_file(&blog_index_path)?,
+        );
     }
 
     let mut article = Markdown::new_from_path(&Path::new(&blog_index_path));
     if !article.read() {
-        return Err(ServerError::NotFound("Blog index was not generated.".to_owned()));
+        return Err(ServerError::NotFound(
+            "Blog index was not generated.".to_owned(),
+        ));
     }
 
     ctx.insert("article".to_owned(), &article);
     let rendered = state.tera.render("layouts/article.html", &ctx)?;
-    Ok(HttpResponse::Ok().content_type(ContentType::html()).body(rendered))
+    Ok(HttpResponse::Ok()
+        .content_type(ContentType::html())
+        .body(rendered))
 }
 
 pub async fn get_blog_post(
@@ -80,7 +98,11 @@ pub async fn get_blog_post(
 ) -> Result<HttpResponse, ServerError> {
     let mut ctx = crate::template::template_context(&req);
 
-    let blog_id = req.match_info().get("blog_id").unwrap_or("not_found").trim_end_matches(".html");
+    let blog_id = req
+        .match_info()
+        .get("blog_id")
+        .unwrap_or("not_found")
+        .trim_end_matches(".html");
     let blog_path = document_path(&format!("blog/{}.md", blog_id));
     let mut blog = Markdown::new_from_path(&Path::new(&blog_path));
     if !blog.read() {
@@ -92,5 +114,7 @@ pub async fn get_blog_post(
     ctx.insert("blog".to_owned(), &blog);
 
     let rendered = state.tera.render("blog/entry.html", &ctx)?;
-    Ok(HttpResponse::Ok().content_type(ContentType::html()).body(rendered))
+    Ok(HttpResponse::Ok()
+        .content_type(ContentType::html())
+        .body(rendered))
 }
