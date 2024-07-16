@@ -104,14 +104,14 @@ pub async fn get_blog_post(
         .unwrap_or("not_found")
         .trim_end_matches(".html");
     let blog_path = document_path(&format!("blog/{}.md", blog_id));
-    let mut blog = Markdown::new_from_path(&Path::new(&blog_path));
-    if !blog.read() {
+    let mut article = Markdown::new_from_path(&Path::new(&blog_path));
+    if !article.read() {
         return Err(ServerError::NotFound(
             "Could not find blog post.".to_owned(),
         ));
     }
 
-    ctx.insert("blog".to_owned(), &blog);
+    ctx.insert("article".to_owned(), &article);
 
     let rendered = state.tera.render("blog/entry.html", &ctx)?;
     Ok(HttpResponse::Ok()
