@@ -27,7 +27,7 @@ This module is based on top of the excellent
 communicate with Cloudinary in an async matter, which can be useful if
 you're working with a lot of assets.
 
-## Main features {#mainfeatures}
+## Main features
 
 -   [Upload](https://metacpan.org/module/Cloudinary#upload) images and
     other assets to Cloudinary.
@@ -76,7 +76,7 @@ The above code will produce this output:
 
 ![jhthorsen.jpg](http://res.cloudinary.com/demo/image/facebook/jhthorsen.jpg){decoding="async"}
 
-## Try it out! {#tryitout}
+## Try it out!
 
 Register a free plan at Cloudinary try it out for your self. My module
 should allow you to take advantage of all the cool

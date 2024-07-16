@@ -1,11 +1,25 @@
-article#about > header {
-  overflow: hidden;
+article#about {
+  > header {
+    overflow: hidden;
 
-  img {
-    float: right;
-    margin-right: 0;
-    max-width: 35%;
-    margin-left: 1rem;
-    margin-top: -0.5rem;
+    img {
+      float: right;
+      margin-right: 0;
+      max-width: 35%;
+      margin-left: 1rem;
+      margin-top: -0.5rem;
+    }
+  }
+
+  h1,
+  h3 {
+    margin-block-end: var(--sub-title-heading-margin);
+  }
+
+  h1 + p,
+  h3 + p {
+    font-size: var(--sub-title-font-size);
+    font-style: italic;
+    margin-block-end: var(--pico-spacing);
   }
 }

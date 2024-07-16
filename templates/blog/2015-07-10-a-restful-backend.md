@@ -35,7 +35,7 @@ The post on perlmonks was:
 >
 > R.
 
-## Reason for choosing Mojolicious {#reasonforchoosingmojolicious}
+## Reason for choosing Mojolicious
 
 I would go for Mojolicious. It's a very modern framework that keeps up
 with the specifications of the web. To me, one of the killer features is
@@ -55,7 +55,7 @@ well. Here are the modules I use the most frequent:
 -   <https://metacpan.org/pod/Mojolicious::Plugin::Webpack>
 -   <https://metacpan.org/pod/Mojolicious::Plugin::OpenAPI>
 
-## User Signup / authentication {#usersignupauthentication}
+## User Signup / authentication
 
 There's a lot of authentication modules on CPAN, but here is a short
 list, just to give an idea of some of the projects that exists:
@@ -66,7 +66,7 @@ list, just to give an idea of some of the projects that exists:
 -   Or just roll your own and use
     <https://metacpan.org/pod/Mojolicious::Plugin::Bcrypt> for passwords
 
-## Order creation {#ordercreation}
+## Order creation
 
 I guess any any ORM or just Mojo::Pg / ::mysql directly will help you
 out. Also, Mojolicious has an [awesome
@@ -88,13 +88,13 @@ needed at the time. Any feedback is greatly appreciated.
 I would also recommend going with <https://stripe.com/>. Their service
 is very simple to work with.
 
-## Job Acceptance {#jobacceptance}
+## Job Acceptance
 
 Not sure if you're talking about an object in your backend model or if
 you're asking for a job queue... If the latter, Mojo has your back:
 <https://metacpan.org/pod/Minion>
 
-## Geolocation of assets {#geolocationofassets}
+## Geolocation of assets
 
 I think I would simply put my application behind
 <https://www.cloudflare.com/> and use their geolocation feature. In

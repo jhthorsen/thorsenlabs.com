@@ -28,7 +28,7 @@ instructions in this tutorial.
     of sane version of Perl and Redis. Choose the cheapest droplet they
     have to begin with.
 
-## Install Convos {#installconvos}
+## Install Convos
 
 Log into the droplet you created in the previous step.
 
@@ -59,7 +59,7 @@ Next install convos and start the server:
 That's it! You can now point your browser to
 "http://\$DROPLET_IP_FROM_DIGITAL_OCEAN:8080" to start using Convos.
 
-## Convos on port 80 instead of 8080 {#convosonport80insteadof8080}
+## Convos on port 80 instead of 8080
 
 To increase security and let Convos be accessible on port 80, we will
 use [ufw](https://help.ubuntu.com/community/UFW).
@@ -95,7 +95,7 @@ You could also fire up [nginx](https://www.nginx.com/) or another web
 server, but there's no good reason for that if you are only setting up
 Convos.
 
-## Autostart Convos when the server boots {#autostartconvoswhentheserverboots}
+## Autostart Convos when the server boots
 
 If you restart the server now, Convos will not start. You can autostart
 the server by adding a command to "/etc/rc.local", right before "exit 0"
@@ -103,7 +103,7 @@ or somewhere before the end of the file.
 
     /usr/bin/sudo -u convos bash -c 'cd /home/convos/convos-release; ./vendor/bin/carton exec hypnotoad script/convos'
 
-## Other tips {#othertips}
+## Other tips
 
 You probably want to set up a DNS record that points to the droplet's IP
 address. You can do this by registering a domain on

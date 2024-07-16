@@ -17,9 +17,9 @@ do if you want to write to STDIN, or read STDOUT and STDERR in real-time
 while the program is running?
 [Mojo::Run3](https://metacpan.org/pod/Mojo::Run3) got your back.
 
-## Example usage {#example-usage .wp-block-heading}
+## Example usage
 
-``` wp-block-code
+```
 use Mojo::Base -strict, -signatures;
 use Mojo::Run3;
 
@@ -41,7 +41,7 @@ pipe to create a
 is useful for interactive programs like ssh, bash or even editors like
 vim.
 
-## Using Mojo::Run3 in your Mojolicious web application {#using-mojorun3-in-your-mojolicious-web-application .wp-block-heading}
+## Using Mojo::Run3 in your Mojolicious web application
 
 Even though you can now run any sort of programs asynchronously in your
 web server now, you should consider using a job queue (such as
@@ -53,7 +53,7 @@ of the same program running at the same time. But for interactive
 terminals over a WebSocket, or other short lived commands you can
 certainly use [Mojo::Run3](https://metacpan.org/pod/Mojo::Run3).
 
-## What about Mojo::IOLoop::ReadWriteFork? {#what-about-mojoioloopreadwritefork .wp-block-heading}
+## What about Mojo::IOLoop::ReadWriteFork?
 
 I have a competing module on CPAN called
 [Mojo::IOLoop::ReadWriteFork](https://metacpan.org/pod/Mojo::IOLoop::ReadWriteFork).

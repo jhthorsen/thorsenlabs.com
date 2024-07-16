@@ -18,14 +18,14 @@ affordable, and the setup is extremely simple.
 You need to know basic shell and/or have an interest in seeing how easy
 it is to deploy a [Perl](http://perl.org) based web application.
 
-## The application {#theapplication}
+## The application
 
 I've chosen [Timer](https://github.com/jhthorsen/timer) as the example
 application, since it's quite simple but still has the amount of
 dependencies to put it in a "real app" category. It also doesn't require
 a database, which makes it more Perl focused.
 
-## Step 1: Setup DigitalOcean {#step1:setupdigitalocean}
+## Step 1: Setup DigitalOcean
 
 You need to create an account and a droplet on
 [DigitalOcean](https://www.digitalocean.com/).
@@ -52,7 +52,7 @@ Notes about the how to:
     After you have logged in to your droplet (as root), you can continue
     to "Step 2" below.
 
-## Step 2: Install dependencies {#step2:installdependencies}
+## Step 2: Install dependencies
 
 So now you have set up DigitalOcean and you are logged in as "root".
 
@@ -85,7 +85,7 @@ Next we will install dependencies using "apt-get".
     [EV](https://metacpan.org/release/EV) is also strictly not required,
     but will enable Mojolicious to handle requests faster.
 
-## Step 3: Add a user {#step3:addauser}
+## Step 3: Add a user
 
 We don't want to run the "Timer" application as "root" for security
 reasons, so we need to add a user with the username "bender".
@@ -98,7 +98,7 @@ NOTE! Choose a [safe password](https://howsecureismypassword.net/)!
 NOTE! We are adding the user to the "sudo" group for convenience. You
 might want to remove it from that group later to increase security.
 
-## Step 3: Download and start the application {#step3:downloadandstarttheapplication}
+## Step 3: Download and start the application
 
 Now that all the basic prerequisites are in place, you can install the
 "Timer" application as the user "bender".
@@ -122,7 +122,7 @@ after you have run the "hypnotoad" command, you can access your
 application on `http://$DROPLET_IP:8080/`. The \$DROPLET_IP is the same
 IP that you logged into after you set up the Droplet.
 
-## Step 4: Listen to port 80, instead of 8080 {#step4:listentoport80insteadof8080}
+## Step 4: Listen to port 80, instead of 8080
 
 We will now set up firewall rules using
 [ufw](https://help.ubuntu.com/community/UFW). This will make the server
@@ -156,7 +156,7 @@ need to start a console from web, by logging into
     # start the firewall
     $ ufw enable
 
-## Step 5: Autostart the application when the server boots {#step5:autostarttheapplicationwhentheserverboots}
+## Step 5: Autostart the application when the server boots
 
 If you restart the server now, the Timer application will not start. You
 can autostart the server by adding a command to "/etc/rc.local", right
@@ -164,7 +164,7 @@ before "exit 0" or somewhere before the end of the file.
 
     /usr/bin/sudo -u bender hypnotoad /home/bender/timer/script/timer
 
-## You are done {#youaredone}
+## You are done
 
 As you can see from this tutorial, it's not hard or expensive to get
 your Perl based web application up and running in the cloud.
@@ -173,7 +173,7 @@ Got questions or feedback? Contact me on
 [twitter](http://twitter.com/jhthorsen), IRC or drop me an
 [email](mailto:jhthorsen@cpan.org).
 
-## Questions and answers {#questionsandanswers}
+## Questions and answers
 
 -   Hypnotoad...? What about nginx or apache?
 

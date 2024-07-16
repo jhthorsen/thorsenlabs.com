@@ -1,12 +1,13 @@
 :root {
   --pico-form-element-spacing-vertical: 0.4em;
   --pico-form-element-spacing-horizontal: 0.7em;
-  --pico-typography-spacing-vertical: 1.5em;
   --pico-border-radius: 1rem;
+  --sub-title-heading-margin: 0.3rem;
+  --sub-title-font-size: 0.9rem;
 }
 
 html, body {
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
   padding: 0;
 }
@@ -33,16 +34,6 @@ main > article {
     border-radius: 1rem;
     max-width: 60vh;
   }
-}
-
-article h1 sub,
-article h2 sub,
-article h3 sub {
-  font-size: 0.9rem;
-  font-style: italic;
-  font-weight: 300;
-  margin-block-start: 0.5em;
-  display: block;
 }
 
 article > header table {

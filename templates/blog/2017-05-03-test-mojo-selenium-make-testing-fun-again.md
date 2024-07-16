@@ -24,7 +24,7 @@ restricted to the [Mojolicious](http://mojolicious.org/) web framework.
 The module can test any web site, as long as you have a web server
 running.
 
-## Why do you want to use this module? {#whydoyouwanttousethismodule .wp-block-heading}
+## Why do you want to use this module?
 
 Testing the HTTP messages for headers and body is great, but as soon as
 you make something other than an API or very simple web page, you should
@@ -40,13 +40,13 @@ allows you to write and run user experience tests in the browser of your
 The syntax is very simple and it has sane defaults to avoid boilerplate
 in each test.
 
-## Prerequisites {#prerequisites .wp-block-heading}
+## Prerequisites
 
 To get started, you need to install the module and some executables that
 act as a glue between your test script and the browser of your
 selection.
 
-``` wp-block-code
+```
 # Install the test module
 $ cpanm Test::Mojo::Role::Selenium
 
@@ -81,7 +81,7 @@ start and stop the browser together with the test script, while
 (which uses `selenium-server`) require an external Selenium service to
 run.
 
-## Testing against a live web server {#testingagainstalivewebserver .wp-block-heading}
+## Testing against a live web server
 
 The first demo was to show that you can use the module to test any web
 site. The test [mojolicious.t](#tmojolicioust) connects to
@@ -91,7 +91,7 @@ checks if the search result page was loaded.
 
 Here are the commands I went through to run the demo:
 
-``` wp-block-code
+```
 $ mkdir -p test-selenium/t
 $ cd test-selenium
 $ vim t/mojolicious.t
@@ -118,14 +118,14 @@ for this is that I think in most cases the Selenium tests should not be
 run when installing a cpan module, nor being run on services such as
 [Travis CI](https://travis-ci.org/).
 
-## Testing against a local Mojolicious application {#testingagainstalocalmojoliciousapplication .wp-block-heading}
+## Testing against a local Mojolicious application
 
 The next demo, [internal.t](#tinternalt), run tests agains a Mojolicious
 application. Using a Mojo app gives you some more features: In addition
 to test what is shown inside the browser, you can test headers and other
 "hidden" information that is exchanged over the HTTP protocol.
 
-``` wp-block-code
+```
 $ vim t/internal.t
 # copy/paste from t/internal.t below
 
@@ -144,7 +144,7 @@ The headless version also takes screenshots which are saved to the
 operating system's temp directory. This can be changed by specifying
 [screenshot_directory](https://metacpan.org/pod/Test::Mojo::Role::Selenium#screenshot_directory).
 
-## A more complex real life example {#amorecomplexreallifeexample .wp-block-heading}
+## A more complex real life example
 
 The last demo was to look at some tests for the
 [Convos](https://convos.by/) chat web application. The web app is a
@@ -158,7 +158,7 @@ feature many browser tests, (Look for the tests starting with
 `selenium-`) but the two tests that was demoed was `selenium-url.t` and
 `selenium-register.t`.
 
-### selenium-url.t {#selenium-url.t .wp-block-heading}
+### selenium-url.t
 
 [selenium-url.t](https://github.com/Nordaaker/convos/blob/master/t/selenium-url.t)
 simply tests the URL library
@@ -171,7 +171,7 @@ method for running JavaScript code inside the browser. The result from
 the method is then tested with normal
 [Test::More](https://metacpan.org/pod/Test::More) functions.
 
-### selenium-register.t {#selenium-register.t .wp-block-heading}
+### selenium-register.t
 
 [selenium-register.t](https://github.com/Nordaaker/convos/blob/master/t/selenium-register.t)
 is a bit more complicated test that uses more features from
@@ -185,15 +185,15 @@ to wait for elements that are injected dynamically to the document.
 method that runs a function until the function returns a true value or a
 timeout runs out.
 
-## The end {#theend .wp-block-heading}
+## The end
 
 I hope this introduction gave you an idea of what
 [Test::Mojo::Role::Selenium](https://metacpan.org/pod/Test::Mojo::Role::Selenium)
 can do, and makes testing fun again.
 
-## Resources {#resources .wp-block-heading}
+## Resources
 
-### Links {#links .wp-block-heading}
+### Links
 
 -   [Test::Mojo::Role::Selenium](https://metacpan.org/pod/Test::Mojo::Role::Selenium):
     API documentation.
@@ -205,9 +205,9 @@ can do, and makes testing fun again.
 -   [Selenium::Remote::WDKeys](https://metacpan.org/pod/Selenium::Remote::WDKeys):
     Check the source code for actual keys you can send to html elements.
 
-### t/mojolicious.t {#tmojolicious.t .wp-block-heading}
+### t/mojolicious.t
 
-``` wp-block-code
+```
 use Mojo::Base -strict;
 use Test::Mojo::WithRoles "Selenium";
 use Test::More;
@@ -232,9 +232,9 @@ $t->live_value_is("input[name=search]", "render");
 done_testing;
 ```
 
-### t/internal.t {#tinternal.t .wp-block-heading}
+### t/internal.t
 
-``` wp-block-code
+```
 use Mojo::Base -strict;
 use Test::Mojo::WithRoles "Selenium";
 use Test::More;

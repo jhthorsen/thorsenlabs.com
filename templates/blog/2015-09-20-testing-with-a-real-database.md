@@ -17,7 +17,7 @@ indeed an "integration test". This post will not argue against this, but
 the important thing is not using the right words, but that you actually
 test your code.
 
-## The goal {#thegoal}
+## The goal
 
 The goal is to be able to test the library you're writing actually can
 run the SQL in the database and retrieve/insert/update a given set of
@@ -37,7 +37,7 @@ The challenge comes when...
 
 ## Solutions
 
-### In memory database {#inmemorydatabase}
+### In memory database
 
 For many years I have been writing code that should work against MySQL
 and/or PostgresSQL, but running my unit tests against a SQLite database.
@@ -65,7 +65,7 @@ Dan Book has solved this in
 for the ":temp:" database which creates a temp file on disk. This is
 probably a lot more robust.
 
-### Using a transaction {#usingatransaction}
+### Using a transaction
 
 Running tests inside a transaction isolates the queries, leaving the
 initial state untouched. This can work nicely for very small and
@@ -86,7 +86,7 @@ This solution is probably the worst. The reason is that the isolation
 level is very sensitive to changes in the code, and tests might start
 failing without any apparent reason.
 
-### Personal database server {#personaldatabaseserver}
+### Personal database server
 
 There are several modules that allow you to spin up a test server for
 each test. Modules such as
@@ -104,7 +104,7 @@ servers will not give you enough rights to set up your own test
 databases. Also, this is probably required if you want to test cases
 such as when a database unexpectedly shuts down.
 
-### Shared database server {#shareddatabaseserver}
+### Shared database server
 
 A shared database avoids the start up time of a personal database
 server, but provides pretty much the same functionality.
@@ -141,7 +141,7 @@ variable `DBIX_TEMP_DB_KEEP_DATABASE` to a true value. This require you
 to drop/delete the database manually, but it allows you to inspect the
 data with standard tools for further investigation if a test fail.
 
-## The end {#theend}
+## The end
 
 I hope [DBIx::TempDB](https://metacpan.org/pod/DBIx::TempDB) will
 encourage you to write more and better tests.

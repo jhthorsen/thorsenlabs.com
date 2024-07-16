@@ -1,5 +1,5 @@
-Hei! <sub>hēi</sub>
-===================
+# Hei!
+*hēi*
 
 ![](/images/jht-profilbilde-e1553101127296-768x693.jpg)
 

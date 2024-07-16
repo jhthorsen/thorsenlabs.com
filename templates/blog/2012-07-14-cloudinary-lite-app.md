@@ -30,7 +30,7 @@ is not valid for the **cloud_name** "demo".
 -   [Mojolicious::Lite perl
     module](http://metacpan.org/module/Mojolicious::Lite)
 
-## Mojolicious lite app example {#mojoliciousliteappexample}
+## Mojolicious lite app example
 
     use Mojolicious::Lite;
 

@@ -80,7 +80,7 @@ middle is a trick I use to set the debug level once pushed to my
 test-instance.\
 It is not required.
 
-## Pushing the app to dotcloud {#pushingtheapptodotcloud}
+## Pushing the app to dotcloud
 
 After creating the files above, your directory tree should look
 something like\
@@ -111,7 +111,7 @@ After this you should see something like this in the output from
 
 And then you're done!
 
-## Other resources {#otherresources}
+## Other resources
 
 The downside about this is that you can't serve your static files
 directly\

@@ -120,8 +120,8 @@
     };
 
     thorsen.calculateWorkingDays = (event) => {
-      event.preventDefault();
-      const $form = event.currentTarget;
+      if (event) event.preventDefault();
+      const $form = document.querySelector("form[action=\"/arbeidsdager\"]");
 
       const to = str2date(el($form, "input[name=to]").value);
       let from = new Date(to.getFullYear(), 0, 1);

@@ -3,18 +3,16 @@
 {% block content %}
 <main role="document" class="document-width">
   <article id="how-many-hours-can-i-stream" hx-boost="true" hx-indicator="#loader">
-    {{ markdown(name = "how-many-hours-can-i-stream/header.md") | safe }}
-
-    <h2>Calculate</h2>
-    <form method="get" action="/how-many-hours-can-i-stream" hx-on:submit="thorsen.planAndStreamToHours(event)">
+    <h1>How many hours can I stream?</h1>
+    <form method="get" action="/how-many-hours-can-i-stream" hx-on:submit="thorsen.planAndStreamToHours(event)" hx-boost="false">
       <div class="cluster">
         <label>
           <strong>Plan (GB/month)</strong>
-          <input name="plan" type="number" value="5">
+          <input name="plan" type="number" value="{{ query.plan | default(value=5) }}">
         </label>
         <label>
           <strong>Stream (kb/s)</strong>
-          <input name="kbps" type="number" value="160">
+          <input name="kbps" type="number" value="{{ query.kbps | default(value=160) }}">
         </label>
         <button class="button">Calculate!</button>
       </div>
@@ -23,19 +21,49 @@
         <strong>Total hours of streaming: <span class="hours">69.4</span></strong>
       </p>
     </form>
+
+    <pre><small><code>G     = 1,000,000,000
+k     = 1,000
+hours = (gigaBytesPerMonth * 8 * G) / (kbps * k) / 3600
+69.4h = (5 * 8 * 1000000000) / (160 * 1000) / 3600</code></small></pre>
+
+    <p>
+      The table below shows approximate kbps (kilo-bits-per-second) that a stream
+      takes. The service you use might vary.
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>Description</th><th>Bits per second</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>4K video streaming</td><td>13000 kb/s</td></tr>
+        <tr><td>HD video streaming</td><td>5500 kb/s</td></tr>
+        <tr><td>SD video streaming</td><td>1500 kb/s</td></tr>
+        <tr><td>YouTube 720p</td><td>3000 kb/s</td></tr>
+        <tr><td>YouTube 480p</td><td>1000 kb/s</td></tr>
+        <tr><td>Audio streaming</td><td>160 kb/s</td></tr>
+      </tbody>
+    </table>
   </article>
 </main>
 <script>
   ((thorsen) => {
     thorsen.planAndStreamToHours = (event) => {
-      event.preventDefault();
-      const $form = event.currentTarget;
+      if (event) event.preventDefault();
+      const $form = document.querySelector("form[action=\"/how-many-hours-can-i-stream\"]");
       const G = 1000000000;
       const k = 1000;
       const plan = parseFloat($form.querySelector("[name=plan]").value);
       const kbps = parseFloat($form.querySelector("[name=kbps]").value);
       $form.querySelector(".hours").innerText = parseInt((plan * 8 * G) / (kbps * k) / (3600 / 10)) / 10;
+
+      const url = new URL(location.href);
+      url.search = new URLSearchParams(new FormData($form)).toString()
+      history.replaceState({}, null, url.toString());
     };
+
+    thorsen.planAndStreamToHours();
   })(window.thorsen || (window.thorsen = {}));
 </script>
 {% endblock %}

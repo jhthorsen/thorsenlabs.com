@@ -7,4 +7,8 @@ article#curriculum-vitae {
   h1 + p + table {
     width: auto;
   }
+
+  table td:first-child {
+    white-space: pre;
+  }
 }

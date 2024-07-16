@@ -1,3 +1,4 @@
 /target
 /templates/blog/index.md
 .env
+*.sync*

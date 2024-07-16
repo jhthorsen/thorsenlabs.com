@@ -41,9 +41,9 @@ Applify:
 If you still like Applify more than Getopt::App and want to maintain it,
 then please let me know and I'll gladly give you commit bits.
 
-## Example script {#example-script .wp-block-heading}
+## Example script
 
-``` wp-block-code
+```
 #!/usr/bin/env perl
 package My::Script;
 use Getopt::App -signatures;
@@ -75,9 +75,9 @@ This function will understand if you source the script in a unit test or
 running it form the command line. When sourcing the script, no code will
 actually be run before you explicitly want it to.
 
-## Example test {#example-test .wp-block-heading}
+## Example test
 
-``` wp-block-code
+```
 #!/usr/bin/env perl
 use Getopt::App -capture;
 use File::Spec::Functions qw(catfile rel2abs);
@@ -101,7 +101,7 @@ an array-ref. The test above will call the code block provided to
 `run()` above, but since the whole package is sourced, there is nothing
 wrong with calling methods directly:
 
-``` wp-block-code
+```
 #!/usr/bin/env perl
 use Getopt::App -capture;
 use File::Spec::Functions qw(catfile rel2abs);
@@ -114,7 +114,7 @@ is $obj->name, 'no name', 'default name';
 done_testing
 ```
 
-## Hooks, customization and subcommands {#hooks-customization-and-subcommands .wp-block-heading}
+## Hooks, customization and subcommands
 
 If you don't like the defaults set up by Getopt::App, then there are
 many [hooks](https://metacpan.org/pod/Getopt::App#APPLICATION-METHODS)
@@ -122,7 +122,7 @@ to customize it to your liking. Each hook must be defined as a method
 inside your script. To prevent naming collisions, the hook methods are
 prefixed with "**getopt\_**". Here is an example:
 
-``` wp-block-code
+```
 #!/usr/bin/env perl
 package My::Script;
 use Getopt::App -signatures;
@@ -150,7 +150,7 @@ sub getopt_unknown_subcommand ($app, $argv) {
 run(sub { print extract_usage() });
 ```
 
-## Bundling {#bundling .wp-block-heading}
+## Bundling
 
 I often want to write scripts that can be easily downloaded and run by
 others. Depending on `Applify` will add an extra hurdle that your users
@@ -159,13 +159,13 @@ the other hand can easily be bundled with your script. To do so, simply
 call the [`bundle()`](https://metacpan.org/pod/Getopt::App#bundle)
 method from a oneliner:
 
-``` wp-block-code
+```
 $ perl -MGetopt::App -e'Getopt::App->bundle(shift)' src/myscript.pl > script/myscript
 ```
 
 The output `script/myscript` application now has Getopt::App inline!
 
-## Conclusion {#conclusion .wp-block-heading}
+## Conclusion
 
 I hope this introduction to Getopt::App gave you some ideas about how
 easy a script can be better structured and tested with functions like

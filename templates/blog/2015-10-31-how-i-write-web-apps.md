@@ -5,7 +5,7 @@ title: How I write web applications
 This blog post is about the standard components I use when I develop and
 deploy my web applications.
 
-## Server side components {#serversidecomponents}
+## Server side components
 
 ### Mojolicious
 
@@ -63,7 +63,7 @@ The reason why I want to have a proper API to my web server is that it
 makes it so much easier to develop nice JavaScript powered web
 applications.
 
-## Client side components {#clientsidecomponents}
+## Client side components
 
 ### jQuery
 
@@ -161,7 +161,7 @@ has grown into a DSL with a lot more functionality. My favorite is
 probably that you can use it as an [init
 script](https://metacpan.org/pod/distribution/Toadfarm/lib/Toadfarm/Manual/RunningToadfarm.pod#Init-script).
 
-### Image resources {#imageresources}
+### Image resources
 
 It makes a web page more alive if you have nice images. One design is
 for example having a [big photo](http://thorsen.pm) at the top of the
@@ -170,7 +170,7 @@ whatever you want) high-resolution photos](https://unsplash.com), you
 can search for them on
 [Google](https://www.google.no/search?q=unsplash+summer+people&tbm=isch&tbs=isz:l).
 
-## The end {#theend}
+## The end
 
 I skipped databases on purpose, since I don't have a single database I
 use: I use PostgreSQL, SQLite, Redis, or any other backend that makes

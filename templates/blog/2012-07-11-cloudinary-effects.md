@@ -85,7 +85,7 @@ They even added an "oil-paint" effect.
 :::
 ::::
 
-## Chained Transformations {#chainedtransformations}
+## Chained Transformations
 
 Cloudinary also provide [other
 transformations](http://cloudinary.com/documentation/image_transformations)
@@ -113,7 +113,7 @@ as shown in the Cloudinary blog. (Will either take [pull
 request](https://github.com/jhthorsen/cloudinary) or implement it on
 [request](/contact)).
 
-## Tweaking a web site's color scheme {#tweakingawebsitescolorscheme}
+## Tweaking a web site's color scheme
 
 Cloudinary provides the "hue" effect to change the color scheme of an
 image. This can be quite useful when you tweak the CSS color scheme and

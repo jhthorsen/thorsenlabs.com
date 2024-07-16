@@ -31,7 +31,7 @@ This tutorial show how to build a working blog app, based on
 [kraih](https://twitter.com/kraih)'s [Mojo::Pg blog
 example](https://github.com/kraih/mojo-pg/tree/master/examples/blog).
 
-## Why you want to use swagger {#whyyouwanttouseswagger}
+## Why you want to use swagger
 
 This question comes up quite often after telling people about Swagger:
 "but...why??" The people asking this often come from the same background
@@ -73,7 +73,7 @@ Note that the swagger spec is not just for the server, but can also be
 used to generate [javascript](int://github.com/swagger-api/swagger-js)
 and [perl client side](https://metacpan.org/pod/Swagger2::Client) code.
 
-## Swagger specification {#swaggerspecification}
+## Swagger specification
 
 This first thing you need to do is to design you API. I'm not going into
 the test-driven-, design-driven- or whatever-driven-development
@@ -119,7 +119,7 @@ important parts worth mentioning:
         | user_login   | user_login        |
         '----------------------------------'
 
-## The application {#theapplication}
+## The application
 
 The example application is a fully working
 [blog](https://mojolicious.io/blog/2017/12/22/day-22-how-to-build-a-public-rest-api/),
@@ -224,7 +224,7 @@ which does authentication:
       });
     });
 
-## Mojolicious commands {#mojoliciouscommands}
+## Mojolicious commands
 
 The [Swagger2 distribution](https://metacpan.org/release/Swagger2) comes
 with a Mojolicious [command
@@ -238,7 +238,7 @@ which gives you these command line tools:
     $ mojo swagger2 perldoc path/to/spec.json
     $ mojo swagger2 validate path/to/spec.json
 
-### mojo swagger2 client {#mojoswagger2client}
+### mojo swagger2 client
 
 The "client" command generates a [swagger
 client](https://metacpan.org/pod/Swagger2::Client) and calls the swagger
@@ -251,7 +251,7 @@ Example usage:
       https://raw.githubusercontent.com/jhthorsen/swagger2/master/t/blog/api.json \
       show id=42
 
-### mojo swagger2 edit {#mojoswagger2edit}
+### mojo swagger2 edit
 
 The "edit" command starts a Mojolicious server where you can edit and
 read the swagger specification in your browser. The browser component
@@ -265,7 +265,7 @@ Example usage:
 
 And then visit <http://localhost:3000/> in your browser.
 
-### mojo swagger2 pod {#mojoswagger2pod}
+### mojo swagger2 pod
 
 You can generate pod and read the specification as perldoc. This again
 enables such thing as swagger-to-pdf:
@@ -278,14 +278,14 @@ Just to read the documentation:
 
     $ mojo swagger2 perldoc t/blog/api.json
 
-### mojo swagger2 validate {#mojoswagger2validate}
+### mojo swagger2 validate
 
 The last command can be used to validate that the API spec against the
 swagger specification:
 
     $ mojo swagger2 validate t/blog/api.json
 
-## The end {#theend}
+## The end
 
 This tutorial should give you a simple understanding on how to add input
 and output validation to your application, based on a Swagger spec.
@@ -294,7 +294,7 @@ Got questions or feedback? Contact me on
 [twitter](http://twitter.com/jhthorsen), join the IRC channel #swagger
 on irc.perl.org. or drop me an [email](mailto:jhthorsen@cpan.org).
 
-## See also {#seealso}
+## See also
 
 -   [A RESTful API with
     OpenAPI](https://mojolicious.io/blog/2017/12/22/day-22-how-to-build-a-public-rest-api/)

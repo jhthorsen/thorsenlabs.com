@@ -1,10 +1,10 @@
 article#blog {
   h2 {
-    margin-block-end: 0.3rem;
+    margin-block-end: var(--sub-title-heading-margin);
   }
 
   h2 + p {
-    font-size: 0.9rem;
+    font-size: var(--sub-title-font-size);
     font-style: italic;
     margin-block-end: var(--pico-spacing);
 

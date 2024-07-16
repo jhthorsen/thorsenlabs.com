@@ -50,7 +50,7 @@ module as become quite mature. The latest addition to the distribution
 is [Mojo::IRC::UA](https://metacpan.org/pod/Mojo::IRC::UA), which tries
 to emulate state and order on top of the "order less" IRC protocol.
 
-### Mojo-Redis and Mojo-Redis2 {#mojo-redisandmojo-redis2}
+### Mojo-Redis and Mojo-Redis2
 
 The current version of Convos use Mojo::Redis. We selected Redis as our
 backend, since we wanted the [pub/sub](http://redis.io/topics/pubsub)
@@ -140,7 +140,7 @@ instead of rolling our own CSS, we should try to stand on someone else's
 shoulders to avoid wasting too much time on design decisions. And
 besides: Material design looks very good!
 
-## Internals in "Convos revamped" {#internalsinconvosrevamped}
+## Internals in "Convos revamped"
 
 The next version of Convos is completely redesigned. It's supposed to be
 easier to follow the logic, the objects should have a clean separation
@@ -150,7 +150,7 @@ hooks provided by third party plugins.
 The working draft can be seen in the
 [batcode](https://github.com/Nordaaker/convos/tree/batcode) branch.
 
-### One process {#oneprocess}
+### One process
 
 The current version has a single process running the backend, while the
 frontend can be started as a
@@ -176,7 +176,7 @@ The application has embedded the code from
 [Mojolicious::Plugin::RequestBase](https://metacpan.org/pod/Mojolicious::Plugin::RequestBase),
 which makes it easy to run behind a reverse proxy.
 
-### Convos::Controller {#convos::controller}
+### Convos::Controller
 
 The controller classes holds just enough logic to pass data from the
 Swagger based REST API, to "Convos::Core".
@@ -187,7 +187,7 @@ add/remove connections to chat servers and joining/parting
 conversations. "Chat" handles actions related to a single conversation
 and should be able to stream messages in the future.
 
-### Convos::Core {#convos::core}
+### Convos::Core
 
 This is the heart of Convos. The core takes care of connections,
 conversations, can persist to a backend and provide hooks for plugins.
@@ -216,7 +216,7 @@ dependencies, except Perl and a couple of modules from CPAN.
 The important thing when designing these events is to not think about
 what kind of "Backend" you have.
 
-## Status of the revamped version {#statusoftherevampedversion}
+## Status of the revamped version
 
 The current [batcode](https://github.com/Nordaaker/convos/tree/batcode)
 branch has a lot of the REST resources defined, implemented and tested,
@@ -233,7 +233,7 @@ Got questions, feedback, want to contribute or just see what's going on
 with the project? Follow [Convos](http://twitter.com/convosby) on
 Twitter or join the IRC channel #convos on irc.freenode.net.
 
-## See also {#seealso}
+## See also
 
 -   [Convos webpage](http://convos.by/)
 
