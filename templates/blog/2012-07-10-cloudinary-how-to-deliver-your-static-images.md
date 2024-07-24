@@ -40,25 +40,31 @@ you're working with a lot of assets.
 
 To run the examples below, you need to install the module first:
 
-    cpanm -n --sudo Cloudinary
+```bash
+cpanm -n --sudo Cloudinary
+```
 
 Don't have cpanm? Install cpanm using this command:
 
-    curl -L http://cpanmin.us | perl - --self-upgrade
+```bash
+curl -L http://cpanmin.us | perl - --self-upgrade
+```
 
 So how do you talk with Cloudinary? Here is an simple example which
 doesn't even require an account:
 
-    use feature 'say';
-    use Mojo::Base; # or strict and warnings;
-    use Cloudinary;
+```perl
+use feature 'say';
+use Mojo::Base; # or strict and warnings;
+use Cloudinary;
 
-    my $cloudinary = Cloudinary->new(cloud_name => 'demo');
-    say $cloudinary->url_for('jhthorsen.jpg' => {
-            type => 'facebook',
-            width => 50,
-            height => 100,
-        });
+my $cloudinary = Cloudinary->new(cloud_name => 'demo');
+say $cloudinary->url_for('jhthorsen.jpg' => {
+    type => 'facebook',
+    width => 50,
+    height => 100,
+});
+```
 
 The code above will print this URL, which points to a scaled Facebook
 image of me:
@@ -70,7 +76,9 @@ plugin](https://metacpan.org/module/Mojolicious::Plugin::Cloudinary)
 which provide helpers which makes embedding images in your [mojo
 templates](https://metacpan.org/module/Mojo::Template) easy:
 
-    %= cloudinary_image 'jhthorsen.jpg', { type => 'facebook' };
+```mojolicious
+%= cloudinary_image 'jhthorsen.jpg', { type => 'facebook' };
+```
 
 The above code will produce this output:
 

@@ -48,7 +48,9 @@ when the process exit.
 The problem is just that writing code that execute Pg/MySQL SQL against
 SQLite isn't trivial and often require hacks such as:
 
-    return $NOT_REALLY_MY_DB ? "select 'some sqlite query'" : "select 'some pg query'";
+```perl
+return $NOT_REALLY_MY_DB ? "select 'some sqlite query'" : "select 'some pg query'";
+```
 
 Running the test suite with
 [Devel::Cover](https://metacpan.org/pod/Devel::Cover) will then reveal
@@ -156,5 +158,4 @@ feedback.
 ## References
 
 -   [DBIx::TempDB](https://metacpan.org/pod/DBIx::TempDB)
-
 -   [Project page](https://github.com/jhthorsen/dbix-tempdb)

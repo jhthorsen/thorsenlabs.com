@@ -15,34 +15,42 @@ easier using the sugar module.
 In addition to sugar for chains, it exports some other functions, which
 I use most the time. This is something I think is a pain:
 
-    # 139 characters
-    sub foo :Chain('/') PathPart('') CaptureArgs(0) {
-      my $self = shift;
-      my $c = shift;
-      $c->stash->{'answer_to_everything'} = 42;
-    }
+```perl
+# 139 characters
+sub foo :Chain('/') PathPart('') CaptureArgs(0) {
+  my $self = shift;
+  my $c = shift;
+  $c->stash->{'answer_to_everything'} = 42;
+}
+```
 
 ...which can be written this way, with sugar:
 
-    # 53 characters
-    chain sub {
-        stash answer_to_everything => 42;
-    };
+```perl
+# 53 characters
+chain sub {
+    stash answer_to_everything => 42;
+};
+```
 
 I hardly ever use `$self`, but I wery often use `stash()`, `session()`
 and `forward()` so that's why I've chosen to export those functions
 (among some others). The module is also quite simple to use:
 
-    use CatalystX::Controller::Sugar;
-    # your controller code
-    1;
+```perl
+use CatalystX::Controller::Sugar;
+# your controller code
+1;
+```
 
 ...instead of:
 
-    use CatalystX::Controller;
-    use Moose;
-    BEGIN { extends 'Catalyst::Controller' }
-    # your controller code
-    1;
+```perl
+use CatalystX::Controller;
+use Moose;
+BEGIN { extends 'Catalyst::Controller' }
+# your controller code
+1;
+```
 
 Does my pod suck? Is the module not flexible enough? Let me know.

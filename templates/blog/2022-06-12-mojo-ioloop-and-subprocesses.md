@@ -19,7 +19,7 @@ while the program is running?
 
 ## Example usage
 
-```
+```perl
 use Mojo::Base -strict, -signatures;
 use Mojo::Run3;
 

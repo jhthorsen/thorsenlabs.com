@@ -274,7 +274,9 @@ feedback on both new and old functionality is greatly appreciated.
 
 How to get the next version:
 
-    $ cpanm https://github.com/jhthorsen/mojolicious-plugin-assetpack/archive/v2.tar.gz
+```bash
+cpanm https://github.com/jhthorsen/mojolicious-plugin-assetpack/archive/v2.tar.gz
+```
 
 ## Resources
 

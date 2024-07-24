@@ -43,7 +43,7 @@ then please let me know and I'll gladly give you commit bits.
 
 ## Example script
 
-```
+```perl
 #!/usr/bin/env perl
 package My::Script;
 use Getopt::App -signatures;
@@ -77,7 +77,7 @@ actually be run before you explicitly want it to.
 
 ## Example test
 
-```
+```perl
 #!/usr/bin/env perl
 use Getopt::App -capture;
 use File::Spec::Functions qw(catfile rel2abs);
@@ -101,7 +101,7 @@ an array-ref. The test above will call the code block provided to
 `run()` above, but since the whole package is sourced, there is nothing
 wrong with calling methods directly:
 
-```
+```perl
 #!/usr/bin/env perl
 use Getopt::App -capture;
 use File::Spec::Functions qw(catfile rel2abs);
@@ -122,7 +122,7 @@ to customize it to your liking. Each hook must be defined as a method
 inside your script. To prevent naming collisions, the hook methods are
 prefixed with "**getopt\_**". Here is an example:
 
-```
+```perl
 #!/usr/bin/env perl
 package My::Script;
 use Getopt::App -signatures;
@@ -159,8 +159,8 @@ the other hand can easily be bundled with your script. To do so, simply
 call the [`bundle()`](https://metacpan.org/pod/Getopt::App#bundle)
 method from a oneliner:
 
-```
-$ perl -MGetopt::App -e'Getopt::App->bundle(shift)' src/myscript.pl > script/myscript
+```bash
+perl -MGetopt::App -e'Getopt::App->bundle(shift)' src/myscript.pl > script/myscript
 ```
 
 The output `script/myscript` application now has Getopt::App inline!

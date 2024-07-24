@@ -2,8 +2,10 @@
 title: Mojopaste -- A #pastebin based on #Mojolicious
 ---
 
-    // From errno.h
-    #define EPASTEBINAGAIN 133 /* mojopaste */
+```c
+// From errno.h
+#define EPASTEBINAGAIN 133 /* mojopaste */
+```
 
 Today I released my 13th
 [Mojolicious](https://metacpan.org/release/Mojolicious) based project to
@@ -26,11 +28,13 @@ wrote it: [mojopaste](https://metacpan.org/module/App::mojopaste) is
 super easy to install, as long as you have [perl](http://perl.org) from
 this century.
 
-    # install using cpanm
-    $ curl -L http://cpanmin.us | perl - --sudo App::mojopaste
+```bash
+# install using cpanm
+curl -L http://cpanmin.us | perl - --sudo App::mojopaste
 
-    # run
-    $ PASTE_DIR=/path/to/paste/dir mojopaste daemon --listen http://*:8080
+# run
+PASTE_DIR=/path/to/paste/dir mojopaste daemon --listen http://*:8080
+```
 
 Who could be interested?
 

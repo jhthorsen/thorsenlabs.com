@@ -1,4 +1,5 @@
 :root {
+  --pico-font-size: 115%;
   --pico-form-element-spacing-vertical: 0.4em;
   --pico-form-element-spacing-horizontal: 0.7em;
   --pico-border-radius: 1rem;
@@ -22,8 +23,8 @@ body {
 }
 
 pre {
-  border-radius: 0.3rem;
-  padding: var(--pico-spacing);
+  font-size: 0.85em;
+  border-radius: 0.5rem;
 }
 
 main > article {

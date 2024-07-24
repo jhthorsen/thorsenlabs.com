@@ -25,18 +25,22 @@ instructions in this tutorial.
 
 -   You need an account on [DigitalOcean](https://www.digitalocean.com)
 -   You need to create a Droplet running Ubuntu 13.10 to have some sort
-    of sane version of Perl and Redis. Choose the cheapest droplet they
-    have to begin with.
+of sane version of Perl and Redis. Choose the cheapest droplet they
+have to begin with.
 
 ## Install Convos
 
 Log into the droplet you created in the previous step.
 
-    $ ssh -l root $DROPLET_IP_FROM_DIGITAL_OCEAN
+```bash
+ssh -l root $DROPLET_IP_FROM_DIGITAL_OCEAN
+```
 
 You are now logged in as root. Next step is to install dependencies.
 
-    $ apt-get install make gcc redis-server libio-socket-ssl-perl libio-socket-ip-perl libev-perl
+```bash
+apt-get install make gcc redis-server libio-socket-ssl-perl libio-socket-ip-perl libev-perl
+```
 
 We need "make" and "gcc" since Convos depend on some modules which need
 to be compiled. "[redis-server](http://redis.io/)" is the database where
@@ -46,15 +50,19 @@ able to handle SSL, IPv6 and run faster.
 Next we want to run Convos as a non-priviledged user. We will do that by
 adding the "convos" user and run the rest of the commands as "convos":
 
-    $ adduser convos
-    $ su - convos
+```bash
+adduser convos
+su - convos
+```
 
 Next install convos and start the server:
 
-    $ curl -L http://convos.by/install.sh | bash -
-    $ cd convos-release
-    $ mkdir log
-    $ ./vendor/bin/carton exec hypnotoad script/convos
+```bash
+curl -L http://convos.by/install.sh | bash -
+cd convos-release
+mkdir log
+./vendor/bin/carton exec hypnotoad script/convos
+```
 
 That's it! You can now point your browser to
 "http://\$DROPLET_IP_FROM_DIGITAL_OCEAN:8080" to start using Convos.
@@ -72,24 +80,26 @@ else you will be locked out of your own droplet. If that happens, you
 need to start a console from web, by logging into
 [DigitalOcean](https://cloud.digitalocean.com/).
 
-    # basic firewall rules: Deny everything except HTTP and SSH traffic
-    $ ufw default deny incoming
-    $ ufw default allow outgoing
-    $ ufw allow ssh
-    $ ufw allow 80/tcp
-    $ ufw allow 8080/tcp
+```bash
+# basic firewall rules: Deny everything except HTTP and SSH traffic
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow ssh
+ufw allow 80/tcp
+ufw allow 8080/tcp
 
-    # forward traffic from port 80 to 8080
-    $ cat <<FIREWALL_RULES >> /etc/ufw/before.rules
-    *nat
-    :PREROUTING ACCEPT [0:0]
-    -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
-    -A OUTPUT -o lo -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 8080
-    COMMIT
-    FIREWALL_RULES
+# forward traffic from port 80 to 8080
+cat <<FIREWALL_RULES >> /etc/ufw/before.rules
+*nat
+:PREROUTING ACCEPT [0:0]
+-A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+-A OUTPUT -o lo -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 8080
+COMMIT
+FIREWALL_RULES
 
-    # start the firewall
-    $ ufw enable
+# start the firewall
+ufw enable
+```
 
 You could also fire up [nginx](https://www.nginx.com/) or another web
 server, but there's no good reason for that if you are only setting up
@@ -101,7 +111,9 @@ If you restart the server now, Convos will not start. You can autostart
 the server by adding a command to "/etc/rc.local", right before "exit 0"
 or somewhere before the end of the file.
 
-    /usr/bin/sudo -u convos bash -c 'cd /home/convos/convos-release; ./vendor/bin/carton exec hypnotoad script/convos'
+```bash
+/usr/bin/sudo -u convos bash -c 'cd /home/convos/convos-release; ./vendor/bin/carton exec hypnotoad script/convos'
+```
 
 ## Other tips
 

@@ -23,7 +23,9 @@ argument to
 or [url_for()](https://metacpan.org/module/Cloudinary#url_for). Here is
 the original image:
 
-    %= cloudinary_image 'horses.jpg'; # no effects
+```mojolicious
+%= cloudinary_image 'horses.jpg'; # no effects
+```
 
 :::: row
 ::: {.thumbnail .span4}
@@ -37,8 +39,10 @@ The following examples modify the color saturation of the image. A
 negative saturation value will reduce saturation and a positive will
 increase it:
 
-    %= cloudinary_image 'horses.jpg', { effect => 'saturation:-70' }
-    %= cloudinary_image 'horses.jpg', { effect => 'saturation:70' }
+```mojolicious
+%= cloudinary_image 'horses.jpg', { effect => 'saturation:-70' }
+%= cloudinary_image 'horses.jpg', { effect => 'saturation:70' }
+```
 
 ::::: row
 ::: {.thumbnail .span4}

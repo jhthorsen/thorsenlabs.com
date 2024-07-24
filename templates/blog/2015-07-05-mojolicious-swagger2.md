@@ -128,20 +128,23 @@ with a [PostgreSQL](http://www.postgresql.org/) backend.
 If you have a PostgreSQL server running and Mojolicious installed, you
 can start the application with these simple steps:
 
-    $ git clone https://github.com/jhthorsen/swagger2.git
-    $ cd swagger2/t/blog/
-    $ BLOG_PG_URL=postgresql://postgres@/test perl script/blog daemon
+```bash
+git clone https://github.com/jhthorsen/swagger2.git
+cd swagger2/t/blog/
+BLOG_PG_URL=postgresql://postgres@/test perl script/blog daemon
+```
 
 To see all the routes generated, you can run:
 
-    $ BLOG_PG_URL=postgresql://postgres@/test perl script/blog routes
-    /api
-      +/posts        GET     "index"
-      +/posts        POST    "store"
-      +/posts/(:id)  PUT     "update"
-      +/posts/(:id)  GET     "show"
-      +/posts/(:id)  DELETE  "remove"
-    ...
+```bash
+> BLOG_PG_URL=postgresql://postgres@/test perl script/blog routes
+/api
+  +/posts        GET     "index"
+  +/posts        POST    "store"
+  +/posts/(:id)  PUT     "update"
+  +/posts/(:id)  GET     "show"
+  +/posts/(:id)  DELETE  "remove"
+...
 
 In addition to the manually added routes, Mojolicious::Plugin::Swagger2
 has added five more routes, which are automatically generated from the
@@ -172,23 +175,25 @@ action](https://mojolicious.io/blog/2017/12/22/day-22-how-to-build-a-public-rest
 which will be called when a "GET" request with the path part
 "/api/posts/42" hit your application:
 
-    package Blog::Controller::Posts; # "x-mojo-controller"
+```perl
+package Blog::Controller::Posts; # "x-mojo-controller"
 
-    sub show { # "operationId"
+sub show { # "operationId"
 
-      # This method is called with $args and $cb,
-      # in addition to the controller object ($self)
-      my ($self, $args, $cb) = @_;
+  # This method is called with $args and $cb,
+  # in addition to the controller object ($self)
+  my ($self, $args, $cb) = @_;
 
-      # Find post with id 42 (from the request URL)
-      my $entry = $self->posts->find($args->{id});
+  # Find post with id 42 (from the request URL)
+  my $entry = $self->posts->find($args->{id});
 
-      # Serialize the blog post as JSON if found
-      return $self->$cb($entry, 200) if $entry;
+  # Serialize the blog post as JSON if found
+  return $self->$cb($entry, 200) if $entry;
 
-      # Render a 404 error document if blog post was not found
-      return $self->$cb({errors => [{message => 'Blog post not found.', path => '/id'}]}, 404);
-    }
+  # Render a 404 error document if blog post was not found
+  return $self->$cb({errors => [{message => 'Blog post not found.', path => '/id'}]}, 404);
+}
+```
 
 `$args` above will only contain "id", since that is the only parameter
 specified for this resource. The response passed on to `$cb` need to
@@ -205,24 +210,26 @@ It's possible to specify a [custom
 route](https://metacpan.org/pod/Mojolicious::Plugin::Swagger2#Protected-API)
 which does authentication:
 
-    $app->plugin(swagger2 => {
-      url   => "...",
-      route => $app->routes->under->to(cb => sub {
-        my $c = shift;
+```perl
+$app->plugin(swagger2 => {
+  url   => "...",
+  route => $app->routes->under->to(cb => sub {
+    my $c = shift;
 
-        # Authenticated
-        return 1 if $c->param('secret');
+    # Authenticated
+    return 1 if $c->param('secret');
 
-        # Not authenticated
-        $c->render(
-          status => 401,
-          json   => {
-            errors => [{message => 'Not authenticated', path => '/'}]
-          }
-        );
-        return;
-      });
-    });
+    # Not authenticated
+    $c->render(
+      status => 401,
+      json   => {
+        errors => [{message => 'Not authenticated', path => '/'}]
+      }
+    );
+    return;
+  });
+});
+```
 
 ## Mojolicious commands
 
@@ -231,12 +238,14 @@ with a Mojolicious [command
 extension](https://metacpan.org/pod/Mojolicious::Command::swagger2)
 which gives you these command line tools:
 
-    $ mojo swagger2 client path/to/spec.json <method> [args]
-    $ mojo swagger2 edit
-    $ mojo swagger2 edit path/to/spec.json --listen http://*:5000
-    $ mojo swagger2 pod path/to/spec.json
-    $ mojo swagger2 perldoc path/to/spec.json
-    $ mojo swagger2 validate path/to/spec.json
+```bash
+mojo swagger2 client path/to/spec.json <method> [args]
+mojo swagger2 edit
+mojo swagger2 edit path/to/spec.json --listen http://*:5000
+mojo swagger2 pod path/to/spec.json
+mojo swagger2 perldoc path/to/spec.json
+mojo swagger2 validate path/to/spec.json
+```
 
 ### mojo swagger2 client
 
@@ -247,9 +256,11 @@ ready server. The input specification file need to have `host`,
 
 Example usage:
 
-    $ mojo swagger2 client \
-      https://raw.githubusercontent.com/jhthorsen/swagger2/master/t/blog/api.json \
-      show id=42
+```bash
+mojo swagger2 client \
+    https://raw.githubusercontent.com/jhthorsen/swagger2/master/t/blog/api.json \
+    show id=42
+```
 
 ### mojo swagger2 edit
 
@@ -260,8 +271,10 @@ if your browser crash.
 
 Example usage:
 
-    $ mojo swagger2 edit \
-      https://raw.githubusercontent.com/jhthorsen/swagger2/master/t/blog/api.json
+```bash
+mojo swagger2 edit \
+  https://raw.githubusercontent.com/jhthorsen/swagger2/master/t/blog/api.json
+```
 
 And then visit <http://localhost:3000/> in your browser.
 
@@ -270,20 +283,26 @@ And then visit <http://localhost:3000/> in your browser.
 You can generate pod and read the specification as perldoc. This again
 enables such thing as swagger-to-pdf:
 
-    $ sudo apt-get install pod2pdf
-    $ mojo swagger2 pod t/blog/api.json > blog.pod
-    $ pod2pdf blog.pod > blog.pdf
+```bash
+sudo apt-get install pod2pdf
+mojo swagger2 pod t/blog/api.json > blog.pod
+pod2pdf blog.pod > blog.pdf
+```
 
 Just to read the documentation:
 
-    $ mojo swagger2 perldoc t/blog/api.json
+```bash
+mojo swagger2 perldoc t/blog/api.json
+```
 
 ### mojo swagger2 validate
 
 The last command can be used to validate that the API spec against the
 swagger specification:
 
-    $ mojo swagger2 validate t/blog/api.json
+```bash
+mojo swagger2 validate t/blog/api.json
+```
 
 ## The end
 

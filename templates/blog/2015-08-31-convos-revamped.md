@@ -160,7 +160,9 @@ frontend can be started as a
 The next version will ultimately be able to be started with a command
 like this:
 
-    $ curl https://convos.by/code-1.0 | perl - daemon
+```bash
+curl https://convos.by/code-1.0 | perl - daemon
+```
 
 Even if Convos doesn't reach that point, it will run as a single process
 -- both the backend and frontend.
@@ -236,9 +238,6 @@ Twitter or join the IRC channel #convos on irc.freenode.net.
 ## See also
 
 -   [Convos webpage](http://convos.by/)
-
 -   [Project page](https://github.com/Nordaaker/convos)
-
 -   [Twitter](https://twitter.com/convosby)
-
 -   [Demo](http://demo.convos.by) of the current version.

@@ -207,7 +207,7 @@ can do, and makes testing fun again.
 
 ### t/mojolicious.t
 
-```
+```perl
 use Mojo::Base -strict;
 use Test::Mojo::WithRoles "Selenium";
 use Test::More;
@@ -234,7 +234,7 @@ done_testing;
 
 ### t/internal.t
 
-```
+```perl
 use Mojo::Base -strict;
 use Test::Mojo::WithRoles "Selenium";
 use Test::More;

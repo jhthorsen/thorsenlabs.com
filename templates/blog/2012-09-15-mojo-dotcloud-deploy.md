@@ -30,12 +30,14 @@ This file is the build file used by dotcloud to figure out which
 services\
 to set up. Here is an example file that I use:
 
-    www:
-      type: perl-worker
-      config:
-        perl_version: v5.16.x
-      ports:
-        www: http
+```yaml
+www:
+  type: perl-worker
+  config:
+    perl_version: v5.16.x
+  ports:
+    www: http
+```
 
 The "magical" config setting here is "ports". This allow the perl-worker
 to\
@@ -50,8 +52,10 @@ The next file to set up is
 [supervisord.conf](http://docs.dotcloud.com/0.4/guides/daemons/#guides-define-daemons)\
 file which tells dotcloud which application to run. Here the file I use:
 
-    [program:cool_app]
-    command = /home/dotcloud/current/script/dotcloud.sh
+```ini
+[program:cool_app]
+command = /home/dotcloud/current/script/dotcloud.sh
+```
 
 This simply tells Supervisor to execute the "command" once pushed to
 dotcloud.\
@@ -59,18 +63,20 @@ The shell script then need to start your mojo app the right way. Here is
 the\
 content of "dotcloud.sh":
 
-    #!/bin/sh
-    export ENVIRONMENT_FILE="/home/dotcloud/environment.yml";
-    export MOJO_LOG_LEVEL="info";
+```bash
+#!/bin/sh
+export ENVIRONMENT_FILE="/home/dotcloud/environment.yml";
+export MOJO_LOG_LEVEL="info";
 
-    # export environment.yml as shell variables
-    $( perl -p -e's/:\s+/=/;s/^/export /' $ENVIRONMENT_FILE );
+# export environment.yml as shell variables
+$( perl -p -e's/:\s+/=/;s/^/export /' $ENVIRONMENT_FILE );
 
-    if [ "x$DOTCLOUD_PROJECT" = "xcool_app_test" ]; then
-        export MOJO_LOG_LEVEL="debug";
-    fi
+if [ "x$DOTCLOUD_PROJECT" = "xcool_app_test" ]; then
+    export MOJO_LOG_LEVEL="debug";
+fi
 
-    exec /home/dotcloud/current/script/cool_app daemon --listen "http://*:$PORT_WWW";
+exec /home/dotcloud/current/script/cool_app daemon --listen "http://*:$PORT_WWW";
+```
 
 The trick is to fetch the "PORT_WWW" variable from the environment.yml
 file\
@@ -100,8 +106,10 @@ lite app.
 
 Run the commands below to create and push the app:
 
-    dotcloud create cool_app
-    dotcloud push cool_app
+```bash
+dotcloud create cool_app
+dotcloud push cool_app
+```
 
 After this you should see something like this in the output from
 "dotcloud":

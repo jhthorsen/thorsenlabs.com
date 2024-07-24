@@ -58,7 +58,9 @@ So now you have set up DigitalOcean and you are logged in as "root".
 
 Next we will install dependencies using "apt-get".
 
-    $ apt-get install make gcc cpanminus rubygems git-core libio-socket-ssl-perl libio-socket-ip-perl libev-perl
+```bash
+apt-get install make gcc cpanminus rubygems git-core libio-socket-ssl-perl libio-socket-ip-perl libev-perl
+```
 
 -   gcc, cpanminus and rubygems
 
@@ -90,8 +92,10 @@ Next we will install dependencies using "apt-get".
 We don't want to run the "Timer" application as "root" for security
 reasons, so we need to add a user with the username "bender".
 
-    $ adduser bender
-    $ usermod -a -G sudo bender
+```bash
+adduser bender
+usermod -a -G sudo bender
+```
 
 NOTE! Choose a [safe password](https://howsecureismypassword.net/)!
 
@@ -103,18 +107,20 @@ might want to remove it from that group later to increase security.
 Now that all the basic prerequisites are in place, you can install the
 "Timer" application as the user "bender".
 
-    # Become "bender" if you are still "root"
-    $ su - bender
+```bash
+# Become "bender" if you are still "root"
+su - bender
 
-    # Download the application
-    $ git clone https://github.com/jhthorsen/timer.git
+# Download the application
+git clone https://github.com/jhthorsen/timer.git
 
-    # Enter the cloned repository and install Timer dependencies
-    $ cd timer
-    $ cpanm -n --sudo --installdeps .
+# Enter the cloned repository and install Timer dependencies
+cd timer
+cpanm -n --sudo --installdeps .
 
-    # Start the application
-    $ hypnotoad script/timer
+# Start the application
+hypnotoad script/timer
+```
 
 [Hypnotoad](https://metacpan.org/pod/Mojo::Server::Hypnotoad) is a full
 featured, UNIX optimized web server written in Perl. This means that
@@ -137,24 +143,26 @@ else you will be locked out of your own droplet. If that happens, you
 need to start a console from web, by logging into
 [DigitalOcean](https://cloud.digitalocean.com/).
 
-    # basic firewall rules: Deny everything except HTTP and SSH traffic
-    $ ufw default deny incoming
-    $ ufw default allow outgoing
-    $ ufw allow ssh
-    $ ufw allow 80/tcp
-    $ ufw allow 8080/tcp
+```bash
+# basic firewall rules: Deny everything except HTTP and SSH traffic
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow ssh
+ufw allow 80/tcp
+ufw allow 8080/tcp
 
-    # forward traffic from port 80 to 8080
-    $ cat <<FIREWALL_RULES >> /etc/ufw/before.rules
-    *nat
-    :PREROUTING ACCEPT [0:0]
-    -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
-    -A OUTPUT -o lo -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 8080
-    COMMIT
-    FIREWALL_RULES
+# forward traffic from port 80 to 8080
+cat <<FIREWALL_RULES >> /etc/ufw/before.rules
+*nat
+:PREROUTING ACCEPT [0:0]
+-A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+-A OUTPUT -o lo -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 8080
+COMMIT
+FIREWALL_RULES
 
-    # start the firewall
-    $ ufw enable
+# start the firewall
+ufw enable
+```
 
 ## Step 5: Autostart the application when the server boots
 
@@ -162,7 +170,9 @@ If you restart the server now, the Timer application will not start. You
 can autostart the server by adding a command to "/etc/rc.local", right
 before "exit 0" or somewhere before the end of the file.
 
-    /usr/bin/sudo -u bender hypnotoad /home/bender/timer/script/timer
+```bash
+/usr/bin/sudo -u bender hypnotoad /home/bender/timer/script/timer
+```
 
 ## You are done
 

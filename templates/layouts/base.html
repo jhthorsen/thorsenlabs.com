@@ -112,6 +112,31 @@
       });
     })(window.thorsen || (window.thorsen = {}));
   </script>
+  <script type="module">
+    ((thorsen) => {
+      thorsen.syntaxHighlight = async () => {
+        const $code_blocks = document.querySelectorAll("pre > code");
+        if ($code_blocks.length === 0) return;
+
+        const {codeToHtml} = await import('https://esm.sh/shiki@1.0.0');
+        for (const $code_block of $code_blocks) {
+          try {
+            const lang = $code_block.className.replace(/.*language-(\w+).*/, "$1");
+            const $pre = $code_block.closest("pre") || $code_block;
+            $pre.outerHTML = await codeToHtml($code_block.innerText, {
+              lang: lang || "yaml",
+              theme: "tokyo-night",
+            });
+          } catch (err) {
+            console.error($code_block, err);
+          }
+        }
+      };
+
+      document.body.addEventListener('htmx:afterSwap', () => thorsen.syntaxHighlight());
+      thorsen.syntaxHighlight();
+    })(window.thorsen || (window.thorsen = {}));
+  </script>
 </body>
 </html>
 {% endif %}

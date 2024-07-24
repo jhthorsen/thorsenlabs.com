@@ -25,9 +25,11 @@ cleaner interface.
 
 I try to look at Roles like something like this:
 
-    package Foo;
-    do MyOtherFile.pm;
-    1;
+```perl
+package Foo;
+do MyOtherFile.pm;
+1;
+```
 
 But of course there's a lot more
 [sugar](http://search.cpan.org/dist/Moose/lib/Moose/Manual/Unsweetened.pod)
