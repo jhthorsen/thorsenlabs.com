@@ -68,6 +68,11 @@ impl Markdown {
                 Event::End(TagEnd::Paragraph) => {
                     section = Section::Skip;
                 }
+                Event::SoftBreak => {
+                    if section == Section::Ingress && self.ingress.len() < 256 {
+                        self.ingress.push_str(" ");
+                    }
+                }
                 Event::Text(ref text) => {
                     if section == Section::Metadata {
                         for line in text.lines() {
