@@ -55,6 +55,12 @@ though, and saves me for a lot of typing and reading. The best thing is however
 that you can't *forget* to check for errors! In Go, you can just drop the
 if-statement and your application will for sure blow up at some point.
 
+Coming from Perl, the speed is just mind-boggling: When I first rewrote my
+[webpage](http://github.com/jhthorsen/thorsen.pm) in Rust, I thought I had
+introduced some magic caching headers, since the page loaded instantaneous.
+I do feel bad thinking about all the extra electricity servers have to use
+to render for example a Wordpress site.
+
 I can't wait to write some more Rust.
 
 ## Zig?
