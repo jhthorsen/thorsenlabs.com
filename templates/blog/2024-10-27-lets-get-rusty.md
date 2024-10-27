@@ -76,5 +76,6 @@ disappear, becuase there certainly is a lot of languages now...
 * [Rust by Example](https://doc.rust-lang.org/rust-by-example/)
 * [Rust exercises](https://github.com/rust-lang/rustlings/)
 * [Command line Rust](https://github.com/kyclark/command-line-rust)
+* [From Perl to Rust](https://oylenshpeegul.gitlab.io/from-perl-to-rust/)
 * [Go by Example](https://gobyexample.com/)
 * [A tour of Go](https://go.dev/tour)
