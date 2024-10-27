@@ -13,7 +13,6 @@
 
     {% if article.footer %}
       <footer>
-        <h1>{{ article.title }}</h1>
         {{ markdown(name = article.footer) | safe }}
       </footer>
     {% endif %}
