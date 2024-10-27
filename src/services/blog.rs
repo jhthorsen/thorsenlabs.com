@@ -8,6 +8,13 @@ use crate::template::{document_path, markdown::Markdown};
 fn create_blog_index_file(blog_index_path: &str) -> Result<bool, ServerError> {
     let mut blogs: Vec<(String, String)> = Vec::new();
 
+    blogs.push(("3000-01-01".to_owned(), format!(
+                r##"---
+header: blog/header.md
+footer: blog/footer.md
+---
+"##)));
+
     let blog_dir = document_path("blog");
     for blog_dir_item in fs::read_dir(&blog_dir)? {
         let blog_files_item = blog_dir_item?;
@@ -25,13 +32,7 @@ fn create_blog_index_file(blog_index_path: &str) -> Result<bool, ServerError> {
         }
 
         blog.content = format!(
-            r##"
----
-header: blog/header.md
-footer: blog/footer.md
----
-
-## {}
+            r##"## {}
 
 [{}](/blog/{})
 
