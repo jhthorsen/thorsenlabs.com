@@ -16,6 +16,11 @@ article#blog {
       text-decoration: underline;
     }
   }
+
+  a.read-more {
+    font-size: 0.9rem;
+    padding: 0.4em 1em;
+  }
 }
 
 article#blog-post {

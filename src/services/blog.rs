@@ -37,8 +37,10 @@ footer: blog/footer.md
 [{}](/blog/{})
 
 {}
+
+<a href="/blog/{}" role="button" class="read-more">Read the full article</a>
 "##,
-            blog.title, blog.date, blog.id, blog.ingress
+            blog.title, blog.date, blog.id, blog.ingress, blog.id
         );
 
         blogs.push((blog.date, blog.content));
