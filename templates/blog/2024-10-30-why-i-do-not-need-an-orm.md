@@ -1,5 +1,5 @@
 ---
-title: Why I don't want an ORM
+title: Why I don't need an ORM
 ---
 
 Once upon a time, I thought ORM's was the meaning of life. I bought into the
@@ -75,13 +75,13 @@ database is layed out. Here is a simple example for how you could map a row
 from the database to an object:
 
 ```javascript
-// This code is not meant to be correct, just to illustrate how it could work
-User.getUserFromDatabase = function(username) {
+// This code is not meant to be production ready, but rather illustrate how it could work
+function getUserFromDatabase(username) {
   row = db.query('select name, timestampdiff(year, birthdate, curdate()) as age from person where username = ?', username);
   return new User({age: row.age, name: row.name, username: username});
 }
 
-user = User.getUserFromDatabase('jane');
+user = getUserFromDatabase('jane');
 ```
 
 By hiding the SQL inside a function, it is protected from the user of your
@@ -91,7 +91,7 @@ uses plain SQL and does not hide any logic away.
 Here is how you could also delete the user:
 
 ```javascript
-User.deleteFromDatabase = function(user) {
+function deleteFromDatabase(user) {
   db.query('delete from person where username = ?', user.username);
 }
 ```
@@ -100,7 +100,7 @@ In other cases you might just want to retrieve some primitives, which doesn't
 really map to an object at all. Example:
 
 ```javascript
-User.howManyUsers = function() {
+function howManyUsers() {
   row = db.query('select count(*) as n from person');
   return row.n;
 }
