@@ -46,14 +46,21 @@ nextcloud.example.com {
 
     # I'm not sure if this list is needed, but it seems to be faster
     @static {
+        method GET HEAD
         not path /index.php*
-        not path /apps/theming*
+        not path /apps/theming/composer/*
+        not path /apps/theming/lib/*
+        not path /apps/theming/templates/*
+        not path /apps/theming/theme/*
+        not path /js/core/merged-template-prepend.js
         path *.css
+        path *.css.map
         path *.gif
         path *.ico
         path *.jpg
         path *.js
         path *.js.map
+        path *.json
         path *.mjs
         path *.otf
         path *.png
