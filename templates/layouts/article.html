@@ -2,7 +2,13 @@
 
 {% block content %}
 <main role="document" class="document-width">
-  <article id="{{ article.id | slugify }}" hx-boost="true" hx-indicator="#loader">
+  <article id="{{ article.id | slugify }}"
+    {% if article.boosted == "false" %}
+      >
+    {% else %}
+      hx-boost="true" hx-indicator="#loader">
+    {% endif %}
+
     {% if article.header %}
       <header>
         {{ markdown(name = article.header) | safe }}

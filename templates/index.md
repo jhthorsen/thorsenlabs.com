@@ -1,6 +1,7 @@
 ---
 id: about
 header: header.md
+boosted: false
 ---
 
 ## Projects
@@ -18,9 +19,9 @@ browser window.
 ### Proxy For URL
 *An online PAC file tester*
 
-[![](/images/2022-02-20-proxyforurl.jpg)](https://thorsenlabs.com/proxyforurl)
+[![](/images/2022-02-20-proxyforurl.jpg)](https://thorsenlabs.com/pac)
 
-[Proxy For URL](https://thorsenlabs.com/proxyforurl) is a tool for testing [proxy
+[Proxy For URL](https://thorsenlabs.com/pac) is a tool for testing [proxy
 auto-config](https://developer.mozilla.org/en-US/docs/Web/HTTP/Proxy_servers_and_tunneling/Proxy_Auto-Configuration_PAC_file)
 JavaScript function that determines whether browser requests go directly to the
 destination or are forwarded to a web proxy server.
