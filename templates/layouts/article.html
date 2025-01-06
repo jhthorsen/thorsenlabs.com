@@ -10,7 +10,7 @@
     {% endif %}
 
     {% if article.header %}
-      <header>
+      <header hx-boost="true" hx-indicator="#loader">
         {{ markdown(name = article.header) | safe }}
       </header>
     {% endif %}
@@ -18,7 +18,7 @@
     {{ article.content | safe }}
 
     {% if article.footer %}
-      <footer>
+      <footer hx-boost="true" hx-indicator="#loader">
         {{ markdown(name = article.footer) | safe }}
       </footer>
     {% endif %}
