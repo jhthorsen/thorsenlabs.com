@@ -1,7 +1,7 @@
 use actix_web::http::header::HeaderValue;
 use actix_web::HttpRequest;
 use markdown::Markdown;
-use regex::{Captures, Regex};
+use regex::Regex;
 use serde::{Deserialize, Serialize};
 use serde_json::value::to_value;
 use std::collections::HashMap;
@@ -33,7 +33,6 @@ pub fn global_tera() -> Tera {
         let mut tera = Tera::new(document_path("**/*.html").as_str()).unwrap();
         tera.register_filter("markdown", template_filter_markdown);
         tera.register_filter("match", template_filter_match);
-        tera.register_filter("tags_to_links", template_filter_tags_to_links);
         tera.register_function("markdown", template_function_markdown);
         tera.register_function("qs", template_function_qs);
         tera.register_function("slurp", template_function_slurp);
@@ -48,10 +47,6 @@ fn header_value_to_string(value: Option<&HeaderValue>) -> String {
         .to_str()
         .unwrap_or_default()
         .to_owned()
-}
-
-pub fn tag_re() -> regex::Regex {
-    Regex::new(r"(\#|@)([0-9a-zA-Z_]+)").unwrap()
 }
 
 pub fn template_context(req: &HttpRequest) -> Context {
@@ -92,24 +87,6 @@ fn template_filter_markdown(
     let mut markdown = Markdown::new_from_path(&Path::new("/dev/null"));
     markdown.parse(serde_json::from_value::<String>(value.clone())?);
     Ok(to_value(markdown.content)?)
-}
-
-fn template_filter_tags_to_links(
-    value: &tera::Value,
-    _args: &HashMap<String, tera::Value>,
-) -> Result<tera::Value, Error> {
-    let text = serde_json::from_value::<String>(value.clone()).unwrap();
-
-    Ok(to_value(tag_re().replace_all(&text, |m: &Captures| {
-        format!(
-            "<a href=\"/moments?t={}\">{}</a>",
-            Regex::new(r"#")
-                .unwrap()
-                .replace(&mut m[0].to_string(), "%23"),
-            m[0].to_string(),
-        )
-    }))
-    .unwrap())
 }
 
 fn template_function_markdown(args: &HashMap<String, tera::Value>) -> Result<tera::Value, Error> {
