@@ -74,8 +74,8 @@ is able to decrypt the encrypted secret:
 
 ```bash
 # shell 1:
-remote-gpg.sh test.thorsen.pm;
+remote-gpg.sh test.thorsenlabs.com;
 
 # shell 2:
-echo Yes | gpg --encrypt -r gpg@email | ssh test.thorsen.pm echo "Decrypted? $(gpg --decrypt)";
+echo Yes | gpg --encrypt -r gpg@email | ssh test.thorsenlabs.com echo "Decrypted? $(gpg --decrypt)";
 ```

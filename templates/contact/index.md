@@ -2,7 +2,7 @@ Ways to get in touch
 ====================
 
 The most convenient way is to send an email to
-[hei@thorsen.pm](mailto:hei@thorsen.pm).
+[hei@thorsenlabs.com](mailto:hei@thorsenlabs.com).
 
 If you want to talk to me interactively, you might be able to reach me on IRC: I’m on
 [libera.chat](https://libera.chat/) as “[batman](irc://irc.libera.chat:6697/batman)“.

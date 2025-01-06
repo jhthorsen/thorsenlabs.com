@@ -21,7 +21,7 @@ header: curriculum-vitae/header.md
 | Year      | Education                                                                                                                                       |
 |-----------|-------------------------------------------------------------------------------------------------------------------------------------------------|
 | 2019      | One month Japanese crash course |
-| 2003-2006 | Bachelor degree in telecommunication, [Høyskolen i Agder](https://www.uia.no). Honours degree in telecommunication: ["EuroDOCSIS 2.0, how it works and specification"](https://home.thorsen.pm/skole/hpr-eurodocsis/). |
+| 2003-2006 | Bachelor degree in telecommunication, [Høyskolen i Agder](https://www.uia.no). Honours degree in telecommunication: ["EuroDOCSIS 2.0, how it works and specification"](https://thorsenlabs.com/blog/2006-05-01-hpr-eurodocsis/). |
 | 2001      | Further education course in electronics, [Arendal Maritime](https://www.austagderfk.no/arendalvgs).                                                                                      |
 | 2000      | Basic course in general electronics, [Risør Videregånde Skole](https://www.austagderfk.no/skole/vgs/risorvgs/).                                                                                   |
 | 1990-1999 | Elementary school, completed at [Tvedestrand Ungdomskole](http://lyngmyr.skole.tvedestrand.no/).                                                                                        |
@@ -71,7 +71,7 @@ are visiting now is written in Rust.
 * [Git](https://git-scm.com/) - Version control system.
 * [Ansible](https://www.ansible.com) - System automation.
 * [OpenAPI](https://www.openapis.org/) - The World's Most Popular Framework for APIs.
-* Given [talks](https://thorsen.pm/presentations/) on various programming related topics.
+* Given [talks](https://thorsenlabs.com/presentations/) on various programming related topics.
 
 ## Projects
 

@@ -12,5 +12,5 @@ accommodating
 
 Want to know more about me? Check out my [curriculum vitae](/curriculum-vitae)
 or have a look at my projects below. Want to get in touch? Send me an
-[email](mailto:hei@thorsen.pm) or choose another option from my
+[email](mailto:hei@thorsenlabs.com) or choose another option from my
 [contact page](/contact).

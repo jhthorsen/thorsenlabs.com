@@ -1,7 +1,7 @@
-# thorsen.pm
+# thorsenlabs.com
 
 The code in this repository is responsible for rendering
-[thorsen.pm](https://thorsen.pm).
+[thorsenlabs.com](https://thorsenlabs.com).
 
 It supports rendering [tera](https://keats.github.io/tera/docs/)
 (Jinja2) powered templates as well as markdown.

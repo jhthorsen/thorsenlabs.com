@@ -6,7 +6,7 @@ This project is shut down.
 Remaining resources
 -------------------
 
-* [Online DOCSIS config file generator](//home.thorsen.pm/services/docsis/)
+* [Online DOCSIS config file generator](//home.thorsenlabs.com/docsisious/)
 * [DOCSIS::ConfigFile Perl module](https://metacpan.org/release/DOCSIS-ConfigFile)
 * [Mojo::SNMP Perl module](https://metacpan.org/release/Mojo-SNMP)
 * [Net::ISC::DHCPd Perl module](https://metacpan.org/release/Net-ISC-DHCPd)

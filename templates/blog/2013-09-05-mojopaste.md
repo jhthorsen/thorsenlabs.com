@@ -41,7 +41,7 @@ Who could be interested?
 -   Maybe you have the need to run a pastebin internally at work.
 -   You just fancy having your own pastebin.
 
-Want to try it out? Check out [mojopaste](http://p.thorsen.pm) on my
+Want to try it out? Check out [mojopaste](http://p.thorsenlabs.com) on my
 server.
 
 What about the future: Version 0.04 will look better on the iPhone and

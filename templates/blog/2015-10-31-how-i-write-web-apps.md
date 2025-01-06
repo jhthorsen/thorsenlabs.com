@@ -164,7 +164,7 @@ script](https://metacpan.org/pod/distribution/Toadfarm/lib/Toadfarm/Manual/Runni
 ### Image resources
 
 It makes a web page more alive if you have nice images. One design is
-for example having a [big photo](http://thorsen.pm) at the top of the
+for example having a [big photo](http://thorsenlabs.com) at the top of the
 page or a blended image in the background. If you need [free (do
 whatever you want) high-resolution photos](https://unsplash.com), you
 can search for them on

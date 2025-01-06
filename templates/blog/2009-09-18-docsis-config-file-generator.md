@@ -3,7 +3,7 @@ title: Online DOCSIS config file editor
 ---
 
 I've written an [online DOCSIS config file
-editor](http://home.thorsen.pm/services/docsis) which (of course) can be
+editor](http://thorsenlabs.com/docsisious) which (of course) can be
 used to generate config files for equipment that follow the [DOCSIS
 specification](http://en.wikipedia.org/wiki/DOCSIS).
 
