@@ -1,4 +1,6 @@
 ---
+title: Curriculum Vitae
+description: An account of my education, accomplishments, work experience, publications, etc.
 header: curriculum-vitae/header.md
 ---
 

@@ -10,6 +10,8 @@ fn create_blog_index_file(blog_index_path: &str) -> Result<bool, ServerError> {
 
     blogs.push(("3000-01-01".to_owned(), format!(
                 r##"---
+title: Blog
+description: My blog
 header: blog/header.md
 footer: blog/footer.md
 ---

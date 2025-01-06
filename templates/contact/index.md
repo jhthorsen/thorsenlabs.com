@@ -1,3 +1,8 @@
+---
+title: Contact
+description: Ways to contact Jan Henning Thorsen
+---
+
 Ways to get in touch
 ====================
 

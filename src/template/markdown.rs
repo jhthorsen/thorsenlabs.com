@@ -14,6 +14,7 @@ pub struct Markdown {
     pub boosted: String,
     pub content: String,
     pub date: String,
+    pub description: String,
     pub footer: String,
     pub header: String,
     pub id: String,
@@ -41,6 +42,7 @@ impl Markdown {
             boosted: String::from("true"),
             content: String::from(""),
             date,
+            description: String::from(""),
             footer: String::from(""),
             header: String::from(""),
             id: basename.to_owned(),
@@ -86,6 +88,7 @@ impl Markdown {
                             match kv[0] {
                                 "boosted" => self.boosted = kv[1].trim().to_owned(),
                                 "date" => self.date = kv[1].trim().to_owned(),
+                                "description" => self.description = kv[1].trim().to_owned(),
                                 "footer" => self.footer = kv[1].trim().to_owned(),
                                 "header" => self.header = kv[1].trim().to_owned(),
                                 "id" => self.id = kv[1].trim().to_owned(),
