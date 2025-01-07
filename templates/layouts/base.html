@@ -7,9 +7,9 @@
     <meta name="twitter:site" content="0">
     <meta name="twitter:card" content="summary">
     <meta property="og:determiner" content="a">
-    <meta name="twitter:url" content="{{ base_url }}{{ path | replace(from=".html", to="") }}">
-    <meta property="og:url" content="{{ base_url }}{{ path | replace(from=".html", to="") }}">
-    <link rel="canonical" href="{{ base_url }}{{ path | replace(from=".html", to="") }}"/>
+    <meta name="twitter:url" content="{{ base_url | safe }}{{ path | replace(from=".html", to="") | safe }}">
+    <meta property="og:url" content="{{ base_url | safe }}{{ path | replace(from=".html", to="") | safe }}">
+    <link rel="canonical" href="{{ base_url | safe }}{{ path | replace(from=".html", to="") | safe }}"/>
 
     {% if article is defined %}
       <title>{% block title %}{{ article.title }}{% endblock title %} - Thorsenlabs</title>
@@ -34,8 +34,8 @@
     {% endif %}
 
     {% block social_image %}
-      <meta name="twitter:image" content="{{ base_url }}/images/jht-profilbilde-e1553101127296-768x693.jpg">
-      <meta property="og:image" content="{{ base_url }}/images/jht-profilbilde-e1553101127296-768x693.jpg">
+      <meta name="twitter:image" content="{{ base_url | safe }}/images/jht-profilbilde-e1553101127296-768x693.jpg">
+      <meta property="og:image" content="{{ base_url | safe }}/images/jht-profilbilde-e1553101127296-768x693.jpg">
     {% endblock %}
 
     <link rel="stylesheet" href="/css/pico2.jade.min.css">
