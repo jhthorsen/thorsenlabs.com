@@ -1,4 +1,6 @@
 ---
+title: Backpack
+description: What to pack
 header: backpack/header.md
 ---
 

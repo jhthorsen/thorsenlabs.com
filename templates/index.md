@@ -1,7 +1,7 @@
 ---
 id: about
-description: About Jan Henning Thorsen
 title: About
+description: About Jan Henning Thorsen
 header: header.md
 boosted: false
 ---
