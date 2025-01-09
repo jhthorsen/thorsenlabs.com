@@ -65,7 +65,27 @@ table {
 }
 
 #header {
-  --pico-nav-element-spacing-vertical: 0.5rem;
+  --pico-nav-element-spacing-horizontal: 0.2rem;
+
+  background-color: var(--pico-background-color);
+  padding-block: 0;
+  margin-bottom: calc(var(--pico-nav-element-spacing-vertical) * -1);
+  opacity: 0.95;
+  z-index: 999;
+
+  &.scrolled {
+    transform: translateY(-100%);
+    position: sticky;
+    top: 0;
+  }
+
+  &.animate {
+    transition: transform 250ms ease-in-out;
+  }
+
+  &.show {
+    transform: translateY(0);
+  }
 
   .brand:hover {
     text-decoration: none;

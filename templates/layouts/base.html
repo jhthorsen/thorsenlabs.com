@@ -55,8 +55,8 @@
 </html>
 {% else %}
   {% block header %}
-    <header id="header" style="--pico-nav-element-spacing-horizontal:0.2rem">
-      <div class="document-width" hx-boost="true" hx-indicator="#loader">
+    <header id="header">
+      <div class="nav-wrapper document-width" hx-boost="true" hx-indicator="#loader">
         <nav>
           <ul>
             <li>
@@ -141,6 +141,35 @@
       document.body.addEventListener('htmx:responseError', ({detail}) => {
         window.thorsen.error(detail.error);
       });
+
+      const header = document.querySelector('#header');
+      const headerHeight = header.offsetHeight;
+      let lastScroll = 0;
+
+      window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+
+        if (!currentScroll) {
+          header.classList.remove('animate');
+          header.classList.remove('scrolled');
+          header.classList.remove('show');
+        }
+        else if (Math.abs(currentScroll - lastScroll) < headerHeight) {
+          return;
+        }
+        else if (currentScroll < lastScroll) {
+          header.classList.add('animate');
+          header.classList.add('show');
+        }
+        else {
+          header.classList.add('scrolled');
+          header.classList.remove('show');
+        }
+
+        lastScroll = currentScroll;
+      });
+
+
     })(window.thorsen || (window.thorsen = {}));
   </script>
   <script type="module">
