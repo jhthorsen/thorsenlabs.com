@@ -11,7 +11,7 @@ boosted: false
 ### Convos
 *A browser based IRC client*
 
-[![Mojopaste - A pastebin](https://convos.chat/screenshots/2020-05-28-convos-chat.jpg)](https://convos.chat/)
+[![Convos illustration](https://convos.chat/screenshots/2020-05-28-convos-chat.jpg)](https://convos.chat/)
 
 [Convos](https://convos.chat/) is an IRC client that runs in your browser and
 brings the IRC experience into the 21st century. It features a persistent
@@ -21,7 +21,7 @@ browser window.
 ### Proxy For URL
 *An online PAC file tester*
 
-[![](/images/2022-02-20-proxyforurl.jpg)](https://thorsenlabs.com/pac)
+[![Proxy For URL illustration](/images/2022-02-20-proxyforurl.jpg)](https://thorsenlabs.com/pac)
 
 [Proxy For URL](https://thorsenlabs.com/pac) is a tool for testing [proxy
 auto-config](https://developer.mozilla.org/en-US/docs/Web/HTTP/Proxy_servers_and_tunneling/Proxy_Auto-Configuration_PAC_file)
@@ -31,7 +31,7 @@ destination or are forwarded to a web proxy server.
 ### Timekeeper
 *A shareable timer*
 
-[![](/images/2022-02-20-timekeeper.jpg)](https://thorsenlabs.com/timer)
+[![Timekeeper illustration](/images/2022-02-20-timekeeper.jpg)](https://thorsenlabs.com/timer)
 
 [Timekeeper](https://thorsenlabs.com/timer) is a web app for creating shareable
 timers. Simply copy and paste the URL in your browser to a friend or coworker
@@ -40,7 +40,7 @@ after setting a timer.
 ### Mojopaste
 *A pastebin*
 
-[![Mojopaste - A pastebin](/images/2022-02-20-mojopaste.jpg)](https://thorsenlabs.com/paste/)
+[![Mojopaste illustration](/images/2022-02-20-mojopaste.jpg)](https://thorsenlabs.com/paste/)
 
 [Mojopaste](https://thorsenlabs.com/paste/) is a pastebin application. There are
 about one million of these out there, but if you need to run something
@@ -50,7 +50,7 @@ application.
 ### Frank Thorsen
 *My dad’s website*
 
-[![](/images/2019-03-23-frank.thorsen.pm.png)](https://frank.thorsen.pm/)
+[![Frank Thorsen illustration](/images/2019-03-23-frank.thorsen.pm.png)](https://frank.thorsen.pm/)
 
 My dad wrote a book, and [this page](https://frank.thorsen.pm/) is about him
 and his book.

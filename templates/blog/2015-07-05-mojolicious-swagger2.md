@@ -1,12 +1,11 @@
 ---
-title: @swaggerapi and #Mojolicious -- How to validate your input/output with a schema
+title: How to validate your input/output with a OpenAPI schema
 ---
 
 ## OUTDATED
 
-**This blog post is outdated. You might want to check out [A RESTful API
-with
-OpenAPI](https://mojolicious.io/blog/2017/12/22/day-22-how-to-build-a-public-rest-api/)
+**This blog post is outdated. You might want to check out
+[A RESTful API with OpenAPI](https://mojolicious.io/blog/2017/12/22/day-22-how-to-build-a-public-rest-api/)
 instead.**
 
 ------------------------------------------------------------------------

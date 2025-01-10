@@ -33,7 +33,7 @@ main > article {
 
   img {
     border-radius: 1rem;
-    max-width: 60vh;
+    width: 60vh;
   }
 }
 
