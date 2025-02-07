@@ -16,7 +16,7 @@ fn template_type_from_path(path: &String) -> Result<String, ServerError> {
     }
 
     Err(ServerError::NotFound(format!(
-        "path=\"{}\" error=\"Type not found\"",
+        "Could not find the requested page. path=\"{}\"",
         path
     )))
 }
@@ -36,6 +36,13 @@ pub async fn get_article(
 
     let mut ctx = crate::template::template_context(&req);
     let ext = template_type_from_path(&article_rel_path.to_owned())?;
+
+    if req.method() == actix_web::http::Method::HEAD {
+        return Ok(HttpResponse::Ok()
+            .content_type(ContentType::html())
+            .finish());
+    }
+
     if ext == "html" {
         let qs = web::Query::<QueryParams>::from_query(req.query_string()).unwrap();
         ctx.insert("query".to_owned(), &qs.into_inner());

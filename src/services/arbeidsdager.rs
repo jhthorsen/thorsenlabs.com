@@ -79,12 +79,17 @@ pub async fn get_arbeidsdager_table(
     state: actix_web::web::Data<crate::AppState>,
 ) -> Result<HttpResponse, ServerError> {
     let mut ctx = crate::template::template_context(&req);
-    ctx.insert(
-        "holidays".to_owned(),
-        &fetch_holidays(year.into_inner()).await?,
-    );
 
-    let rendered = state.tera.render("arbeidsdager/table.html", &ctx)?;
+    let rendered = if req.method() == actix_web::http::Method::HEAD {
+        "".to_owned()
+    } else {
+        ctx.insert(
+            "holidays".to_owned(),
+            &fetch_holidays(year.into_inner()).await?,
+        );
+        state.tera.render("arbeidsdager/table.html", &ctx)?
+    };
+
     Ok(HttpResponse::Ok()
         .content_type(ContentType::html())
         .append_header(("Cache-control", "max-age=86400"))

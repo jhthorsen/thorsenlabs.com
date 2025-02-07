@@ -8,14 +8,18 @@ use crate::template::{document_path, markdown::Markdown};
 fn create_blog_index_file(blog_index_path: &str) -> Result<bool, ServerError> {
     let mut blogs: Vec<(String, String)> = Vec::new();
 
-    blogs.push(("3000-01-01".to_owned(), format!(
-                r##"---
+    blogs.push((
+        "3000-01-01".to_owned(),
+        format!(
+            r##"---
 title: Blog
 description: My blog
 header: blog/header.md
 footer: blog/footer.md
 ---
-"##)));
+"##
+        ),
+    ));
 
     let blog_dir = document_path("blog");
     for blog_dir_item in fs::read_dir(&blog_dir)? {
@@ -72,8 +76,13 @@ pub async fn get_blog_index(
     state: actix_web::web::Data<crate::AppState>,
     req: actix_web::HttpRequest,
 ) -> Result<HttpResponse, ServerError> {
-    let mut ctx = crate::template::template_context(&req);
+    if req.method() == actix_web::http::Method::HEAD {
+        return Ok(HttpResponse::Ok()
+            .content_type(ContentType::html())
+            .finish());
+    }
 
+    let mut ctx = crate::template::template_context(&req);
     let blog_dir = document_path("blog");
     let blog_index_path = &format!("{}/index.md", &blog_dir);
     if mtime(blog_dir.as_str()) > mtime(format!("{}/list.md", &blog_dir).as_str()) {
@@ -102,6 +111,12 @@ pub async fn get_blog_post(
     state: actix_web::web::Data<crate::AppState>,
     req: actix_web::HttpRequest,
 ) -> Result<HttpResponse, ServerError> {
+    if req.method() == actix_web::http::Method::HEAD {
+        return Ok(HttpResponse::Ok()
+            .content_type(ContentType::html())
+            .finish());
+    }
+
     let mut ctx = crate::template::template_context(&req);
 
     let blog_id = req
