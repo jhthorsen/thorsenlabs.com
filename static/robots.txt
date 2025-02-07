@@ -1,2 +1,4 @@
 User-agent: *
+Disallow: /dist
+Disallow: /report
 Disallow: /v1
