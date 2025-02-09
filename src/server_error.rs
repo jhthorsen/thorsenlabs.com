@@ -17,6 +17,13 @@ impl From<reqwest::Error> for ServerError {
     }
 }
 
+impl From<serde_json::Error> for ServerError {
+    fn from(err: serde_json::Error) -> ServerError {
+        log::error!("type=\"serde_json::Error\" error=\"{:?}\"", err);
+        ServerError::InternalServerError(err.to_string())
+    }
+}
+
 impl From<std::io::Error> for ServerError {
     fn from(err: std::io::Error) -> ServerError {
         log::error!("type=\"std::io::Error\" error=\"{:?}\"", err);

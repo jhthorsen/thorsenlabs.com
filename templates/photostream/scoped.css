@@ -1,0 +1,146 @@
+.photostream-overview,
+.photostream-viewer {
+  --border-radius: 0.4rem;
+
+  figure {
+    background-color: var(--pico-card-sectioning-background-color);
+    background-image: var(--pico-icon-loading);
+    background-position: 50% 50%;
+    background-repeat: none;
+    border-radius: var(--border-radius);
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+  }
+
+  img {
+    max-height: 100%;
+  }
+}
+
+.photostream-overview {
+  margin-left: calc(var(--pico-spacing) * -1);
+  margin-right: calc(var(--pico-spacing) * -1);
+  display: grid;
+  grid-template-columns: repeat(var(--photostream-columns, 3), 1fr);
+  grid-gap: var(--pico-spacing);
+
+  figure {
+    cursor: pointer;
+
+    &.unknown {
+      bacground: red;
+      opacity: 0.5;
+    }
+  }
+
+  figcaption {
+    background: hsla(0, 0%, 10%, 85%);
+    color: hsl(0, 0%, 90%);
+    font-size: 0.8rem;
+    border-bottom-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    padding: var(--border-radius);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transition: opacity 200ms ease-in-out;
+  }
+
+  img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    display: none;
+  }
+
+  figure.is-intersecting img {
+    display: block;
+  }
+}
+
+.photostream-viewer {
+  background-color: var(--pico-background-color);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 0;
+  z-index: 1001;
+  -webkit-overflow-scrolling: touch;
+  transition: opacity 200ms ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+
+  &.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  figure {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: center;
+  }
+
+  img {
+    object-fit: contain;
+    max-height: calc(100% - var(--pico-spacing));
+    max-width: calc(100% - var(--pico-spacing));
+  }
+}
+
+.photostream-viewer-controls {
+  background-color: hsla(0, 0%, 0%, 0.3);
+  border-bottom-left-radius: var(--pico-spacing);
+  padding: calc(var(--pico-spacing) / 4) 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1001;
+
+  a {
+    --nav-color: #dddddd;
+    padding: calc(var(--pico-spacing) / 4) calc(var(--pico-spacing) / 2);
+    width: max(5vw, 3rem);
+    display: none;
+    opacity: 0.6;
+    transform: translateX(100%);
+    transition: all 250ms ease-in-out;
+
+    &:hover {
+      opacity: 1;
+      --nav-color: #ffffff;
+    }
+  }
+
+  a:nth-of-type(1) {
+    display: block;
+  }
+
+  &:hover {
+    a ~ a {
+      display: block;
+    }
+  }
+
+  svg {
+    width: 100%;
+  }
+}
+
+.photostream-viewer.open ~ .photostream-viewer-controls {
+  a {
+    transform: translateX(0);
+  }
+}
