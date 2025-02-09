@@ -4,6 +4,7 @@ use actix_web::web;
 mod arbeidsdager;
 mod article;
 mod blog;
+mod photostream;
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
     let static_dir = std::env::var("THORSEN_STATIC_DIR").unwrap_or("./static".to_owned());
@@ -39,6 +40,17 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
         web::resource("/blog/{blog_id}.html")
             .route(web::get().to(blog::get_blog_post))
             .route(web::head().to(blog::get_blog_post)),
+    );
+
+    cfg.service(
+        web::resource("/photostream/{icloud_id}")
+            .route(web::get().to(photostream::get_photostream))
+            .route(web::head().to(photostream::get_photostream)),
+    );
+
+    cfg.service(
+        web::resource("/photostream/{icloud_id}/webassets")
+            .route(web::post().to(photostream::post_webasset_urls)),
     );
 
     cfg.service(

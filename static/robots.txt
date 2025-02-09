@@ -1,4 +1,5 @@
 User-agent: *
 Disallow: /dist
+Disallow: /photostream/*
 Disallow: /report
 Disallow: /v1
