@@ -11,6 +11,9 @@ mod blog;
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
     let static_dir = std::env::var("THORSEN_STATIC_DIR").unwrap_or("./static".to_owned());
+    cfg.service(Files::new("/css", format!("{}/css", static_dir)).prefer_utf8(true));
+    cfg.service(Files::new("/js", format!("{}/js", static_dir)).prefer_utf8(true));
+    cfg.service(Files::new("/images", format!("{}/images", static_dir)).prefer_utf8(true));
 
     cfg.service(
         web::resource("/arbeidsdager/table/{year}")
@@ -47,8 +50,4 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
             .route(web::get().to(get_article))
             .route(web::head().to(get_article)),
     );
-
-    cfg.service(Files::new("/css", format!("{}/css", static_dir)).prefer_utf8(true));
-    cfg.service(Files::new("/js", format!("{}/js", static_dir)).prefer_utf8(true));
-    cfg.service(Files::new("/images", format!("{}/images", static_dir)).prefer_utf8(true));
 }
