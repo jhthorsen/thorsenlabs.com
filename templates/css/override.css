@@ -30,11 +30,6 @@ pre {
 main > article {
   --pico-block-spacing-vertical: 2rem;
   background-color: transparent;
-
-  img {
-    border-radius: 1rem;
-    width: 60vh;
-  }
 }
 
 article > header table {

@@ -22,4 +22,9 @@ article#about {
     font-style: italic;
     margin-block-end: var(--pico-spacing);
   }
+
+  img {
+    border-radius: 1rem;
+    max-width: 60vh;
+  }
 }
