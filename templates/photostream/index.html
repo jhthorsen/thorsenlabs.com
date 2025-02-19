@@ -151,7 +151,7 @@
 
       for (const $figure of $overview.querySelectorAll('.image, .video')) {
         const $dup = document.createElement('figure');
-        $dup.className = $figure.className;
+        $dup.className = $figure.className + ' dvh dvw';
         $dup.dataset.viewerChecksum = $figure.dataset.viewerChecksum;
         $viewer.appendChild($dup);
         observer.observe($dup);
@@ -172,7 +172,7 @@
       if (!src.match(urlRe)) return; // Prevent XSS
 
       if ($figure.classList.contains('video')) {
-        $figure.innerHTML = `<video controls src="${src}"></video>`;
+        $figure.innerHTML = `<video controls playsinline src="${src}#t=0.001"></video>`;
       } else {
         $figure.innerHTML = `<img src="${src}" alt="">`;
       }

@@ -2,18 +2,8 @@
 .photostream-viewer {
   --border-radius: 0.4rem;
 
-  figure {
-    background-color: var(--pico-card-sectioning-background-color);
-    background-image: var(--pico-icon-loading);
-    background-position: 50% 50%;
-    background-repeat: none;
-    border-radius: var(--border-radius);
-    position: relative;
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-  }
-
-  img {
+  img,
+  video {
     max-height: 100%;
   }
 }
@@ -30,7 +20,15 @@
   }
 
   figure {
+    background-color: var(--pico-card-sectioning-background-color);
+    background-image: var(--pico-icon-loading);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
     cursor: pointer;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--border-radius);
+    position: relative;
+    overflow: hidden;
 
     &.unknown {
       background: red;
@@ -80,7 +78,7 @@
   bottom: 0;
   left: 0;
   overflow-x: auto;
-  overscroll-behavior-x: contain;
+  overscroll-behavior: contain;
   scroll-snap-type: x mandatory;
   display: grid;
   grid-auto-flow: column;
@@ -97,8 +95,6 @@
   }
 
   figure {
-    height: 100vh;
-    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -108,8 +104,8 @@
   img,
   video {
     object-fit: contain;
-    max-height: calc(100% - var(--pico-spacing));
-    max-width: calc(100% - var(--pico-spacing));
+    max-height: 100%;
+    max-width: 100%;
   }
 }
 
