@@ -5,7 +5,7 @@ use crate::server_error::ServerError;
 pub async fn git_push(
     body: web::Bytes,
 ) -> Result<HttpResponse, ServerError> {
-    let update_file = format!("/tmp/pushed");
+    let update_file = format!("/tmp/git-push-thorsenlabs.com.json");
     std::fs::write(&update_file, body.to_vec())?;
 
     Ok(HttpResponse::Ok()
