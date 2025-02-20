@@ -3,6 +3,7 @@ use actix_web::web;
 
 mod arbeidsdager;
 mod article;
+mod events;
 mod blog;
 mod photostream;
 
@@ -11,6 +12,16 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
     cfg.service(Files::new("/css", format!("{}/css", static_dir)).prefer_utf8(true));
     cfg.service(Files::new("/js", format!("{}/js", static_dir)).prefer_utf8(true));
     cfg.service(Files::new("/images", format!("{}/images", static_dir)).prefer_utf8(true));
+
+    match std::env::var("THORSEN_EVENT_SECRET") {
+        Ok(event_secret) => {
+            cfg.service(
+                web::resource(format!("/events/{}/push", event_secret))
+                    .route(web::post().to(events::git_push)),
+            );
+        }
+        Err(_) => { },
+    }
 
     cfg.service(
         web::resource("/arbeidsdager/table/{year}")
