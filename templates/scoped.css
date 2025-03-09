@@ -25,6 +25,6 @@ article#about {
 
   img {
     border-radius: 1rem;
-    max-width: 60vh;
+    max-width: min(60vh, 100%);
   }
 }
