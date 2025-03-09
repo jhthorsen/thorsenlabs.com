@@ -31,9 +31,9 @@ destination or are forwarded to a web proxy server.
 ### Timekeeper
 *A shareable timer*
 
-[![Timekeeper illustration](/images/2022-02-20-timekeeper.jpg)](https://thorsenlabs.com/timer)
+[![Timekeeper illustration](/images/2022-02-20-timekeeper.jpg)](/timer)
 
-[Timekeeper](https://thorsenlabs.com/timer) is a web app for creating shareable
+[Timekeeper](/timer) is a web app for creating shareable
 timers. Simply copy and paste the URL in your browser to a friend or coworker
 after setting a timer.
 
