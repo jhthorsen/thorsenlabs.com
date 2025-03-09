@@ -405,7 +405,7 @@ class Timekeeper {
     this._state('editing');
     let total = 0;
     for (const name of this.inputNames) {
-      const val = localStorage.getItem('timer_' + name);
+      const val = localStorage.getItem('timer_' + name) || '0';
       total += val;
       this._renderInput(this.formEl[name], val);
     }
