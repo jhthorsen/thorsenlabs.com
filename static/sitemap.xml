@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://thorsenlabs.com/</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/contact</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/curriculum-vitae</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/pac</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/timer</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/paste/</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/arbeidsdager</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/how-many-hours-can-i-stream</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/docsisious</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/map</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2025-03-09-home-assistant</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2024-10-30-why-i-do-not-need-an-orm</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2024-10-27-lets-get-rusty</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2024-10-22-nextcloud-and-caddy</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2024-07-24-my-take-on-gpg-forwarding</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2022-06-12-mojo-ioloop-and-subprocesses</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2022-05-30-write-and-test-your-perl-command-line-tools-with-ease</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2017-05-03-test-mojo-selenium-make-testing-fun-again</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2016-02-21-rewriting-assetpack-plugin</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2015-10-31-how-i-write-web-apps</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2015-09-20-testing-with-a-real-database</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2015-08-31-convos-revamped</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2015-07-10-a-restful-backend</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2015-07-05-mojolicious-swagger2</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2014-09-27-thinkpad-x240</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2014-03-09-mojolicious-on-digitalocean</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2014-03-02-convos-on-digitalocean</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2013-09-05-mojopaste</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2013-08-13-toadfarm</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2012-09-15-mojo-dotcloud-deploy</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2012-07-20-applify</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2012-07-14-cloudinary-lite-app</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2012-07-11-cloudinary-effects</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2012-07-10-cloudinary-how-to-deliver-your-static-images</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2010-07-13-x200-beep</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2010-07-12-x10-mini</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2009-09-18-docsis-config-file-generator</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2009-09-10-catalyst-controller-sugar</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2009-09-09-rt-tickets</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2009-06-01-line-noise-parentheses</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2009-05-30-moose-is-cool</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2009-05-12-dhcpd-module-name</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2008-05-25-multimedia-updates-partially-old-news</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2008-05-06-more-perl-modules</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2008-01-13-720p</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2007-09-01-quelea-cable-modems-and-cmts</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2007-08-30-yapc-europe-2007-vienna</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2006-09-04-yapc-europe-2006</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2006-03-07-xgl</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/blog/2006-02-19-snmp-effective-2</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/docsisious/parameters</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/docsisious/edit/example</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/backpack/</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/paste</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://thorsenlabs.com/docsisious/</loc>
+  <lastmod>2025-03-10T13:38:04+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+
+
+</urlset>
