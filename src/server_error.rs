@@ -12,28 +12,28 @@ pub enum ServerError {
 
 impl From<reqwest::Error> for ServerError {
     fn from(err: reqwest::Error) -> ServerError {
-        log::error!("type=\"reqwest::Error\" error=\"{:?}\"", err);
+        log::error!("type=\"reqwest\" error=\"{:?}\"", err);
         ServerError::InternalServerError(err.to_string())
     }
 }
 
 impl From<serde_json::Error> for ServerError {
     fn from(err: serde_json::Error) -> ServerError {
-        log::error!("type=\"serde_json::Error\" error=\"{:?}\"", err);
+        log::error!("type=\"serde_json\" error=\"{:?}\"", err);
         ServerError::InternalServerError(err.to_string())
     }
 }
 
 impl From<std::io::Error> for ServerError {
     fn from(err: std::io::Error) -> ServerError {
-        log::error!("type=\"std::io::Error\" error=\"{:?}\"", err);
+        log::error!("type=\"std::io\" error=\"{:?}\"", err);
         ServerError::InternalServerError(err.to_string())
     }
 }
 
 impl From<tera::Error> for ServerError {
     fn from(err: tera::Error) -> ServerError {
-        log::error!("type=\"tera::Error\" error=\"{:?}\"", err);
+        log::error!("type=\"tera\" error=\"{:?}\"", err);
         ServerError::InternalServerError(err.to_string())
     }
 }
