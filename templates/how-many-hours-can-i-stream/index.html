@@ -5,9 +5,9 @@
 
 {% block content %}
 <main role="document" class="document-width">
-  <article id="how-many-hours-can-i-stream" hx-boost="true" hx-indicator="#loader">
+  <article id="how-many-hours-can-i-stream">
     <h1>How many hours can I stream?</h1>
-    <form method="get" action="/how-many-hours-can-i-stream" hx-on:submit="thorsen.planAndStreamToHours(event)" hx-boost="false">
+    <form method="get" action="/how-many-hours-can-i-stream" on="submit:window.thorsen.planAndStreamToHours">
       <div class="cluster">
         <label>
           <strong>Plan (GB/month)</strong>

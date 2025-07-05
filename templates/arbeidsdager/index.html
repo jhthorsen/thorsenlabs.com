@@ -9,12 +9,12 @@
 {% set to = query.to | default(value=default_to) %}
 {% set year = to | split(pat="-") | first %}
 <main role="document" class="document-width">
-  <article id="arbeidsdager" hx-select="[role=document]" hx-target="[role=document]">
+  <article id="arbeidsdager">
     <header>
       {{ markdown(name = "arbeidsdager/header.md") | safe }}
     </header>
 
-    <form method="get" action="/arbeidsdager" hx-on:submit="thorsen.calculateWorkingDays(event)">
+    <form method="get" action="/arbeidsdager" on="submit:window.thorsen.calculateWorkingDays">
       <table>
         <thead>
           <tr>
@@ -81,12 +81,7 @@
     </form>
 
     <h2>Helligdager</h2>
-    <table id="holidays-table"
-      hx-get="/arbeidsdager/table/{{ year }}"
-      hx-trigger="load"
-      hx-target="#holidays-table"
-      hx-select="#holidays-table"
-      hx-swap="outerHTML">
+    <table id="holidays-table" fx-action="/arbeidsdager/table/{{ year }}" fx-trigger="fx:inited">
       <tbody>
         <tr><td>Laster data...</td></tr>
       </tbody>
@@ -126,11 +121,11 @@
       if (event) event.preventDefault();
       const $form = document.querySelector("form[action=\"/arbeidsdager\"]");
 
-      const to = str2date(el($form, "input[name=to]").value);
-      let from = new Date(to.getFullYear(), 0, 1);
+      const to = str2date(el($form, 'input[name="to"]').value);
+      const from = new Date(to.getFullYear(), 0, 1);
 
       const result = {holidays: 0, weekends: 0};
-      result.days = ((to.valueOf() - from.valueOf()) / ONE_DAY) + 1;
+      result.days = Math.ceil(((to.valueOf() - from.valueOf()) / ONE_DAY) + 1);
 
       let easter;
       for (const $tr of document.querySelectorAll("#holidays-table [data-kind]")) {

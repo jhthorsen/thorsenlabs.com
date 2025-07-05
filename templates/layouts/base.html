@@ -54,14 +54,9 @@
     {% endif %}
   </head>
   <body>
-{% if htmx.boosted %}
-  <header id="header" hx-preserve="true"></header>
-</body>
-</html>
-{% else %}
   {% block header %}
     <header id="header">
-      <div class="nav-wrapper document-width" hx-boost="true" hx-indicator="#loader">
+      <div class="nav-wrapper document-width">
         <nav>
           <ul>
             <li>
@@ -80,50 +75,49 @@
     </header>
   {% endblock %}
 
-  <dialog id="error_dialog">
-    <article>
-      <header>
-        <h2>Error</h2>
-      </header>
-      <p>Unknown error.</p>
-      <footer>
-        <button class="secondary" hx-on:click="thorsen.error()">Close</button>
-      </footer>
-    </article>
-  </dialog>
-{% endif %}
-
-<progress id="loader" class="htmx-indicator"></progress>
+  <progress id="loader" class="loading-indicator"></progress>
 
 {% block content %}<p>content missing!</p>{% endblock %}
 
-{% if htmx.boosted and article is defined %}
-<style data-scope-id="{{ article.scoped_css | slugify }}">
-  {{ slurp(name=article.scoped_css, fallback="/* scoped.css */") | safe }}
-</style>
-{% endif %}
-
-{% if htmx.boosted %}
-  <footer id="footer" hx-preserve="true"></footer>
-{% else %}
-  {% block footer %}
-    <footer id="footer">
-      <div class="document-width">
-    {% filter markdown %}
+{% block footer %}
+  <footer id="footer">
+    <div class="document-width">
+      {% filter markdown %}
 &copy; 2024 - Powered by
 [Hetzner](https://www.hetzner.com),
-[htmx](https://htmx.org/) and
+[fixi](https://github.com/bigskysoftware/fixi) and
 [Rust](https://www.rust-lang.org/).
-    {% endfilter %}
-      </div>
-    </footer>
-  {% endblock %}
+      {% endfilter %}
+    </div>
+  </footer>
+{% endblock %}
 
-  <script>
-// https://github.com/bigskysoftware/fixi/commit/9a99caecda1364073200ff05ad1e6b0e7a2593f1
-(()=>{
+  <script src="https://unpkg.com/idiomorph@0.7.3" class="fx-global"></script>
+  <script class="fx-global">(()=>{
+  // bigskysoftware/fixi/blob/9a99caecda1364073200ff05ad1e6b0e7a2593f1
   if(document.__fixi_mo) return;
   document.__fixi_mo = new MutationObserver((recs)=>recs.forEach((r)=>r.type === "childList" && r.addedNodes.forEach((n)=>process(n))))
+  function render(html) {
+    const scripts = [];
+    const $head = document.documentElement.querySelector("head");
+    for (const $el of document.querySelectorAll('body > script')) {
+      if (!$el.classList.contains('fx-global')) $el.remove();
+    }
+    for (const $el of html.querySelectorAll('body > script')) {
+      $el.remove();
+      if (!$el.classList.contains('fx-global')) scripts.push($el.textContent);
+    }
+
+    Idiomorph.morph(document.documentElement, html);
+
+    for (const script of scripts) {
+      const $clone = document.createElement('script');
+      $clone.textContent = script;
+      $clone.classList.add('fx-dynamic');
+      document.body.appendChild($clone);
+    }
+  }
+
   let send = (elt, type, detail, bub)=>elt.dispatchEvent(new CustomEvent("fx:" + type, {detail, cancelable:true, bubbles:bub !== false, composed:true}))
   let attr = (elt, name, defaultVal)=>elt.getAttribute(name) || defaultVal
   let ignore = (elt)=>elt.closest("[fx-ignore]") != null
@@ -135,13 +129,14 @@
       let form = elt.form || elt.closest("form")
       let body = new FormData(form ?? undefined, evt.submitter)
       if (!form && elt.name) body.append(elt.name, elt.value)
+      let target = document.querySelector(attr(elt, "fx-target")) ?? (attr(elt, "fx-action") ? elt : document.body);
       let ac = new AbortController()
       let cfg = {
         trigger:evt,
-        action:attr(elt, "fx-action"),
-        method:attr(elt, "fx-method", "GET").toUpperCase(),
-        target:document.querySelector(attr(elt, "fx-target")) ?? elt,
-        swap:attr(elt, "fx-swap", "outerHTML"),
+        action:attr(elt, "fx-action", elt.action || elt.href),
+        method:attr(elt, "fx-method", elt.method || "GET").toUpperCase(),
+        swap:attr(elt, "fx-swap", target === document.body ? "document" : "outerHTML"),
+        target:target,
         body,
         drop:reqs.size,
         headers:{"FX-Request":"true"},
@@ -151,13 +146,15 @@
         transition:document.startViewTransition?.bind(document),
         fetch:fetch.bind(window)
       }
+      cfg.dom = () => cfg._dom || (cfg._dom = new DOMParser().parseFromString(cfg.text, 'text/html'));
       let go = send(elt, "config", {cfg, requests:reqs})
       if (cfg.preventTrigger) evt.preventDefault()
       if (!go || cfg.drop) return
       if (/GET|DELETE/.test(cfg.method)){
         let params = new URLSearchParams(cfg.body)
-        if (params.size)
+        if (params.size) {
           cfg.action += (/\?/.test(cfg.action) ? "&" : "?") + params
+        }
         cfg.body = null
       }
       reqs.add(cfg)
@@ -167,6 +164,7 @@
           if (!result) return
         }
         if (!send(elt, "before", {cfg, requests:reqs})) return
+        document.getElementById("loader").classList.add("active")
         cfg.response = await cfg.fetch(cfg.action, cfg)
         cfg.text = await cfg.response.text()
         if (!send(elt, "after", {cfg})) return
@@ -175,21 +173,26 @@
         return
       } finally {
         reqs.delete(cfg)
+        document.getElementById("loader").classList.remove("active")
         send(elt, "finally", {cfg})
       }
       let doSwap = ()=>{
-        if (cfg.swap instanceof Function)
+        if (cfg.swap instanceof Function) {
           return cfg.swap(cfg)
-        else if (/(before|after)(begin|end)/.test(cfg.swap))
+        } else if (cfg.swap === 'document') {
+          render(cfg.dom().documentElement)
+        } else if (/(before|after)(begin|end)/.test(cfg.swap)) {
           cfg.target.insertAdjacentHTML(cfg.swap, cfg.text)
-        else if(cfg.swap in cfg.target)
+        } else if(cfg.swap in cfg.target) {
           cfg.target[cfg.swap] = cfg.text
+        }
         else throw cfg.swap
       }
-      if (cfg.transition)
+      if (cfg.transition) {
         await cfg.transition(doSwap).finished
-      else
+      } else {
         await doSwap()
+      }
       send(elt, "swapped", {cfg})
       if (!document.contains(elt)) send(document, "swapped", {cfg})
     }
@@ -200,100 +203,86 @@
   let process = (n)=>{
     if (n.matches){
       if (ignore(n)) return
-      if (n.matches("[fx-action]")) init(n)
+      if (n.matches("[fx-action]") || n.matches('a[href^="/"]')) init(n)
     }
-    if(n.querySelectorAll) n.querySelectorAll("[fx-action]").forEach(init)
+    if(n.querySelectorAll) n.querySelectorAll('[fx-action], a[href^="/"]').forEach(init)
+    if(n.querySelectorAll) n.querySelectorAll('[on]').forEach((elt)=>{
+      const on = new Function('"use strict";return{'+elt.getAttribute('on')+'}')();
+      for (k in on) elt.addEventListener(k, on[k])
+    })
   }
-  document.addEventListener("fx:process", (evt)=>process(evt.target))
-  document.addEventListener("DOMContentLoaded", ()=>{
+  document.addEventListener('fx:process', (evt)=>process(evt.target))
+  document.addEventListener('DOMContentLoaded', ()=>{
     document.__fixi_mo.observe(document.documentElement, {childList:true, subtree:true})
     process(document.body)
   })
-})()
-  </script>
+  document.addEventListener('fx:error', (evt)=>{
+    alert(evt.detail.error);
+  });
+  document.addEventListener('fx:after', (evt)=>{
+    const elt = evt.target;
+    if (elt.hasAttribute('ext-fx-push') || (!elt.matches('[fx-action]') && elt.matches('a'))){
+      history.replaceState({fixi:true, url:location.href}, '', location.href)
+      history.pushState({fixi:true, url:evt.detail.cfg.response.url}, '', evt.detail.cfg.response.url)
+    }
+  })
+  window.addEventListener('popstate', async(evt)=>{
+    if (evt.state.fixi){
+      const historyResp = await fetch(evt.state.url);
+      const dom = new DOMParser().parseFromString(await historyResp.text(), 'text/html');
+      render(dom.documentElement);
+      document.dispatchEvent(new CustomEvent('fx:process'))
+    }
+  })
 
-  <script>
-    ((thorsen) => {
-      thorsen.error = (err) => {
-        const dialog = document.getElementById("error_dialog");
-        if (err) {
-          dialog.querySelector("p").innerText = err;
-          dialog.showModal();
-        }
-        else {
-          dialog.close();
-        }
-      };
+  const header = document.querySelector('#header');
+  const headerHeight = header.offsetHeight;
+  let lastScroll = 0;
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
 
-      document.body.addEventListener('htmx:afterSwap', ({detail}) => {
-        const $head = document.documentElement.querySelector("head");
-        for (const $added of detail.elt.querySelectorAll("style")) {
-          const scopeId = $added.dataset.scopeId;
-          const $existing = scopeId && $head.querySelector(`[data-scope-id="${scopeId}"]`)
-          if ($existing) $existing.remove();
-          document.documentElement.querySelector("head").append($added);
-        }
-      });
+    if (!currentScroll) {
+      header.classList.remove('animate');
+      header.classList.remove('scrolled');
+      header.classList.remove('show');
+   }
+    else if (Math.abs(currentScroll - lastScroll) < headerHeight) {
+      return;
+    }
+    else if (currentScroll < lastScroll) {
+      header.classList.add('animate');
+      header.classList.add('show');
+    }
+    else {
+      header.classList.add('scrolled');
+      header.classList.remove('show');
+    }
 
-      document.body.addEventListener('htmx:responseError', ({detail}) => {
-        window.thorsen.error(detail.error);
-      });
+    lastScroll = currentScroll;
+  });
+  })()</script>
+  <script type="module" class="fx-global">
+  async function syntaxHighlight(){
+    const $code_blocks = document.querySelectorAll("pre > code");
+    if ($code_blocks.length === 0) return;
 
-      const header = document.querySelector('#header');
-      const headerHeight = header.offsetHeight;
-      let lastScroll = 0;
+    const {codeToHtml} = await import('https://esm.sh/shiki@1.0.0');
+    for (const $code_block of $code_blocks) {
+      try {
+        const lang = $code_block.className.replace(/.*language-(\w+).*/, "$1");
+        const $pre = $code_block.closest("pre") || $code_block;
+        $pre.outerHTML = await codeToHtml($code_block.innerText, {
+          lang: lang || "yaml",
+          theme: "tokyo-night",
+        });
+      } catch (err) {
+        console.error($code_block, err);
+      }
+    }
+  };
 
-      window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-
-        if (!currentScroll) {
-          header.classList.remove('animate');
-          header.classList.remove('scrolled');
-          header.classList.remove('show');
-        }
-        else if (Math.abs(currentScroll - lastScroll) < headerHeight) {
-          return;
-        }
-        else if (currentScroll < lastScroll) {
-          header.classList.add('animate');
-          header.classList.add('show');
-        }
-        else {
-          header.classList.add('scrolled');
-          header.classList.remove('show');
-        }
-
-        lastScroll = currentScroll;
-      });
-
-
-    })(window.thorsen || (window.thorsen = {}));
-  </script>
-  <script type="module">
-    ((thorsen) => {
-      thorsen.syntaxHighlight = async () => {
-        const $code_blocks = document.querySelectorAll("pre > code");
-        if ($code_blocks.length === 0) return;
-
-        const {codeToHtml} = await import('https://esm.sh/shiki@1.0.0');
-        for (const $code_block of $code_blocks) {
-          try {
-            const lang = $code_block.className.replace(/.*language-(\w+).*/, "$1");
-            const $pre = $code_block.closest("pre") || $code_block;
-            $pre.outerHTML = await codeToHtml($code_block.innerText, {
-              lang: lang || "yaml",
-              theme: "tokyo-night",
-            });
-          } catch (err) {
-            console.error($code_block, err);
-          }
-        }
-      };
-
-      document.body.addEventListener('htmx:afterSwap', () => thorsen.syntaxHighlight());
-      thorsen.syntaxHighlight();
-    })(window.thorsen || (window.thorsen = {}));
+  document.addEventListener('fx:after', syntaxHighlight);
+  syntaxHighlight();
   </script>
 </body>
 </html>
-{% endif %}

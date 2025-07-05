@@ -2,7 +2,6 @@ use actix_web::http::header::HeaderValue;
 use actix_web::HttpRequest;
 use markdown::Markdown;
 use regex::Regex;
-use serde::{Deserialize, Serialize};
 use serde_json::value::to_value;
 use std::collections::HashMap;
 use std::env;
@@ -12,16 +11,6 @@ use std::sync::OnceLock;
 use tera::{Context, Error, Tera};
 
 pub mod markdown;
-
-#[derive(Serialize, Deserialize, Debug)]
-struct HtmxHeaders {
-    boosted: bool,
-    history_restore_request: bool,
-    request: bool,
-    target: String,
-    trigger: String,
-    trigger_name: String,
-}
 
 pub fn global_tera() -> Tera {
     static TERA: OnceLock<Tera> = OnceLock::new();
@@ -52,17 +41,8 @@ fn header_value_to_string(value: Option<&HeaderValue>) -> String {
 pub fn template_context(req: &HttpRequest) -> Context {
     let mut ctx = Context::new();
     let h = req.headers();
-    ctx.insert(
-        "htmx",
-        &HtmxHeaders {
-            boosted: h.get("HX-Boosted").is_some(),
-            history_restore_request: h.get("HX-History-Restore-Request").is_some(),
-            request: h.get("HX-Request").is_some(),
-            target: header_value_to_string(h.get("HX-Target")),
-            trigger: header_value_to_string(h.get("HX-Trigger")),
-            trigger_name: header_value_to_string(h.get("HX-Trigger-Name")),
-        },
-    );
+    let boosted = header_value_to_string(h.get("FX-Request")) == "true";
+    ctx.insert("boosted", &boosted);
 
     ctx.insert("path", req.path());
     ctx.insert(
