@@ -54,11 +54,6 @@
     {% endif %}
   </head>
   <body>
-{% if htmx.boosted %}
-  <header id="header" hx-preserve="true"></header>
-</body>
-</html>
-{% else %}
   {% block header %}
     <header id="header">
       <div class="nav-wrapper document-width" hx-boost="true" hx-indicator="#loader">
@@ -91,36 +86,27 @@
       </footer>
     </article>
   </dialog>
-{% endif %}
 
-<progress id="loader" class="htmx-indicator"></progress>
+<progress id="loader" class="loading-indicator"></progress>
 
 {% block content %}<p>content missing!</p>{% endblock %}
 
-{% if htmx.boosted and article is defined %}
-<style data-scope-id="{{ article.scoped_css | slugify }}">
-  {{ slurp(name=article.scoped_css, fallback="/* scoped.css */") | safe }}
-</style>
-{% endif %}
-
-{% if htmx.boosted %}
-  <footer id="footer" hx-preserve="true"></footer>
-{% else %}
-  {% block footer %}
-    <footer id="footer">
-      <div class="document-width">
-    {% filter markdown %}
+{% block footer %}
+  <footer id="footer">
+    <div class="document-width">
+      {% filter markdown %}
 &copy; 2024 - Powered by
 [Hetzner](https://www.hetzner.com),
-[htmx](https://htmx.org/) and
+[fixi](https://github.com/bigskysoftware/fixi) and
 [Rust](https://www.rust-lang.org/).
-    {% endfilter %}
-      </div>
-    </footer>
-  {% endblock %}
+      {% endfilter %}
+    </div>
+  </footer>
+{% endblock %}
 
   <script>
-// https://github.com/bigskysoftware/fixi/commit/9a99caecda1364073200ff05ad1e6b0e7a2593f1
+// https://github.com/bigskysoftware/fixi/blob/9a99caecda1364073200ff05ad1e6b0e7a2593f1/fixi.js
+// And some custom modifications
 (()=>{
   if(document.__fixi_mo) return;
   document.__fixi_mo = new MutationObserver((recs)=>recs.forEach((r)=>r.type === "childList" && r.addedNodes.forEach((n)=>process(n))))
@@ -136,12 +122,13 @@
       let body = new FormData(form ?? undefined, evt.submitter)
       if (!form && elt.name) body.append(elt.name, elt.value)
       let ac = new AbortController()
+      let target = document.querySelector(attr(elt, "fx-target")) ?? (elt.matches("[fx-action]") ? elt : document.body);
       let cfg = {
         trigger:evt,
-        action:attr(elt, "fx-action"),
+        action:attr(elt, "fx-action", elt.action || elt.href),
         method:attr(elt, "fx-method", "GET").toUpperCase(),
-        target:document.querySelector(attr(elt, "fx-target")) ?? elt,
-        swap:attr(elt, "fx-swap", "outerHTML"),
+        target:target,
+        swap:attr(elt, "fx-swap", target == document.body ? "innerHTML" : "outerHTML"),
         body,
         drop:reqs.size,
         headers:{"FX-Request":"true"},
@@ -169,6 +156,7 @@
         if (!send(elt, "before", {cfg, requests:reqs})) return
         cfg.response = await cfg.fetch(cfg.action, cfg)
         cfg.text = await cfg.response.text()
+        if (target == document.body) cfg.text = cfg.text.replace(/.*<body[^>]*>/, "").replace(/<\/body>.*/, "")
         if (!send(elt, "after", {cfg})) return
       } catch(error) {
         send(elt, "error", {cfg, error})
@@ -200,18 +188,35 @@
   let process = (n)=>{
     if (n.matches){
       if (ignore(n)) return
-      if (n.matches("[fx-action]")) init(n)
+      if (n.matches("[fx-action]") || n.matches('a[href^="/"]')) init(n)
     }
-    if(n.querySelectorAll) n.querySelectorAll("[fx-action]").forEach(init)
+    if(n.querySelectorAll) n.querySelectorAll('[fx-action], a[href^="/"]').forEach(init)
+    if(n.querySelectorAll) n.querySelectorAll('[on]').forEach((elt)=>{
+      const on = new Function('"use strict";return{'+elt.getAttribute('on')+'}')();
+      for (k in on) elt.addEventListener(k, on[k])
+    })
   }
-  document.addEventListener("fx:process", (evt)=>process(evt.target))
-  document.addEventListener("DOMContentLoaded", ()=>{
+  document.addEventListener('fx:process', (evt)=>process(evt.target))
+  document.addEventListener('DOMContentLoaded', ()=>{
     document.__fixi_mo.observe(document.documentElement, {childList:true, subtree:true})
     process(document.body)
   })
 })()
+document.addEventListener('fx:after', (evt)=>{
+  const elt = evt.target;
+  if (elt.hasAttribute('ext-fx-push') || (!elt.matches('[fx-action]') && elt.matches('a'))){
+    history.replaceState({fixi:true, url:location.href}, '', location.href)
+    history.pushState({fixi:true, url:evt.detail.cfg.response.url}, '', evt.detail.cfg.response.url)
+  }
+})
+window.addEventListener('popstate', async(evt)=>{
+  if (evt.state.fixi){
+    let historyResp = await fetch(evt.state.url)
+    document.documentElement.innerHTML = await historyResp.text()
+    document.dispatchEvent(new CustomEvent('fx:process'))
+  }
+})
   </script>
-
   <script>
     ((thorsen) => {
       thorsen.error = (err) => {
@@ -225,19 +230,19 @@
         }
       };
 
-      document.body.addEventListener('htmx:afterSwap', ({detail}) => {
-        const $head = document.documentElement.querySelector("head");
-        for (const $added of detail.elt.querySelectorAll("style")) {
-          const scopeId = $added.dataset.scopeId;
-          const $existing = scopeId && $head.querySelector(`[data-scope-id="${scopeId}"]`)
-          if ($existing) $existing.remove();
-          document.documentElement.querySelector("head").append($added);
-        }
-      });
-
-      document.body.addEventListener('htmx:responseError', ({detail}) => {
-        window.thorsen.error(detail.error);
-      });
+      // document.body.addEventListener('htmx:afterSwap', ({detail}) => {
+      //   const $head = document.documentElement.querySelector("head");
+      //   for (const $added of detail.elt.querySelectorAll("style")) {
+      //     const scopeId = $added.dataset.scopeId;
+      //     const $existing = scopeId && $head.querySelector(`[data-scope-id="${scopeId}"]`)
+      //     if ($existing) $existing.remove();
+      //     document.documentElement.querySelector("head").append($added);
+      //   }
+      // });
+      // 
+      // document.body.addEventListener('htmx:responseError', ({detail}) => {
+      //   window.thorsen.error(detail.error);
+      // });
 
       const header = document.querySelector('#header');
       const headerHeight = header.offsetHeight;
@@ -250,7 +255,7 @@
           header.classList.remove('animate');
           header.classList.remove('scrolled');
           header.classList.remove('show');
-        }
+       }
         else if (Math.abs(currentScroll - lastScroll) < headerHeight) {
           return;
         }
@@ -296,4 +301,3 @@
   </script>
 </body>
 </html>
-{% endif %}
