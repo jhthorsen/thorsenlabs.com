@@ -32,6 +32,11 @@ main > article {
   background-color: transparent;
 }
 
+article > header {
+  box-shadow: 0 0 4em 4em var(--pico-card-sectioning-background-color);
+  border-bottom: 0;
+}
+
 article > header table {
   th,
   td {
@@ -62,7 +67,6 @@ table {
 #header {
   --pico-nav-element-spacing-horizontal: 0.2rem;
 
-  background-color: var(--pico-background-color);
   padding-block: 0;
   margin-bottom: calc(var(--pico-nav-element-spacing-vertical) * -1);
   opacity: 0.95;
@@ -79,6 +83,7 @@ table {
   }
 
   &.show {
+    background-color: var(--pico-background-color);
     transform: translateY(0);
   }
 
@@ -95,11 +100,10 @@ table {
 }
 
 #footer {
-  font-size: 0.85em;
-  background-color: var(--pico-card-background-color);
-  border-block-start: 1px solid var(--pico-table-border-color);
-  margin-block-start: 2rem;
-  padding-block: 2rem;
+  font-size: 0.8em;
+  background-color: var(--pico-card-sectioning-background-color);
+  box-shadow: 0 0 2em 2em var(--pico-card-sectioning-background-color);
+  margin-block-start: 3rem;
 
   p {
     margin-block: 1rem;
@@ -112,6 +116,53 @@ table {
   top: 0;
   left: 0;
   right: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 500ms ease-in-out;
+}
+
+body[aria-busy="true"],
+body:has([aria-busy="true"]) {
+  &::before {
+    display: none !important;
+  }
+
+  #loader {
+    opacity: 1;
+  }
+}
+
+#notifications {
+  color: var(--contrast);
+  position: fixed;
+  top: var(--pico-spacing);
+  right: var(--pico-spacing);
+  z-index: 9999;
+
+  &:empty {
+    pointer-events: none;
+    top: 0;
+    right: 0;
+  }
+}
+
+.notification {
+  background-color: var(--pico-modal-overlay-background-color);
+  -webkit-backdrop-filter: var(--pico-modal-overlay-backdrop-filter);
+  backdrop-filter: var(--pico-modal-overlay-backdrop-filter);
+  color: var(--contrast);
+  min-width: 12em;
+  padding: 0.3rem 0.7rem;
+  margin-bottom: 0.3rem;
+  border: 1px solid var(--pico-form-element-border-color);
+  border-radius: var(--pico-border-radius);
+  box-shadow: var(--pico-box-shadow);
+  animation: 500ms 1 fade-in;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .document-width {

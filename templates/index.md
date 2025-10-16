@@ -3,7 +3,6 @@ id: about
 title: About
 description: About Jan Henning Thorsen
 header: header.md
-boosted: false
 ---
 
 ## Projects
@@ -21,9 +20,9 @@ browser window.
 ### Proxy For URL
 *An online PAC file tester*
 
-[![Proxy For URL illustration](/images/2022-02-20-proxyforurl.jpg)](https://thorsenlabs.com/pac)
+[![Proxy For URL illustration](/images/2022-02-20-proxyforurl.jpg)](/pac)
 
-[Proxy For URL](https://thorsenlabs.com/pac) is a tool for testing [proxy
+[Proxy For URL](/pac) is a tool for testing [proxy
 auto-config](https://developer.mozilla.org/en-US/docs/Web/HTTP/Proxy_servers_and_tunneling/Proxy_Auto-Configuration_PAC_file)
 JavaScript function that determines whether browser requests go directly to the
 destination or are forwarded to a web proxy server.
@@ -31,18 +30,18 @@ destination or are forwarded to a web proxy server.
 ### Timekeeper
 *A shareable timer*
 
-[![Timekeeper illustration](/images/2022-02-20-timekeeper.jpg)](/timer)
+<a href="/timer" target="_top">![Timekeeper illustration](/images/2022-02-20-timekeeper.jpg)</a>
 
-[Timekeeper](/timer) is a web app for creating shareable
+<a href="/timer" target="_top">Timekeeper</a> is a web app for creating shareable
 timers. Simply copy and paste the URL in your browser to a friend or coworker
 after setting a timer.
 
 ### Mojopaste
 *A pastebin*
 
-[![Mojopaste illustration](/images/2022-02-20-mojopaste.jpg)](https://thorsenlabs.com/paste/)
+<a href="/paste/" target="_top">![Mojopaste illustration](/images/2022-02-20-mojopaste.jpg)</a>
 
-[Mojopaste](https://thorsenlabs.com/paste/) is a pastebin application. There are
+<a href="/paste/" target="_top">Mojopaste</a> is a pastebin application. There are
 about one million of these out there, but if you need to run something
 internally at work or you just fancy having your own pastebin, this is your
 application.
@@ -60,7 +59,7 @@ and his book.
 * [Arbeidsdager / feriedager](/arbeidsdager) – A website to calculate your flexible hours. (Norwegian)
 * [How many hours can I stream?](/how-many-hours-can-i-stream) – A website to calculate how many hours you have available for a given cellular plan.
 * [AChart](https://github.com/jhthorsen/app-achart) – A program to print ascii charts in the terminal.
-* [Docsisious](https://thorsenlabs.com/docsisious) – Edit DOCSIS config files on web.
+* <a href="/docsisious" target="_top">Docsisious</a> – Edit DOCSIS config files on web.
 * [Remarkpl](https://github.com/jhthorsen/app-remarkpl) – Web based presentation tool.
 * [SSLMaker](https://github.com/jhthorsen/app-sslmaker) – Be your own SSL certificate authority.
 * [Traveling](/map) – I like to travel

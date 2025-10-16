@@ -11,7 +11,6 @@ enum Section {
 
 #[derive(Default, Serialize)]
 pub struct Markdown {
-    pub boosted: String,
     pub content: String,
     pub date: String,
     pub description: String,
@@ -39,7 +38,6 @@ impl Markdown {
         };
 
         Markdown {
-            boosted: String::from("true"),
             content: String::from(""),
             date,
             description: String::from(""),
@@ -86,7 +84,6 @@ impl Markdown {
                             }
 
                             match kv[0] {
-                                "boosted" => self.boosted = kv[1].trim().to_owned(),
                                 "date" => self.date = kv[1].trim().to_owned(),
                                 "description" => self.description = kv[1].trim().to_owned(),
                                 "footer" => self.footer = kv[1].trim().to_owned(),

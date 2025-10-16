@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    {% if not csr %}
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' 'nonce-{{ nonce }}'">
+      <meta name="ssr-headers" content="'x-nonce':'{{ nonce }}'">
 
-    {% if base_url is defined %}
-      <meta name="twitter:site" content="0">
-      <meta name="twitter:card" content="summary">
-      <meta property="og:determiner" content="a">
-      <meta name="twitter:url" content="{{ base_url | safe }}{{ path | replace(from=".html", to="") | safe }}">
-      <meta property="og:url" content="{{ base_url | safe }}{{ path | replace(from=".html", to="") | safe }}">
-      <link rel="canonical" href="{{ base_url | safe }}{{ path | replace(from=".html", to="") | safe }}"/>
+      {% if base_url is defined %}
+        <meta name="twitter:site" content="0">
+        <meta name="twitter:card" content="summary">
+        <meta property="og:determiner" content="a">
+        <meta name="twitter:url" content="{{ base_url | safe }}{{ path | replace(from=".html", to="") | safe }}">
+        <meta property="og:url" content="{{ base_url | safe }}{{ path | replace(from=".html", to="") | safe }}">
+        <link rel="canonical" href="{{ base_url | safe }}{{ path | replace(from=".html", to="") | safe }}"/>
+      {% endif %}
     {% endif %}
 
     {% if article is defined %}
@@ -36,31 +40,29 @@
       <meta property="og:description" content="{{ path | replace(from="/", to=" ") | title }}">
     {% endif %}
 
-    {% block social_image %}
-      {% if base_url is defined %}
-        <meta name="twitter:image" content="{{ base_url | safe }}/images/jht-profilbilde-e1553101127296-768x693.jpg">
-        <meta property="og:image" content="{{ base_url | safe }}/images/jht-profilbilde-e1553101127296-768x693.jpg">
-      {% endif %}
-    {% endblock %}
+    {% if not csr %}
+      {% block social_image %}
+        {% if base_url is defined %}
+          <meta name="twitter:image" content="{{ base_url | safe }}/images/jht-profilbilde-e1553101127296-768x693.jpg">
+          <meta property="og:image" content="{{ base_url | safe }}/images/jht-profilbilde-e1553101127296-768x693.jpg">
+        {% endif %}
+      {% endblock %}
+
       <link rel="stylesheet" href="/css/pico@2.1.1.min.css">
       <style>
         {{ slurp(name="css/override.css", fallback="/* override.css */") | safe }}
       </style>
+    {% endif %}
     {% if article is defined %}
-      <style data-scope-id="{{ article.scoped_css | slugify }}">
+      <style nonce="{{ nonce }}">
         {{ slurp(name=article.scoped_css, fallback="/* not found */") | safe }}
       </style>
     {% endif %}
   </head>
-  <body>
-{% if htmx.boosted %}
-  <header id="header" hx-preserve="true"></header>
-</body>
-</html>
-{% else %}
-  {% block header %}
+  <body data-init @ssr:fetch-error="@dispatch(document, 'ssr:sse-patch-elements', {detail:{data:notification(evt.detail.error)}})">
+    {% block header %}
     <header id="header">
-      <div class="nav-wrapper document-width" hx-boost="true" hx-indicator="#loader">
+      <div class="nav-wrapper document-width">
         <nav>
           <ul>
             <li>
@@ -79,73 +81,31 @@
     </header>
   {% endblock %}
 
-  <dialog id="error_dialog">
-    <article>
-      <header>
-        <h2>Error</h2>
-      </header>
-      <p>Unknown error.</p>
-      <footer>
-        <button class="secondary" hx-on:click="thorsen.error()">Close</button>
-      </footer>
-    </article>
-  </dialog>
-{% endif %}
+  {% block content %}<p>content missing!</p>{% endblock %}
 
-<progress id="loader" class="htmx-indicator"></progress>
+  <div id="notifications" data-preserve></div>
+  <progress id="loader" data-preserve></progress>
 
-{% block content %}<p>content missing!</p>{% endblock %}
-
-{% if htmx.boosted and article is defined %}
-<style data-scope-id="{{ article.scoped_css | slugify }}">
-  {{ slurp(name=article.scoped_css, fallback="/* scoped.css */") | safe }}
-</style>
-{% endif %}
-
-{% if htmx.boosted %}
-  <footer id="footer" hx-preserve="true"></footer>
-{% else %}
   {% block footer %}
     <footer id="footer">
       <div class="document-width">
     {% filter markdown %}
-&copy; 2024 - Powered by
-[Hetzner](https://www.hetzner.com),
-[htmx](https://htmx.org/) and
-[Rust](https://www.rust-lang.org/).
+&copy; 2024 - Powered by Me,
+[Hetzner](https://www.hetzner.com)
+and [Rust](https://www.rust-lang.org/).
     {% endfilter %}
       </div>
     </footer>
   {% endblock %}
 
-  <script src="/js/htmx.org@1.9.6.js"></script>
-  <script>
+{% if not csr %}
+  <script nonce="{{ nonce }}" src="/js/ssr@0.0.1.js"></script>
+  <script nonce="{{ nonce }}">
+    function notification(message) {
+      return `<div class="notification" data-init="@debounce(@destroy(el), 3000)" data-swap="append:#notifications">${message}</div>`
+    }
+
     ((thorsen) => {
-      thorsen.error = (err) => {
-        const dialog = document.getElementById("error_dialog");
-        if (err) {
-          dialog.querySelector("p").innerText = err;
-          dialog.showModal();
-        }
-        else {
-          dialog.close();
-        }
-      };
-
-      document.body.addEventListener('htmx:afterSwap', ({detail}) => {
-        const $head = document.documentElement.querySelector("head");
-        for (const $added of detail.elt.querySelectorAll("style")) {
-          const scopeId = $added.dataset.scopeId;
-          const $existing = scopeId && $head.querySelector(`[data-scope-id="${scopeId}"]`)
-          if ($existing) $existing.remove();
-          document.documentElement.querySelector("head").append($added);
-        }
-      });
-
-      document.body.addEventListener('htmx:responseError', ({detail}) => {
-        window.thorsen.error(detail.error);
-      });
-
       const header = document.querySelector('#header');
       const headerHeight = header.offsetHeight;
       let lastScroll = 0;
@@ -176,7 +136,7 @@
 
     })(window.thorsen || (window.thorsen = {}));
   </script>
-  <script type="module">
+  <script nonce="{{ nonce }}" type="module">
     ((thorsen) => {
       thorsen.syntaxHighlight = async () => {
         const $code_blocks = document.querySelectorAll("pre > code");
@@ -197,10 +157,10 @@
         }
       };
 
-      document.body.addEventListener('htmx:afterSwap', () => thorsen.syntaxHighlight());
+      document.addEventListener('ssr:init', () => thorsen.syntaxHighlight());
       thorsen.syntaxHighlight();
     })(window.thorsen || (window.thorsen = {}));
   </script>
+{% endif %}
 </body>
 </html>
-{% endif %}

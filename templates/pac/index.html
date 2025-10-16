@@ -5,7 +5,7 @@
 
 {% block content %}
 <main role="document" class="document-width">
-  <article hx-select="[role=document]" hx-target="[role=document]">
+  <article>
     <header>
       <h1>Online proxy PAC file tester</h1>
       <p>
@@ -67,7 +67,7 @@
   </article>
 </main>
 
-<script>
+<script nonce="{{ nonce }}">
   ((thorsen) => {
     const PAC_FUNCTIONS = {
       alert: true,

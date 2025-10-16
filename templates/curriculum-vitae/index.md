@@ -37,6 +37,7 @@ I've studied these topics in both personal and work relations:
 * [HTML5](https://developer.mozilla.org/en-US/docs/Web/HTML), [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) (SASS, PostCSS) and [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 * [VanillaJS](http://youmightnotneedjquery.com/)
 * [htmx](https://htmx.org/)
+* [datastar](https://data-star.dev)
 * [Svelte](https://svelte.dev/)
 * [Vue.js](https://vuejs.org/)
 * [React](https://facebook.github.io/react/)

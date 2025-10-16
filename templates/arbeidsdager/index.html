@@ -8,13 +8,13 @@
 {% set default_to = now() | date(format="%Y-%m-%d") %}
 {% set to = query.to | default(value=default_to) %}
 {% set year = to | split(pat="-") | first %}
-<main role="document" class="document-width">
-  <article id="arbeidsdager" hx-select="[role=document]" hx-target="[role=document]">
+<main role="document" class="document-width" data-init="$year={{ year }}">
+  <article id="arbeidsdager">
     <header>
       {{ markdown(name = "arbeidsdager/header.md") | safe }}
     </header>
 
-    <form method="get" action="/arbeidsdager" hx-on:submit="thorsen.calculateWorkingDays(event)">
+    <form method="get" action="/arbeidsdager" data-init @submit="thorsen.calculateWorkingDays(evt)">
       <table>
         <thead>
           <tr>
@@ -81,12 +81,7 @@
     </form>
 
     <h2>Helligdager</h2>
-    <table id="holidays-table"
-      hx-get="/arbeidsdager/table/{{ year }}"
-      hx-trigger="load"
-      hx-target="#holidays-table"
-      hx-select="#holidays-table"
-      hx-swap="outerHTML">
+    <table id="holidays-table" data-effect="@use(['year']) && @get(`/arbeidsdager/table/${$year}`)">
       <tbody>
         <tr><td>Laster data...</td></tr>
       </tbody>
@@ -94,7 +89,7 @@
     <blockquote>Tabellen over er hentet fra <a href="https://webapi.no/">webapi.no</a>.</blockquote>
   </article>
 </main>
-<script>
+<script nonce="{{ nonce }}">
   ((thorsen) => {
     const ONE_DAY = 1000 * 60 * 60 * 24;
     const MONDAY = 1;
@@ -122,8 +117,8 @@
       return new Date(ymd[0], ymd[1] - 1, ymd[2]);
     };
 
-    thorsen.calculateWorkingDays = (event) => {
-      if (event) event.preventDefault();
+    thorsen.calculateWorkingDays = (evt) => {
+      if (evt) evt.preventDefault();
       const $form = document.querySelector("form[action=\"/arbeidsdager\"]");
 
       const to = str2date(el($form, "input[name=to]").value);
@@ -154,7 +149,7 @@
       }
 
       result.christmas = calculateTrappedDays($form, new Date(to.getFullYear(), 12 - 1, 24), to);
-      result.easter = calculateTrappedDays($form, easter, to);
+      result.easter = easter ? calculateTrappedDays($form, easter, to) : 0;
 
       for (const key of Object.keys(result)) {
         el($form, `.total-${key}`).textContent = result[key];

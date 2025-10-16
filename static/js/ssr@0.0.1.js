@@ -33,6 +33,7 @@
     if ($n.dataset.destroy) fn('destroy', $n, $n.dataset.destroy)()
     for (const k in $n._C ?? {}) $n._C[k].abort()
     for (const k in $n._T ?? {}) clearTimeout($n._T[k])
+    ;['_C', '_S', '_T'].map(k => delete $n[k])
     if (r) $n.remove()
   }
 
@@ -40,37 +41,18 @@
     ;($n._C ??= {})[u] && $n._C[u].abort()
     const url = new URL(u, location.href)
     j(q.search ?? $n._S ?? {}, url.searchParams)
+    url.searchParams.append('csr', 'true') // Avoid cache hit with full page refresh
 
     const $h = $q($d.head, 'meta[name=ssr-headers]')
     const qh = $h ? fn('headers', $h, `return {${$h.content}}`)() : {}
     q.headers = j(qh, q.headers ?? new Headers())
 
     try {
+      $n.ariaBusy = 'true'
       const ac = $n._C[u] = new AbortController()
       const r = await $w.fetch(url, {...q, signal: ac.signal})
       const ct = r.headers.get('content-type') ?? ''
-      if (ct == 'text/event-stream') {
-        const [d, rdr] = [new TextDecoder('utf-8'), r.body.getReader()]
-        let [b, e] = ['', {}]
-        for (;;) {
-          const {done, value} = await rdr.read()
-          if (done) break
-          b += d.decode(value, {stream: true})
-          for (;;) {
-            const i = b.indexOf('\n')
-            if (i < 0) break
-            if (i) {
-              const [k, v] = b.slice(0, i).split(/:\s/, 2)
-              e[k] ??= ''
-              e[k] += v
-            } else {
-              dispatch($d, 'ssr:sse-' + e.event, {detail: e})
-              e = {}
-            }
-            b = b.slice(i + 1)
-          }
-        }
-      } else if (ct.startsWith('text/html')) {
+      if (ct.startsWith('text/html')) {
         const data = await r.text()
         dispatch($n, 'ssr:sse-patch-elements', {bubbles: true, detail: {data}})
       } else {
@@ -80,6 +62,8 @@
       if (error.name != 'AbortError') {
         dispatch($n, 'ssr:fetch-error', {bubbles: true, detail: {q, u, error}})
       }
+    } finally {
+      $n.ariaBusy = 'false'
     }
   }
 
@@ -109,11 +93,13 @@
     return o
   }
 
-  function script($n) {
-    const $s = $d.createElement('script')
-    ;['nonce', 'textContent'].map((k) => $s[k] = $n[k])
-    $d.body.appendChild($s)
-    $n.remove()
+  function scriptAndStyle($p) {
+    $map($p, 'style, script', ($c) => {
+      const $s = $d.createElement($c.tagName)
+      $s.dataset.temp = $s.nonce = $c.nonce
+      $s.textContent = $c.textContent
+      $d.head.appendChild($s)
+    })
   }
 
   listen($d, 'ssr:init', (evt) => {
@@ -166,7 +152,7 @@
       // Two way binding
       if ($n.dataset.bind) {
         const k = $n.dataset.bind.replace(/^\s*\$/, '')
-        s[k] ??= $n.value
+        s[k] ??= $n.type == 'number' ? parseFloat($n.value) : $n.value;
 
         if ($n.type == 'checkbox' || $n.type == 'radio' || $n.tagName == 'SELECT') {
           listen($n, 'change', () => {
@@ -186,7 +172,7 @@
             }
           })
         } else {
-          listen($n, 'input', () => (s[k] = $n.value))
+          listen($n, 'input', () => s[k] = typeof s[k] == 'number' ? +$n.value : $n.value)
           listen($n, 'ssr:render', () => $n.value = s[k])
         }
       }
@@ -196,7 +182,7 @@
         const cb = fn('effect', $n, $n.dataset.effect, (x) => {
           const u = x.replaceAll(/@use\(/g, 'store._U(')
           if (u !== x) return u
-          const ks = Array.from(x.matchAll(/\$(\w+)(?!\s*=)/g), (m) => `'${m[1]}'`).join(',')
+          const ks = Array.from(x.matchAll(/\$(\w+)\b\s*(?!=)/g), (m) => `'${m[1]}'`).join(',')
           return `store._U([${ks}])&&(${x})`
         })
 
@@ -205,33 +191,29 @@
     })
   })
 
-  listen($d, 'ssr:fetch-error', (evt) => {
-    const d = evt.detail
-    setTimeout(() => evt.target.parentNode && fetch(evt.target, d.u, d.q), 3000)
-  })
-
   listen($d, 'ssr:sse-patch-elements', ({detail}) => {
     if (detail.data.lastIndexOf('<body', 2048) !== -1) {
-      destroy($d.body, false)
       let [$p, $c] = [new DOMParser().parseFromString(detail.data, 'text/html')]
-      if (($c = $q($p, 'body'))) $d.body.innerHTML = $c.innerHTML
+      $map($d, '[data-preserve]', ($c) => $q($p, `#${$c.id}`)?.replaceWith($c.cloneNode(true)))
+      $map($d, '[data-temp]', ($c) => $c.remove())
+      destroy($d.body, false)
+      scriptAndStyle($p)
       if (($c = $q($p, 'title'))) $map($d, 'title', ($o) => $o.textContent = $c.textContent)
-      $map($d, 'script[nonce], style[nonce]', ($c) => $c.remove())
-      $map($p, 'script[nonce]', script)
-      $map($p, 'style[nonce]', ($c) => $d.head.appendChild($c))
+      if (($c = $q($p, 'body'))) $d.body.innerHTML = $c.innerHTML
     } else {
       const $p = $d.createRange().createContextualFragment(detail.data)
-      $map($p, 'script[nonce]', script)
-      $map($p, 'style[nonce]', ($c) => $d.head.appendChild($c))
       for (const $c of $p.children) {
         const swap = ($c.dataset.swap || `replaceWith:#${$c.id}`).split(':', 2)
         const $o = $q($d, swap[1])
         destroy($o, false)
         $o[swap[0]]($c)
       }
+      scriptAndStyle($p)
     }
 
     dispatch($d, 'ssr:init')
+    const hs = history.state || {};
+    $w.scrollTo(hs.x || 0, hs.y || 0)
   })
 
   listen($d.body, 'click', (evt) => {
@@ -247,7 +229,7 @@
     if (url.origin !== location.origin) return // external link
 
     if (location.pathname !== url.pathname || location.search !== url.search) {
-      history.pushState({}, null, url.pathname + url.search)
+      history.pushState({x: 0, y: 0}, null, url.pathname + url.search)
     }
 
     evt.preventDefault()
@@ -257,6 +239,11 @@
   listen($w, 'popstate', () => {
     fetch($d.body, location.href, {})
   })
+
+  setInterval(() => {
+    const h = history;
+    h.replaceState({...h.state, x: $w.scrollX, y: $w.scrollY}, null)
+  }, 250);
 
   dispatch($d, 'ssr:init')
 })(window, document)
