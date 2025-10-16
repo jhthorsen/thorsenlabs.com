@@ -9,13 +9,7 @@ Ways to get in touch
 The most convenient way is to send an email to
 [hei@thorsenlabs.com](mailto:hei@thorsenlabs.com).
 
-If you want to talk to me interactively, you might be able to reach me on IRC: I’m on
-[libera.chat](https://libera.chat/) as “[batman](irc://irc.libera.chat:6697/batman)“.
-
-I also have accounts on the following social media platforms: Facebook,
-Instagram, LINE, Reddit, Signal Skype, Stackoverflow, Telegram and WhatsApp.
-But sending me a message on ex. Facebook is probably a dead end, since I hardly
-ever check “message requests”.
+I also have accounts on the following social media platforms: LINE, Reddit, Signal Skype, Stackoverflow, Telegram and WhatsApp.
 
 ## Public key
 
