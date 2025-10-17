@@ -126,7 +126,7 @@ impl Markdown {
     }
 }
 
-fn markdown_parser(text: &str) -> pulldown_cmark::Parser {
+fn markdown_parser(text: &str) -> pulldown_cmark::Parser<'_> {
     let mut options = pulldown_cmark::Options::empty();
     options.insert(pulldown_cmark::Options::ENABLE_GFM);
     options.insert(pulldown_cmark::Options::ENABLE_HEADING_ATTRIBUTES);
