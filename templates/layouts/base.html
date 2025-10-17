@@ -42,11 +42,10 @@
         <meta property="og:image" content="{{ base_url | safe }}/images/jht-profilbilde-e1553101127296-768x693.jpg">
       {% endif %}
     {% endblock %}
-
-    <link rel="stylesheet" href="/css/pico2.jade.min.css">
-    <style>
-      {{ slurp(name="css/override.css", fallback="/* override.css */") | safe }}
-    </style>
+      <link rel="stylesheet" href="/css/pico@2.1.1.min.css">
+      <style>
+        {{ slurp(name="css/override.css", fallback="/* override.css */") | safe }}
+      </style>
     {% if article is defined %}
       <style data-scope-id="{{ article.scoped_css | slugify }}">
         {{ slurp(name=article.scoped_css, fallback="/* not found */") | safe }}
