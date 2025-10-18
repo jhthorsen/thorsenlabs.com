@@ -1,7 +1,15 @@
 article#curriculum-vitae {
   h1 + p > img {
+    border-radius: 1rem;
+    margin-left: 1rem;
+    margin-top: -0.5rem;
     float: right;
     width: 25vw;
+    max-width: min(60vh, 25vw);
+
+    @media (max-width: 32rem) {
+      display: none;
+    }
   }
 
   h1 + p + table {
