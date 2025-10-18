@@ -242,7 +242,7 @@
 
   setInterval(() => {
     const h = history;
-    h.replaceState({...h.state, x: $w.scrollX, y: $w.scrollY}, null)
+    if (h.state.y !== $w.scrollY) h.replaceState({...h.state, x: $w.scrollX, y: $w.scrollY}, null)
   }, 250);
 
   dispatch($d, 'ssr:init')

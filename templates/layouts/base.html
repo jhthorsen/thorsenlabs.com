@@ -99,7 +99,7 @@ and [Rust](https://www.rust-lang.org/).
   {% endblock %}
 
 {% if not csr %}
-  <script nonce="{{ nonce }}" src="/js/ssr@0.0.1.js"></script>
+  <script nonce="{{ nonce }}" src="/js/ssr@0.0.2.js"></script>
   <script nonce="{{ nonce }}">
     function notification(message) {
       return `<div class="notification" data-init="@debounce(@destroy(el), 3000)" data-swap="append:#notifications">${message}</div>`
