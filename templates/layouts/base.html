@@ -5,8 +5,10 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-      <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' 'nonce-{{ nonce }}'">
-      <meta name="ssr-headers" content="'x-nonce':'{{ nonce }}'">
+      {% if nonce %}
+        <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-eval' 'nonce-{{ nonce }}'">
+        <meta name="ssr-headers" content="'x-nonce':'{{ nonce }}'">
+      {% endif %}
 
       {% if base_url is defined %}
         <meta name="twitter:site" content="0">
@@ -54,7 +56,7 @@
       </style>
     {% endif %}
     {% if article is defined %}
-      <style nonce="{{ nonce }}">
+      <style nonce="{{ nonce | default(value="") }}">
         {{ slurp(name=article.scoped_css, fallback="/* not found */") | safe }}
       </style>
     {% endif %}
@@ -98,7 +100,7 @@ and [Rust](https://www.rust-lang.org/).
     </footer>
   {% endblock %}
 
-{% if not csr %}
+{% if not csr and nonce %}
   <script nonce="{{ nonce }}" src="/js/ssr@0.0.2.js"></script>
   <script nonce="{{ nonce }}">
     function notification(message) {
