@@ -1,4 +1,4 @@
-use actix_web::{http::header::ContentType, HttpResponse};
+use actix_web::{HttpResponse, http::header::ContentType};
 use std::time::UNIX_EPOCH;
 use std::{fs, path::Path};
 
@@ -25,8 +25,14 @@ footer: blog/footer.md
     for blog_dir_item in fs::read_dir(&blog_dir)? {
         let blog_files_item = blog_dir_item?;
         let basename = blog_files_item.file_name().into_string().unwrap();
-        if !basename.starts_with("2") || !basename.ends_with(".md") {
+        if !basename.ends_with(".md") {
             continue;
+        }
+
+        for skip in ["footer.md", "header.md", "index.md"] {
+            if basename == skip {
+                continue;
+            }
         }
 
         let mut blog = Markdown::new_from_path(&blog_files_item.path());
@@ -40,13 +46,13 @@ footer: blog/footer.md
         blog.content = format!(
             r##"## {}
 
-[{}](/blog/{})
+[{}](/blog/{}-{})
 
 {}
 
-<a href="/blog/{}" role="button" class="read-more">Read the full article</a>
+<a href="/blog/{}-{}" role="button" class="read-more">Read the full article</a>
 "##,
-            blog.title, blog.date, blog.id, blog.ingress, blog.id
+            blog.title, blog.date, blog.date, blog.id, blog.ingress, blog.date, blog.id
         );
 
         blogs.push((blog.date, blog.content));
@@ -107,6 +113,15 @@ pub async fn get_blog_index(
         .body(rendered))
 }
 
+fn get_blog_id(raw: Option<&str>) -> (String, String) {
+    let raw = raw.unwrap_or_default().trim_end_matches(".html");
+    if raw.len() > 11 && raw[0..10].chars().all(|c| c.is_digit(10) || c == '-') {
+        return (raw[..10].to_owned(), raw[11..].to_owned());
+    }
+
+    ("".to_owned(), "".to_owned())
+}
+
 pub async fn get_blog_post(
     state: actix_web::web::Data<crate::AppState>,
     req: actix_web::HttpRequest,
@@ -118,18 +133,23 @@ pub async fn get_blog_post(
     }
 
     let mut ctx = crate::template::template_context(&req);
-
-    let blog_id = req
-        .match_info()
-        .get("blog_id")
-        .unwrap_or("not_found")
-        .trim_end_matches(".html");
+    let (blog_date, blog_id) = get_blog_id(req.match_info().get("blog_id"));
     let blog_path = document_path(&format!("blog/{}.md", blog_id));
     let mut article = Markdown::new_from_path(&Path::new(&blog_path));
     if !article.read() {
         return Err(ServerError::NotFound(
             "Could not find blog post.".to_owned(),
         ));
+    }
+
+    // Redirect if date does not match
+    if blog_date != article.date {
+        return Ok(HttpResponse::Found()
+            .append_header((
+                actix_web::http::header::LOCATION,
+                format!("/blog/{}-{}", article.date, article.id),
+            ))
+            .finish());
     }
 
     if article.scoped_css.len() == 0 {

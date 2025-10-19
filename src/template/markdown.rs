@@ -26,20 +26,15 @@ pub struct Markdown {
 
 impl Markdown {
     pub fn new_from_path(path: &Path) -> Markdown {
-        let mut basename = path.file_name().unwrap().to_str().unwrap().trim_end_matches(".md");
-        if basename == "index" {
-            basename = path.parent().unwrap().file_name().unwrap().to_str().unwrap();
-        }
-
-        let date = if basename.len() > 10 {
-            basename[0..10].to_owned()
-        } else {
-            String::from("")
+        let basename = basename_from_path(Some(path));
+        let basename = match basename.as_str() {
+            "index" => basename_from_path(path.parent()),
+            _ => basename,
         };
 
         Markdown {
             content: String::from(""),
-            date,
+            date: String::from(""),
             description: String::from(""),
             footer: String::from(""),
             header: String::from(""),
@@ -121,6 +116,17 @@ impl Markdown {
 
         return false;
     }
+}
+
+fn basename_from_path(path: Option<&Path>) -> String {
+    if let Some(path) = path
+        && let Some(name) = path.file_name()
+        && let Some(name) = name.to_str()
+    {
+        return name.trim_end_matches(".md").to_owned();
+    };
+
+    return "".to_owned();
 }
 
 fn markdown_parser(text: &str) -> pulldown_cmark::Parser<'_> {

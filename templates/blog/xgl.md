@@ -1,0 +1,24 @@
+---
+title: Xgl
+date: 2006-03-07
+---
+
+I've managed to get
+[Xgl](http://en.opensuse.org/Xgl) to work! (Special thanks to
+[DavidK-64](http://www.ritter.demon.co.uk) for A: telling me about Xgl
+It's really amazing, you just got to
+[see](http://www.freedesktop.org/~davidr/xgl-demo1.xvid.avi) for
+yourself to get the real impression. The
+[compiz](http://en.opensuse.org/Compiz) manager features Wobbling
+windows, transparancy, a new "switcher" and a whole lot more. I'm truly
+speachless. This is the best eye-candy I've ever experienced. Even
+though I'm no fan of windows, It will be interresting to see how
+[Vista](http://www.microsoft.com/windowsvista/default.aspx)'s 3D effects
+will be, compared to Xgl+compiz... The basic install-steps are really
+quite basic -- at least in ubuntu with nvidia:
+
+1.  Install Xgl and compiz\* packages
+2.  Start [Xgl](/) and xterm
+3.  su -- \<username\>
+4.  Start [compiz + gnome](/)
+5.  Run gconf-editor and configure the [plugins](/)

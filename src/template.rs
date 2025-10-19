@@ -1,5 +1,5 @@
-use actix_web::http::header::HeaderValue;
 use actix_web::HttpRequest;
+use actix_web::http::header::HeaderValue;
 use markdown::Markdown;
 use rand::Rng;
 use regex::Regex;
@@ -16,10 +16,6 @@ pub mod markdown;
 pub fn global_tera() -> Tera {
     static TERA: OnceLock<Tera> = OnceLock::new();
     TERA.get_or_init(|| {
-        if env::var_os("THORSEN_DOCUMENT_DIR").is_none() {
-            env::set_var("THORSEN_DOCUMENT_DIR", "templates");
-        }
-
         let mut tera = Tera::new(document_path("**/*.html").as_str()).unwrap();
         tera.register_filter("markdown", template_filter_markdown);
         tera.register_filter("match", template_filter_match);
@@ -149,7 +145,11 @@ fn template_function_slurp(args: &HashMap<String, tera::Value>) -> Result<tera::
 }
 
 pub fn document_path(rel: &str) -> String {
-    format!("{}/{}", env::var("THORSEN_DOCUMENT_DIR").unwrap(), rel)
+    format!(
+        "{}/{}",
+        env::var("THORSEN_DOCUMENT_DIR").unwrap_or("templates".to_string()),
+        rel
+    )
 }
 
 fn url_encode(str: &str) -> String {
