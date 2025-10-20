@@ -94,7 +94,7 @@ impl Markdown {
                     } else if section == Section::Ingress {
                         if self.ingress.len() < 256 {
                             self.ingress.push_str(&text);
-                        } else if !self.ingress.ends_with(".") {
+                        } else if !self.ingress.ends_with(".") && !self.ingress.ends_with("?") {
                             self.ingress.push_str("...");
                         }
                     }
