@@ -5,7 +5,7 @@
 
 {% block content %}
 <main role="document" class="document-width">
-  <article>
+  <article data-init="new thorsen.ProxyForURL().attach(document)">
     <header>
       <h1>Online proxy PAC file tester</h1>
       <p>
@@ -251,11 +251,7 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      if (window.ProxyForURL) return;
-      window.proxyForURL = new ProxyForURL();
-      window.proxyForURL.attach(document);
-    });
+    thorsen.ProxyForURL = ProxyForURL;
   })(window.thorsen || (window.thorsen = {}));
 </script>
 {% endblock %}
