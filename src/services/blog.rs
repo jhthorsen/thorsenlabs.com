@@ -39,7 +39,9 @@ footer: blog/footer.md
         if !blog.read() {
             continue;
         }
-        if blog.status != "published" {
+        if blog.status != "published"
+            && std::env::var("APP_ENV").unwrap_or_default() != "development"
+        {
             continue;
         }
 
