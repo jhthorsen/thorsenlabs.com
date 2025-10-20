@@ -1,9 +1,9 @@
+use crate::server_error::ServerError;
+use crate::template::basename_from_path;
+use crate::template::{document_path, markdown::Markdown};
 use actix_web::{HttpResponse, http::header::ContentType};
 use std::time::UNIX_EPOCH;
 use std::{fs, path::Path};
-
-use crate::server_error::ServerError;
-use crate::template::{document_path, markdown::Markdown};
 
 fn create_blog_index_file(blog_index_path: &str) -> Result<bool, ServerError> {
     let mut blogs: Vec<(String, String)> = Vec::new();
@@ -24,7 +24,7 @@ footer: blog/footer.md
     let blog_dir = document_path("blog");
     for blog_dir_item in fs::read_dir(&blog_dir)? {
         let blog_files_item = blog_dir_item?;
-        let basename = blog_files_item.file_name().into_string().unwrap();
+        let basename = basename_from_path(Some(&blog_files_item.path().as_path()));
         if !basename.ends_with(".md") {
             continue;
         }
@@ -66,16 +66,14 @@ footer: blog/footer.md
 }
 
 fn mtime(path: &str) -> u64 {
-    let metadata = fs::metadata(path);
-    match metadata {
-        Ok(metadata) => metadata
-            .modified()
-            .unwrap()
-            .duration_since(UNIX_EPOCH)
-            .unwrap()
-            .as_secs(),
-        Err(_) => 0,
+    if let Ok(m) = fs::metadata(path)
+        && let Ok(m) = m.modified()
+        && let Ok(m) = m.duration_since(UNIX_EPOCH)
+    {
+        return m.as_secs();
     }
+
+    0
 }
 
 pub async fn get_blog_index(

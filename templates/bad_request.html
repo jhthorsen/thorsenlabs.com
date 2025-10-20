@@ -1,0 +1,15 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Bad Request{% endblock %}
+{% block description %}400{% endblock %}
+
+{% block content %}
+<main role="document" class="document-width">
+  <article id="bad_request">
+    <h1>Bad Request (400)</h1>
+    <p>There's something wrong with the request you sent to the server.</p>
+    <h2>Details</h2>
+    <pre style="white-space:pre-line;padding:var(--pico-spacing)"><small>{{ error }}</small></pre>
+  </article>
+</main>
+{% endblock %}

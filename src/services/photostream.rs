@@ -1,10 +1,10 @@
-use actix_web::{http::header::ContentType, HttpResponse};
+use Vec;
+use actix_web::{HttpResponse, http::header::ContentType};
 use chrono::{DateTime, Utc};
 use reqwest;
 use serde::{Deserialize, Serialize};
 use serde_with::serde_as;
 use std::collections::HashMap;
-use Vec;
 
 use crate::server_error::ServerError;
 use crate::template::markdown::Markdown;
@@ -84,31 +84,32 @@ fn normalize_derivatives(album: &mut Album) {
     for i in 0..album.photos.len() {
         let mut biggest = Derivative::default();
         let mut smallest = Derivative::default();
+        let mut video = Derivative::default();
 
         let photo = &mut album.photos[i];
-        let keys = photo.derivatives.keys().cloned().collect::<Vec<String>>();
-
-        for key in keys {
+        for (key, derivative) in photo.derivatives.iter() {
             if key == "720p" {
-                let v = photo.derivatives.get(&key).unwrap().clone();
-                photo.derivatives.insert("video".to_owned(), v);
+                video = derivative.clone()
             } else if key == "PosterFrame" {
-                smallest = photo.derivatives.get(&key).unwrap().clone();
+                smallest = derivative.clone();
             } else {
                 match key.parse::<u64>() {
+                    Err(_) => {}
                     Ok(size) => {
                         if size < smallest.width || smallest.width == 0 {
-                            smallest = photo.derivatives.get(&key).unwrap().clone();
+                            smallest = derivative.clone();
                         }
                         if size > biggest.width {
-                            biggest = photo.derivatives.get(&key).unwrap().clone();
+                            biggest = derivative.clone();
                         }
                     }
-                    Err(_) => {}
                 }
             }
         }
 
+        if video.width != 0 {
+            photo.derivatives.insert("video".to_owned(), video);
+        }
         if smallest.width != 0 {
             photo.derivatives.insert("thumb".to_owned(), smallest);
         }

@@ -6,6 +6,7 @@ use crate::template::global_tera;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum ServerError {
+    BadRequest(String),
     InternalServerError(String),
     NotFound(String),
 }
@@ -41,18 +42,28 @@ impl From<tera::Error> for ServerError {
 impl std::fmt::Display for ServerError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            ServerError::BadRequest(err) => {
+                let mut ctx = tera::Context::new();
+                ctx.insert("error", &err);
+                let html = global_tera()
+                    .render("bad_request.html", &ctx)
+                    .expect("Global tera");
+                f.write_str(&html.as_str())
+            }
             ServerError::InternalServerError(err) => {
                 let mut ctx = tera::Context::new();
                 ctx.insert("error", &err);
                 let html = global_tera()
                     .render("internal_server_error.html", &ctx)
-                    .unwrap();
+                    .expect("Global tera");
                 f.write_str(&html.as_str())
             }
             ServerError::NotFound(err) => {
                 let mut ctx = tera::Context::new();
                 ctx.insert("error", &err);
-                let html = global_tera().render("not_found.html", &ctx).unwrap();
+                let html = global_tera()
+                    .render("not_found.html", &ctx)
+                    .expect("Global tera");
                 f.write_str(&html.as_str())
             }
         }
@@ -62,6 +73,9 @@ impl std::fmt::Display for ServerError {
 impl ResponseError for ServerError {
     fn error_response(&self) -> HttpResponse {
         match self {
+            ServerError::BadRequest(_) => HttpResponse::build(StatusCode::BAD_REQUEST)
+                .insert_header(("Content-Type", "text/html"))
+                .body(self.to_string()),
             ServerError::InternalServerError(_) => {
                 HttpResponse::build(StatusCode::INTERNAL_SERVER_ERROR)
                     .insert_header(("Content-Type", "text/html"))

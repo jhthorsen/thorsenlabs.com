@@ -1,4 +1,4 @@
-use actix_web::{http::header::ContentType, web, HttpRequest, HttpResponse};
+use actix_web::{HttpRequest, HttpResponse, http::header::ContentType, web};
 use std::collections::HashMap;
 use std::path::Path;
 
@@ -44,7 +44,10 @@ pub async fn get_article(
     }
 
     if ext == "html" {
-        let qs = web::Query::<QueryParams>::from_query(req.query_string()).unwrap();
+        let Ok(qs) = web::Query::<QueryParams>::from_query(req.query_string()) else {
+            return Err(ServerError::BadRequest("Invalid query string.".to_owned()));
+        };
+
         ctx.insert("query".to_owned(), &qs.into_inner());
 
         let mut article = Markdown::default();

@@ -13,10 +13,22 @@ use tera::{Context, Error, Tera};
 
 pub mod markdown;
 
+pub fn basename_from_path(path: Option<&Path>) -> String {
+    if let Some(path) = path
+        && let Some(name) = path.file_name()
+        && let Some(name) = name.to_str()
+    {
+        return name.to_owned();
+    };
+
+    return "".to_owned();
+}
+
 pub fn global_tera() -> Tera {
     static TERA: OnceLock<Tera> = OnceLock::new();
     TERA.get_or_init(|| {
-        let mut tera = Tera::new(document_path("**/*.html").as_str()).unwrap();
+        let mut tera =
+            Tera::new(document_path("**/*.html").as_str()).expect("Must be able to build tera");
         tera.register_filter("markdown", template_filter_markdown);
         tera.register_filter("match", template_filter_match);
         tera.register_function("markdown", template_function_markdown);
@@ -66,8 +78,24 @@ fn template_filter_match(
     value: &tera::Value,
     args: &HashMap<String, tera::Value>,
 ) -> Result<tera::Value, Error> {
-    let re = Regex::new(args.get("re").unwrap().as_str().unwrap()).unwrap();
-    Ok(to_value(re.is_match(value.as_str().unwrap()))?)
+    let re = if let Some(re) = args.get("re")
+        && let Some(re) = re.as_str()
+    {
+        re
+    } else {
+        return Err(Error::msg("match filter requires 're' argument"));
+    };
+
+    let re = match Regex::new(re) {
+        Ok(re) => re,
+        Err(err) => {
+            return Err(Error::msg(format!(
+                "match filter requires valid 're' argument: {err}"
+            )));
+        }
+    };
+
+    Ok(to_value(re.is_match(value.as_str().unwrap_or_default()))?)
 }
 
 fn template_filter_markdown(
@@ -80,10 +108,14 @@ fn template_filter_markdown(
 }
 
 fn template_function_markdown(args: &HashMap<String, tera::Value>) -> Result<tera::Value, Error> {
-    let mut path = String::new();
-    if let Some(rel) = args.get("name") {
-        path = document_path(rel.as_str().unwrap());
-    }
+    let path = if let Some(name) = args.get("name")
+        && let Some(name) = name.as_str()
+    {
+        document_path(name)
+    } else {
+        return Err(Error::msg("match filter requires 'name' argument"));
+    };
+
     if path.len() > 0 {
         let mut markdown = Markdown::new_from_path(&Path::new(&path));
         if markdown.read() {
@@ -129,19 +161,22 @@ fn template_function_qs(args: &HashMap<String, tera::Value>) -> Result<tera::Val
 }
 
 fn template_function_slurp(args: &HashMap<String, tera::Value>) -> Result<tera::Value, Error> {
-    let mut path = String::new();
-    if let Some(rel) = args.get("name") {
-        path = document_path(rel.as_str().unwrap());
-        if let Ok(content) = fs::read_to_string(&path) {
-            return Ok(to_value(content)?);
-        }
-        if let Some(fallback) = args.get("fallback") {
-            return Ok(to_value(fallback)?);
-        }
-        return Ok(to_value("<!-- not found -->")?);
+    let path = if let Some(name) = args.get("name")
+        && let Some(name) = name.as_str()
+    {
+        document_path(name)
+    } else {
+        return Err(Error::msg("match filter requires 'name' argument"));
+    };
+
+    if let Ok(content) = fs::read_to_string(&path) {
+        return Ok(to_value(content)?);
+    }
+    if let Some(fallback) = args.get("fallback") {
+        return Ok(to_value(fallback)?);
     }
 
-    Err(format!("Raw path=\"{}\" could not be slurped", path).into())
+    return Ok(to_value("<!-- not found -->")?);
 }
 
 pub fn document_path(rel: &str) -> String {

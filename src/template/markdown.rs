@@ -1,3 +1,4 @@
+use crate::template::basename_from_path;
 use pulldown_cmark::{Event, Tag, TagEnd};
 use serde::Serialize;
 use std::{fs, path::Path, path::PathBuf};
@@ -28,7 +29,7 @@ impl Markdown {
     pub fn new_from_path(path: &Path) -> Markdown {
         let basename = basename_from_path(Some(path));
         let basename = match basename.as_str() {
-            "index" => basename_from_path(path.parent()),
+            "index.md" => basename_from_path(path.parent()),
             _ => basename,
         };
 
@@ -38,7 +39,7 @@ impl Markdown {
             description: String::from(""),
             footer: String::from(""),
             header: String::from(""),
-            id: basename.to_owned(),
+            id: basename.trim_end_matches(".md").to_owned(),
             ingress: String::from(""),
             path: path.to_path_buf(),
             scoped_css: String::from(""),
@@ -116,17 +117,6 @@ impl Markdown {
 
         return false;
     }
-}
-
-fn basename_from_path(path: Option<&Path>) -> String {
-    if let Some(path) = path
-        && let Some(name) = path.file_name()
-        && let Some(name) = name.to_str()
-    {
-        return name.trim_end_matches(".md").to_owned();
-    };
-
-    return "".to_owned();
 }
 
 fn markdown_parser(text: &str) -> pulldown_cmark::Parser<'_> {

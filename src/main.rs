@@ -1,4 +1,4 @@
-use actix_web::{middleware::Logger, web, App, HttpServer};
+use actix_web::{App, HttpServer, middleware::Logger, web};
 
 mod server_error;
 mod services;
@@ -16,7 +16,7 @@ async fn main() -> std::io::Result<()> {
     let port: u16 = std::env::var("PORT")
         .unwrap_or("3032".to_owned())
         .parse()
-        .unwrap();
+        .expect("PORT is not valid");
 
     log::info!("🚀 Listening to http://127.0.0.1:{}/ ...", port);
 

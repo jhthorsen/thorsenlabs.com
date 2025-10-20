@@ -1,9 +1,9 @@
-use actix_web::{http::header::ContentType, HttpResponse};
+use Vec;
+use actix_web::{HttpResponse, http::header::ContentType};
 use chrono::prelude::*;
 use chrono::{Duration, NaiveDate, NaiveDateTime};
 use reqwest;
 use serde::{Deserialize, Serialize};
-use Vec;
 
 use crate::server_error::ServerError;
 
@@ -48,8 +48,8 @@ async fn fetch_holidays(year: i32) -> Result<Vec<KnownHoliday>, reqwest::Error> 
         })
         .collect::<Vec<KnownHoliday>>();
 
-    let mut from = NaiveDate::from_yo_opt(year, 1).unwrap();
-    let to = NaiveDate::from_yo_opt(year + 1, 1).unwrap();
+    let mut from = NaiveDate::from_yo_opt(year, 1).unwrap_or_default();
+    let to = NaiveDate::from_yo_opt(year + 1, 1).unwrap_or_default();
     while from < to {
         if from.weekday() == Weekday::Sat {
             known.push(KnownHoliday {
