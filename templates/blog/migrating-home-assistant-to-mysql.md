@@ -13,11 +13,11 @@ When working with MySQL, you probably want to disable `foreign_key_checks`, so y
 # interactive shell
 mysql -h 127.0.0.1 -u homeassistant -p homeassistant --init-command="set session foreign_key_checks=0"
 
-# truncate a table, incase you need to import again
+# truncate a table, in case you need to import again
 mysql -h 127.0.0.1 -u homeassistant -p homeassistant --init-command="set session foreign_key_checks=0" -e "truncate table states"
 ```
 
-The following two commands can be used to inspect the database schemas in both SQLite and MySQL. It will come in handy, when you need to verify that the order of the columns are correct.
+The following two commands can be used to inspect the database schema in both SQLite and MySQL. It will come in handy, when you need to verify that the order of the columns are correct.
 
 ```bash
 cd /path/to/homeassistant/config;
@@ -39,16 +39,16 @@ The installation process for MySQL will not be covered here. Only the setup of t
 ```sql
 -- IMPORTANT: Change MYSECRETPASSWORD to something secret
 create database homeassistant;
-create user 'homeassistant'@'127.0.0.1' identified by 'mysecretpassword';
+create user 'homeassistant'@'127.0.0.1' identified by 'MYSECRETPASSWORD';
 grant all privileges on homeassistant.* to 'homeassistant'@'127.0.0.1';
 flush privileges;
 ```
 
-## Fixing MySQL database schemas
+## Fixing the MySQL database schema
 
-When I first started migrating the data, I got a lot of `ERROR 1406 Data too long for column ...` messages. This took me down a rabbit hole where I thought columns with [char(0)](https://dev.mysql.com/doc/refman/8.4/en/char.html) was causing the issues, but the real reason was simply that the columns in the table definitions was in a different order in MySQL, which again resulted in the data from the `INSERT INTO ...` statements to be (not) inserted into the wrong column.q
+When I first started migrating the data, I got a lot of `ERROR 1406 Data too long for column ...` messages. This took me down a rabbit hole where I thought columns with [char(0)](https://dev.mysql.com/doc/refman/8.4/en/char.html) was causing the issues, but the real reason was simply that the columns in the table definitions was in a different order in MySQL, which again resulted in the data from the `INSERT INTO ...` statements to (not) insert data into the wrong column.
 
-I decided to create a fresh schema, instead of trying to guess how they should look from the sqlite dump. To create the schemas I ran:
+I decided to create a fresh schema, instead of trying to guess how they should look from the sqlite dump. To create the schema I started Home Assistant with a fresh config and had it create the tables:
 
 
 ```bash
@@ -67,7 +67,7 @@ sudo systemctl start home-assistant.service;
 sudo systemctl stop home-assistant.service;
 ```
 
-After comparing the SQLite and MySQL tables, I found that I needed to make these changes:
+After comparing the SQLite and MySQL tables, I found that I needed to make these changes to import the dumped data from SQLite:
 
 ```sql
 alter table states modify column last_reported_ts double default null after metadata_id;
@@ -78,7 +78,7 @@ alter table statistics_meta modify column unit_class varchar(255) default null a
 
 ## Migrating from SQLite
 
-After the schemas was fixed, I ran the commands below to dump SQLite and then import the data back into MySQL. Note that this can take several minutes, depending on how much data there is!
+After the schema was fixed, I ran the commands below to dump SQLite and then import the data back into MySQL. Note that this can take several minutes, depending on how much data there is!
 
 ```bash
 cd backup;
@@ -95,7 +95,7 @@ for i in ha_*.sql; do echo "# $i"; mysql -h 127.0.0.1 -u homeassistant -p --init
 
 If the import fails, then it's probably because the order of the columns are wrong. If that's the case, then alter the table that fails and run the `for`-loop again. It should eventually work.
 
-After the migration is done, I could move back my config, update the `recorder` setting and start Home Assistant again:
+After the migration was done, I could move back my config, update the `recorder` setting in my original configuration file and start Home Assistant again:
 
 ```bash
 rsync -va backup/ config/;
