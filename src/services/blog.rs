@@ -85,6 +85,7 @@ pub async fn get_blog_index(
     if req.method() == actix_web::http::Method::HEAD {
         return Ok(HttpResponse::Ok()
             .content_type(ContentType::html())
+            .append_header(("cache-control", "max-age=300"))
             .finish());
     }
 
@@ -110,6 +111,7 @@ pub async fn get_blog_index(
     let rendered = state.tera.render("layouts/article.html", &ctx)?;
     Ok(HttpResponse::Ok()
         .content_type(ContentType::html())
+        .append_header(("cache-control", "max-age=300"))
         .body(rendered))
 }
 
@@ -129,6 +131,7 @@ pub async fn get_blog_post(
     if req.method() == actix_web::http::Method::HEAD {
         return Ok(HttpResponse::Ok()
             .content_type(ContentType::html())
+            .append_header(("cache-control", "max-age=300"))
             .finish());
     }
 
@@ -161,5 +164,6 @@ pub async fn get_blog_post(
     let rendered = state.tera.render("blog/entry.html", &ctx)?;
     Ok(HttpResponse::Ok()
         .content_type(ContentType::html())
+        .append_header(("cache-control", "public, max-age=3600"))
         .body(rendered))
 }

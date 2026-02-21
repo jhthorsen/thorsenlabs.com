@@ -92,6 +92,6 @@ pub async fn get_arbeidsdager_table(
 
     Ok(HttpResponse::Ok()
         .content_type(ContentType::html())
-        .append_header(("Cache-control", "max-age=86400"))
+        .append_header(("cache-control", "max-age=300"))
         .body(rendered))
 }

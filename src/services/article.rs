@@ -40,6 +40,7 @@ pub async fn get_article(
     if req.method() == actix_web::http::Method::HEAD {
         return Ok(HttpResponse::Ok()
             .content_type(ContentType::html())
+            .append_header(("cache-control", "max-age=300"))
             .finish());
     }
 
@@ -59,6 +60,7 @@ pub async fn get_article(
         let rendered = state.tera.render(&article_abs_path, &ctx)?;
         return Ok(HttpResponse::Ok()
             .content_type(ContentType::html())
+            .append_header(("cache-control", "max-age=300"))
             .body(rendered));
     }
     if ext == "md" {
@@ -79,6 +81,7 @@ pub async fn get_article(
         let rendered = state.tera.render("layouts/article.html", &ctx)?;
         return Ok(HttpResponse::Ok()
             .content_type(ContentType::html())
+            .append_header(("cache-control", "max-age=300"))
             .body(rendered));
     }
 

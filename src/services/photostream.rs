@@ -127,6 +127,7 @@ pub async fn get_photostream(
     if req.method() == actix_web::http::Method::HEAD {
         return Ok(HttpResponse::Ok()
             .content_type(ContentType::html())
+            .append_header(("cache-control", "max-age=300"))
             .finish());
     }
 
@@ -156,7 +157,7 @@ pub async fn get_photostream(
 
     Ok(HttpResponse::Ok()
         .content_type(ContentType::html())
-        .append_header(("Cache-control", "max-age=600"))
+        .append_header(("cache-control", "max-age=600"))
         .body(rendered))
 }
 
@@ -186,6 +187,6 @@ pub async fn post_webasset_urls(
 
     Ok(HttpResponse::Ok()
         .content_type(ContentType::json())
-        .append_header(("Cache-control", "max-age=300"))
+        .append_header(("cache-control", "max-age=300"))
         .body(json_str))
 }
