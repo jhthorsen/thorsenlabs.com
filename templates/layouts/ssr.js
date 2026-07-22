@@ -227,6 +227,7 @@
       $s.nonce = $c.nonce
       $s.dataset.owner = url || $s.nonce
       $s.textContent = $c.textContent
+      if ($c.src) $s.src = $c.src
       $d.head.appendChild($s)
       $c.remove()
     })
