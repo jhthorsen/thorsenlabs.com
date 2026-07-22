@@ -1,11 +1,6 @@
-use Vec;
-use actix_web::{HttpResponse, http::header::ContentType};
-use chrono::prelude::*;
-use chrono::{Duration, NaiveDate, NaiveDateTime};
+use super::helpers::*;
+use chrono::{Datelike, Duration, NaiveDate, NaiveDateTime, Weekday};
 use reqwest;
-use serde::{Deserialize, Serialize};
-
-use crate::server_error::ServerError;
 
 #[derive(Debug, Deserialize)]
 struct HolidaysDocumentDate {
@@ -74,24 +69,28 @@ async fn fetch_holidays(year: i32) -> Result<Vec<KnownHoliday>, reqwest::Error> 
 }
 
 pub async fn get_arbeidsdager_table(
-    req: actix_web::HttpRequest,
-    year: actix_web::web::Path<i32>,
-    state: actix_web::web::Data<crate::AppState>,
-) -> Result<HttpResponse, ServerError> {
-    let mut ctx = crate::template::template_context(&req);
+    State(state): State<crate::AppState>,
+    Path(year): Path<i32>,
+    headers: HeaderMap,
+    uri: Uri,
+    method: Method,
+) -> Result<Response, ServerError> {
+    let mut ctx = crate::template::template_context(&headers, &uri);
 
-    let rendered = if req.method() == actix_web::http::Method::HEAD {
+    let rendered = if method == Method::HEAD {
         "".to_owned()
     } else {
-        ctx.insert(
-            "holidays".to_owned(),
-            &fetch_holidays(year.into_inner()).await?,
-        );
+        ctx.insert("holidays".to_owned(), &fetch_holidays(year).await?);
         state.tera.render("arbeidsdager/table.html", &ctx)?
     };
 
-    Ok(HttpResponse::Ok()
-        .content_type(ContentType::html())
-        .append_header(("cache-control", "max-age=300"))
-        .body(rendered))
+    Ok((
+        StatusCode::OK,
+        [
+            ("content-type", "text/html"),
+            ("cache-control", "max-age=300"),
+        ],
+        rendered,
+    )
+        .into_response())
 }

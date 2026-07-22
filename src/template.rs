@@ -1,5 +1,4 @@
-use actix_web::HttpRequest;
-use actix_web::http::header::HeaderValue;
+use axum::http::{HeaderMap, Uri, header::HeaderValue};
 use markdown::Markdown;
 use rand::Rng;
 use regex::Regex;
@@ -47,10 +46,9 @@ fn header_value_to_string(value: Option<&HeaderValue>) -> String {
         .to_owned()
 }
 
-pub fn template_context(req: &HttpRequest) -> Context {
+pub fn template_context(headers: &HeaderMap, uri: &Uri) -> Context {
     let mut ctx = Context::new();
-    let h = req.headers();
-    let x_nonce = header_value_to_string(h.get("x-nonce"));
+    let x_nonce = header_value_to_string(headers.get("x-nonce"));
 
     let (csr, nonce) = match !x_nonce.is_empty() {
         true => (true, x_nonce),
@@ -66,7 +64,7 @@ pub fn template_context(req: &HttpRequest) -> Context {
 
     ctx.insert("csr", &csr);
     ctx.insert("nonce", &nonce);
-    ctx.insert("path", req.path());
+    ctx.insert("path", uri.path());
     ctx.insert(
         "base_url",
         &env::var("THORSEN_BASE_URL").unwrap_or("https://thorsenlabs.com".to_owned()),

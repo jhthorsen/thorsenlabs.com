@@ -1,16 +1,12 @@
-use actix_web::{HttpRequest, HttpResponse, http::header::ContentType, web};
-use std::collections::HashMap;
-use std::path::Path;
+use super::helpers::*;
+use std::path::Path as FilePath;
 
-use crate::server_error::ServerError;
-use crate::template::{document_path, markdown::Markdown};
-
-type QueryParams = HashMap<String, String>;
+type QueryParams = std::collections::HashMap<String, String>;
 
 fn template_type_from_path(path: &String) -> Result<String, ServerError> {
     for ext in &["html", "md"] {
         let abs_path = document_path(&format!("{}/index.{}", path, ext));
-        if Path::new(&abs_path).exists() {
+        if FilePath::new(&abs_path).exists() {
             return Ok(ext.to_string());
         }
     }
@@ -22,34 +18,40 @@ fn template_type_from_path(path: &String) -> Result<String, ServerError> {
 }
 
 pub async fn get_article(
-    state: web::Data<crate::AppState>,
-    req: HttpRequest,
-) -> Result<HttpResponse, ServerError> {
-    let article_rel_path = req
-        .match_info()
-        .get("article")
-        .unwrap_or("index")
+    State(state): State<crate::AppState>,
+    article: Option<Path<String>>,
+    headers: HeaderMap,
+    uri: Uri,
+    method: Method,
+) -> Result<Response, ServerError> {
+    let article = article.map(|Path(article)| article).unwrap_or_default();
+    let article_rel_path = article
+        .as_str()
         .trim_start_matches("/")
         .trim_end_matches("/")
         .trim_end_matches(".html")
         .trim_end_matches(".md");
 
-    let mut ctx = crate::template::template_context(&req);
+    let mut ctx = crate::template::template_context(&headers, &uri);
     let ext = template_type_from_path(&article_rel_path.to_owned())?;
 
-    if req.method() == actix_web::http::Method::HEAD {
-        return Ok(HttpResponse::Ok()
-            .content_type(ContentType::html())
-            .append_header(("cache-control", "max-age=300"))
-            .finish());
+    if method == Method::HEAD {
+        return Ok((
+            StatusCode::OK,
+            [
+                ("content-type", "text/html"),
+                ("cache-control", "max-age=300"),
+            ],
+        )
+            .into_response());
     }
 
     if ext == "html" {
-        let Ok(qs) = web::Query::<QueryParams>::from_query(req.query_string()) else {
+        let Ok(qs) = Query::<QueryParams>::try_from_uri(&uri) else {
             return Err(ServerError::BadRequest("Invalid query string.".to_owned()));
         };
 
-        ctx.insert("query".to_owned(), &qs.into_inner());
+        ctx.insert("query".to_owned(), &qs.0);
 
         let mut article = Markdown::default();
         article.scoped_css = format!("{}/scoped.css", article_rel_path);
@@ -58,14 +60,19 @@ pub async fn get_article(
 
         let article_abs_path = format!("{}/index.html", article_rel_path);
         let rendered = state.tera.render(&article_abs_path, &ctx)?;
-        return Ok(HttpResponse::Ok()
-            .content_type(ContentType::html())
-            .append_header(("cache-control", "max-age=300"))
-            .body(rendered));
+        return Ok((
+            StatusCode::OK,
+            [
+                ("content-type", "text/html"),
+                ("cache-control", "max-age=300"),
+            ],
+            rendered,
+        )
+            .into_response());
     }
     if ext == "md" {
         let article_abs_path = document_path(&format!("{}/index.md", article_rel_path));
-        let mut article = Markdown::new_from_path(&Path::new(&article_abs_path));
+        let mut article = Markdown::new_from_path(&FilePath::new(&article_abs_path));
         if !article.read() {
             return Err(ServerError::NotFound(
                 "Could not find article post.".to_owned(),
@@ -79,10 +86,15 @@ pub async fn get_article(
         ctx.insert("article".to_owned(), &article);
 
         let rendered = state.tera.render("layouts/article.html", &ctx)?;
-        return Ok(HttpResponse::Ok()
-            .content_type(ContentType::html())
-            .append_header(("cache-control", "max-age=300"))
-            .body(rendered));
+        return Ok((
+            StatusCode::OK,
+            [
+                ("content-type", "text/html"),
+                ("cache-control", "max-age=300"),
+            ],
+            rendered,
+        )
+            .into_response());
     }
 
     Err(ServerError::NotFound(format!(

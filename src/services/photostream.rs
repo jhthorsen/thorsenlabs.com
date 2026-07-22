@@ -1,13 +1,8 @@
-use Vec;
-use actix_web::{HttpResponse, http::header::ContentType};
+use super::helpers::*;
+use axum::Json;
 use chrono::{DateTime, Utc};
 use reqwest;
-use serde::{Deserialize, Serialize};
 use serde_with::serde_as;
-use std::collections::HashMap;
-
-use crate::server_error::ServerError;
-use crate::template::markdown::Markdown;
 
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
@@ -25,7 +20,7 @@ struct Photo {
     batch_guid: String,
     date_created: DateTime<Utc>,
     caption: String,
-    derivatives: HashMap<String, Derivative>,
+    derivatives: std::collections::HashMap<String, Derivative>,
     photo_guid: String,
 }
 
@@ -46,20 +41,22 @@ async fn cached_photostream_album(icloud_id: &str) -> Result<Album, ServerError>
     let cache_file = format!("/tmp/photostream-{}.json", icloud_id);
     let path = std::path::Path::new(&cache_file);
     if path.exists() {
-        log::info!(
-            "get=photostream_album cached=true icloud_id=\"{}\" cache_file=\"{}\"",
-            &icloud_id,
-            &cache_file,
+        tracing::info!(
+            get = "photostream_album",
+            cached = true,
+            icloud_id = %icloud_id,
+            cache_file = %cache_file
         );
         let json = std::fs::read_to_string(path)?;
         let album: Album = serde_json::from_str(&json)?;
         return Ok(album);
     }
 
-    log::info!(
-        "get=photostream_album cached=false icloud_id=\"{}\" cache_file=\"{}\"",
-        &icloud_id,
-        &cache_file,
+    tracing::info!(
+        get = "photostream_album",
+        cached = false,
+        icloud_id = %icloud_id,
+        cache_file = %cache_file
     );
     let client = reqwest::Client::new();
     let url = format!(
@@ -120,18 +117,24 @@ fn normalize_derivatives(album: &mut Album) {
 }
 
 pub async fn get_photostream(
-    icloud_id: actix_web::web::Path<String>,
-    req: actix_web::HttpRequest,
-    state: actix_web::web::Data<crate::AppState>,
-) -> Result<HttpResponse, ServerError> {
-    if req.method() == actix_web::http::Method::HEAD {
-        return Ok(HttpResponse::Ok()
-            .content_type(ContentType::html())
-            .append_header(("cache-control", "max-age=300"))
-            .finish());
+    State(state): State<crate::AppState>,
+    Path(icloud_id): Path<String>,
+    headers: HeaderMap,
+    uri: Uri,
+    method: Method,
+) -> Result<Response, ServerError> {
+    if method == Method::HEAD {
+        return Ok((
+            StatusCode::OK,
+            [
+                ("content-type", "text/html"),
+                ("cache-control", "max-age=300"),
+            ],
+        )
+            .into_response());
     }
 
-    let mut ctx = crate::template::template_context(&req);
+    let mut ctx = crate::template::template_context(&headers, &uri);
     let mut album = cached_photostream_album(&icloud_id).await?;
 
     // Sort latest first
@@ -143,7 +146,7 @@ pub async fn get_photostream(
     ctx.insert("album".to_owned(), &album);
 
     let mut article = Markdown::default();
-    article.id = icloud_id.clone();
+    article.id = icloud_id;
     article.title = format!("{}", album.stream_name);
     article.description = format!(
         "Album {} by {} {}",
@@ -155,20 +158,24 @@ pub async fn get_photostream(
 
     let rendered = state.tera.render("photostream/index.html", &ctx)?;
 
-    Ok(HttpResponse::Ok()
-        .content_type(ContentType::html())
-        .append_header(("cache-control", "max-age=600"))
-        .body(rendered))
+    Ok((
+        StatusCode::OK,
+        [
+            ("content-type", "text/html"),
+            ("cache-control", "max-age=600"),
+        ],
+        rendered,
+    )
+        .into_response())
 }
 
 pub async fn post_webasset_urls(
-    icloud_id: actix_web::web::Path<String>,
-    photo_guids: actix_web::web::Json<Vec<String>>,
-) -> Result<HttpResponse, ServerError> {
-    let photo_guids = photo_guids.into_inner();
+    Path(icloud_id): Path<String>,
+    Json(photo_guids): Json<Vec<String>>,
+) -> Result<Response, ServerError> {
     for photo_guid in &photo_guids {
         if photo_guid.len() != 36 {
-            return Ok(HttpResponse::BadRequest().body("Invalid photo GUID in list."));
+            return Ok((StatusCode::BAD_REQUEST, "Invalid photo GUID in list.").into_response());
         }
     }
 
@@ -185,8 +192,13 @@ pub async fn post_webasset_urls(
         .text()
         .await?;
 
-    Ok(HttpResponse::Ok()
-        .content_type(ContentType::json())
-        .append_header(("cache-control", "max-age=300"))
-        .body(json_str))
+    Ok((
+        StatusCode::OK,
+        [
+            ("content-type", "application/json"),
+            ("cache-control", "max-age=300"),
+        ],
+        json_str,
+    )
+        .into_response())
 }

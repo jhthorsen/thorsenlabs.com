@@ -1,9 +1,6 @@
-use crate::server_error::ServerError;
-use crate::template::basename_from_path;
-use crate::template::{document_path, markdown::Markdown};
-use actix_web::{HttpResponse, http::header::ContentType};
-use std::time::UNIX_EPOCH;
-use std::{fs, path::Path};
+use super::helpers::*;
+use axum::http::header::LOCATION;
+use std::{fs, path::Path as FilePath};
 
 fn create_blog_index_file(blog_index_path: &str) -> Result<bool, ServerError> {
     let mut blogs: Vec<(String, String)> = Vec::new();
@@ -70,7 +67,7 @@ footer: blog/footer.md
 fn mtime(path: &str) -> u64 {
     if let Ok(m) = fs::metadata(path)
         && let Ok(m) = m.modified()
-        && let Ok(m) = m.duration_since(UNIX_EPOCH)
+        && let Ok(m) = m.duration_since(std::time::UNIX_EPOCH)
     {
         return m.as_secs();
     }
@@ -79,17 +76,23 @@ fn mtime(path: &str) -> u64 {
 }
 
 pub async fn get_blog_index(
-    state: actix_web::web::Data<crate::AppState>,
-    req: actix_web::HttpRequest,
-) -> Result<HttpResponse, ServerError> {
-    if req.method() == actix_web::http::Method::HEAD {
-        return Ok(HttpResponse::Ok()
-            .content_type(ContentType::html())
-            .append_header(("cache-control", "max-age=300"))
-            .finish());
+    State(state): State<crate::AppState>,
+    headers: HeaderMap,
+    uri: Uri,
+    method: Method,
+) -> Result<Response, ServerError> {
+    if method == Method::HEAD {
+        return Ok((
+            StatusCode::OK,
+            [
+                ("content-type", "text/html"),
+                ("cache-control", "max-age=300"),
+            ],
+        )
+            .into_response());
     }
 
-    let mut ctx = crate::template::template_context(&req);
+    let mut ctx = crate::template::template_context(&headers, &uri);
     let blog_dir = document_path("blog");
     let blog_index_path = &format!("{}/index.md", &blog_dir);
     if mtime(blog_dir.as_str()) > mtime(format!("{}/list.md", &blog_dir).as_str()) {
@@ -99,7 +102,7 @@ pub async fn get_blog_index(
         );
     }
 
-    let mut article = Markdown::new_from_path(&Path::new(&blog_index_path));
+    let mut article = Markdown::new_from_path(&FilePath::new(&blog_index_path));
     if !article.read() {
         return Err(ServerError::NotFound(
             "Blog index was not generated.".to_owned(),
@@ -109,10 +112,15 @@ pub async fn get_blog_index(
     article.scoped_css = "blog/scoped.css".to_owned();
     ctx.insert("article".to_owned(), &article);
     let rendered = state.tera.render("layouts/article.html", &ctx)?;
-    Ok(HttpResponse::Ok()
-        .content_type(ContentType::html())
-        .append_header(("cache-control", "max-age=300"))
-        .body(rendered))
+    Ok((
+        StatusCode::OK,
+        [
+            ("content-type", "text/html"),
+            ("cache-control", "max-age=300"),
+        ],
+        rendered,
+    )
+        .into_response())
 }
 
 fn get_blog_id(raw: Option<&str>) -> (String, String) {
@@ -125,20 +133,27 @@ fn get_blog_id(raw: Option<&str>) -> (String, String) {
 }
 
 pub async fn get_blog_post(
-    state: actix_web::web::Data<crate::AppState>,
-    req: actix_web::HttpRequest,
-) -> Result<HttpResponse, ServerError> {
-    if req.method() == actix_web::http::Method::HEAD {
-        return Ok(HttpResponse::Ok()
-            .content_type(ContentType::html())
-            .append_header(("cache-control", "max-age=300"))
-            .finish());
+    State(state): State<crate::AppState>,
+    Path(raw_blog_id): Path<String>,
+    headers: HeaderMap,
+    uri: Uri,
+    method: Method,
+) -> Result<Response, ServerError> {
+    if method == Method::HEAD {
+        return Ok((
+            StatusCode::OK,
+            [
+                ("content-type", "text/html"),
+                ("cache-control", "max-age=300"),
+            ],
+        )
+            .into_response());
     }
 
-    let mut ctx = crate::template::template_context(&req);
-    let (blog_date, blog_id) = get_blog_id(req.match_info().get("blog_id"));
+    let mut ctx = crate::template::template_context(&headers, &uri);
+    let (blog_date, blog_id) = get_blog_id(Some(&raw_blog_id));
     let blog_path = document_path(&format!("blog/{}.md", blog_id));
-    let mut article = Markdown::new_from_path(&Path::new(&blog_path));
+    let mut article = Markdown::new_from_path(&FilePath::new(&blog_path));
     if !article.read() {
         return Err(ServerError::NotFound(
             "Could not find blog post.".to_owned(),
@@ -147,12 +162,11 @@ pub async fn get_blog_post(
 
     // Redirect if date does not match
     if blog_date != article.date {
-        return Ok(HttpResponse::Found()
-            .append_header((
-                actix_web::http::header::LOCATION,
-                format!("/blog/{}-{}", article.date, article.id),
-            ))
-            .finish());
+        return Ok((
+            StatusCode::FOUND,
+            [(LOCATION, format!("/blog/{}-{}", article.date, article.id))],
+        )
+            .into_response());
     }
 
     if article.scoped_css.len() == 0 {
@@ -162,8 +176,13 @@ pub async fn get_blog_post(
     ctx.insert("article".to_owned(), &article);
 
     let rendered = state.tera.render("blog/entry.html", &ctx)?;
-    Ok(HttpResponse::Ok()
-        .content_type(ContentType::html())
-        .append_header(("cache-control", "public, max-age=3600"))
-        .body(rendered))
+    Ok((
+        StatusCode::OK,
+        [
+            ("content-type", "text/html"),
+            ("cache-control", "public, max-age=3600"),
+        ],
+        rendered,
+    )
+        .into_response())
 }

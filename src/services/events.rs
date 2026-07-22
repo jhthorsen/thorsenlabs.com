@@ -1,14 +1,14 @@
-use actix_web::{web, http::header::ContentType, HttpResponse};
+use super::helpers::*;
+use axum::body::Bytes;
 
-use crate::server_error::ServerError;
-
-pub async fn git_push(
-    body: web::Bytes,
-) -> Result<HttpResponse, ServerError> {
+pub async fn git_push(body: Bytes) -> Result<Response, ServerError> {
     let update_file = format!("/tmp/git-push-thorsenlabs.com.json");
     std::fs::write(&update_file, body.to_vec())?;
 
-    Ok(HttpResponse::Ok()
-        .content_type(ContentType::json())
-        .body("{\"updated\":true}"))
+    Ok((
+        StatusCode::OK,
+        [("content-type", "application/json")],
+        "{\"updated\":true}",
+    )
+        .into_response())
 }

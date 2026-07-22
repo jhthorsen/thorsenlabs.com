@@ -1,34 +1,34 @@
-use actix_web::{App, HttpServer, middleware::Logger, web};
-
 mod server_error;
 mod services;
 mod template;
 
+#[derive(Clone)]
 pub struct AppState {
     pub tera: tera::Tera,
 }
 
-#[actix_web::main]
+#[tokio::main]
 async fn main() -> std::io::Result<()> {
     dotenv::dotenv().ok();
-    env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
+
+    tracing_subscriber::fmt()
+        .with_env_filter(
+            tracing_subscriber::EnvFilter::try_from_default_env()
+                .unwrap_or_else(|_| tracing_subscriber::EnvFilter::new("info")),
+        )
+        .init();
 
     let port: u16 = std::env::var("PORT")
         .unwrap_or("3032".to_owned())
         .parse()
-        .expect("PORT is not valid");
+        .expect("PORT= is not valid");
 
-    log::info!("🚀 Listening to http://127.0.0.1:{}/ ...", port);
+    tracing::info!("🚀 Listening to http://127.0.0.1:{}/ ...", port);
 
-    HttpServer::new(move || {
-        App::new()
-            .app_data(web::Data::new(AppState {
-                tera: crate::template::global_tera().clone(),
-            }))
-            .configure(services::configure)
-            .wrap(Logger::default())
-    })
-    .bind(("0.0.0.0", port))?
-    .run()
-    .await
+    let listener = tokio::net::TcpListener::bind(("0.0.0.0", port)).await?;
+    let state = AppState {
+        tera: crate::template::global_tera(),
+    };
+
+    axum::serve(listener, services::router(state)).await
 }
