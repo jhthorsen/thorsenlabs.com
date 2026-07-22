@@ -1,4 +1,5 @@
 :root {
+  --pico-background-color: rgb(7, 25, 39);
   --pico-font-size: 115%;
   --pico-form-element-spacing-vertical: 0.4em;
   --pico-form-element-spacing-horizontal: 0.7em;
@@ -33,8 +34,7 @@ main > article {
 }
 
 article > header {
-  box-shadow: 0 0 4em 4em var(--pico-card-sectioning-background-color);
-  border-bottom: 0;
+  background-color: transparent;
 }
 
 article > header table {
@@ -97,12 +97,14 @@ table {
     margin-top: -1rem;
     vertical-align: bottom;
   }
+
+  @media (min-width: 600px) {
+    padding-block: 2rem 1rem;
+  }
 }
 
 #footer {
   font-size: 0.8em;
-  background-color: var(--pico-card-sectioning-background-color);
-  box-shadow: 0 0 2em 2em var(--pico-card-sectioning-background-color);
   margin-block-start: 3rem;
 
   p {
