@@ -20,7 +20,6 @@
       this.form = d.querySelector('#proxy_for_url');
       if (!this.form) return console.warn('Could not find form#proxy_for_url');
 
-      this.basePath = (this.form.action || '/').replace(/\/+$/, '')
       this.logEl = d.querySelector('table#pac_log, form table');
       this.myIpAddressInput = this.form.querySelector('[name=my_ip_address]');
       this.rulesInput = this.form.querySelector('[name=rules]');
@@ -52,7 +51,10 @@
 
         const fn = new AsyncFunction('url', 'host', this.findProxyForURL).bind(this);
         fn(url.toString(), url.hostname).then(
-          (rule) => (this.logEl.querySelector('tbody tr td:last-child').textContent = rule),
+          (rule) => {
+            const lastCell = this.logEl.querySelector('tbody tr td:last-child');
+            if (lastCell) lastCell.textContent = rule;
+          },
           (err) => this.log(String(err), '', 'Error!'),
         ).finally(() => this._animate(false));
       } catch (err) {
@@ -106,7 +108,7 @@
     async dnsResolve(host) {
       const body = new FormData();
       body.append('host', host);
-      const res = await fetch(this.basePath + '/v1/gethostbyname', {method: 'POST', body});
+      const res = await fetch('/v1/gethostbyname', {method: 'POST', body});
       const text = await res.text();
       if (res.status >= 500) throw 'dnsResolve() FAIL ' + (text || res.status);
       return text;
@@ -120,7 +122,7 @@
       body.append('ip', ip);
       body.append('net', net);
       body.append('mask', mask);
-      const res = await fetch(this.basePath + '/v1/is-in-net', {method: 'POST', body});
+      const res = await fetch('/v1/is-in-net', {method: 'POST', body});
       const text = await res.text();
       if (res.status >= 500) throw 'isInNet() FAIL ' + (text || res.status);
       return parseInt(text, 10) ? true : false;
@@ -135,7 +137,7 @@
     }
 
     async localHostOrDomainIs(host, str) {
-      return str.match(/^\./) ? dnsDomainIs(host, str) : host === str ? true : host === host.split('.')[0];
+      return str.match(/^\./) ? await this.dnsDomainIs(host, str) : host === str || host.split('.')[0] === str;
     }
 
     async myIpAddress() {
@@ -143,7 +145,7 @@
     }
 
     async shExpMatch(host, re) {
-      return host.match(new RegExp(re.replace(/\*/, '.*?'), 'i')) ? true : false;
+      return host.match(new RegExp(re.replace(/\*/g, '.*?'), 'i')) ? true : false;
     }
 
     async timeRange() {

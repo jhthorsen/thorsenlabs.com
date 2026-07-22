@@ -3,6 +3,7 @@ mod article;
 mod blog;
 mod events;
 mod helpers;
+mod network;
 mod photostream;
 mod script;
 
@@ -33,6 +34,8 @@ pub fn router(state: crate::AppState) -> Router {
             "/photostream/{icloud_id}/webassets",
             post(photostream::post_webasset_urls),
         )
+        .route("/v1/gethostbyname", post(network::post_gethostbyname))
+        .route("/v1/is-in-net", post(network::post_is_in_net))
         .route("/", get(article::get_article))
         .route("/{*article}", get(article::get_article))
         .layer(TraceLayer::new_for_http());
