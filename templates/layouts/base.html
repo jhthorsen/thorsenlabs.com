@@ -61,7 +61,7 @@
       </style>
     {% endif %}
   </head>
-  <body data-init @ssr:fetch-error="@dispatch(document, 'ssr:sse-patch-elements', {detail:{data:notification(evt.detail.error)}})">
+  <body data-init on:ssr:response="@dispatch(document, 'ssr:sse-patch-elements', {detail:{data:notification(evt.detail.error)}})">
     {% block header %}
     <header id="header">
       <div class="nav-wrapper document-width">

@@ -14,7 +14,7 @@
       {{ markdown(name = "arbeidsdager/header.md") | safe }}
     </header>
 
-    <form method="get" action="/arbeidsdager" data-init @submit="thorsen.calculateWorkingDays(evt)">
+    <form method="get" action="/arbeidsdager" data-init on:submit="thorsen.calculateWorkingDays(evt)">
       <table>
         <thead>
           <tr>
@@ -81,7 +81,7 @@
     </form>
 
     <h2>Helligdager</h2>
-    <table id="holidays-table" data-effect="@use(['year']) && @get(`/arbeidsdager/table/${$year}`)">
+    <table id="holidays-table" data-effect="@get(`/arbeidsdager/table/${$year}`)">
       <tbody>
         <tr><td>Laster data...</td></tr>
       </tbody>

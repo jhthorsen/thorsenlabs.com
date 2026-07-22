@@ -60,7 +60,7 @@
     result.easter = easter ? calculateTrappedDays($form, easter, to) : 0;
 
     for (const key of Object.keys(result)) {
-      el($form, `.total-${key}`).textContent = result[key];
+      el($form, `.total-${key}`).textContent = Math.round(result[key] * 10) / 10;
     }
 
     let workingDays = result.days;
@@ -70,8 +70,8 @@
     if (el($form, "[name=holidays]").checked) workingDays -= result.holidays;
     if (el($form, "[name=weekends]").checked) workingDays -= result.weekends;
 
-    el($form, `.total-working-days`).textContent = workingDays;
-    el($form, `.total-working-hours`).textContent = workingDays * 7.5;
+    el($form, `.total-working-days`).textContent = Math.round(workingDays * 10) / 10;
+    el($form, `.total-working-hours`).textContent = Math.round(workingDays * 7.5 * 10) / 10;
 
     const url = new URL(location.href);
     url.search = new URLSearchParams(new FormData($form)).toString()
