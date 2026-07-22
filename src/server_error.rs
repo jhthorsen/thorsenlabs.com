@@ -12,28 +12,24 @@ pub enum ServerError {
 
 impl From<reqwest::Error> for ServerError {
     fn from(err: reqwest::Error) -> ServerError {
-        tracing::error!(error_type = "reqwest", error = ?err);
         ServerError::InternalServerError(err.to_string())
     }
 }
 
 impl From<serde_json::Error> for ServerError {
     fn from(err: serde_json::Error) -> ServerError {
-        tracing::error!(error_type = "serde_json", error = ?err);
         ServerError::InternalServerError(err.to_string())
     }
 }
 
 impl From<std::io::Error> for ServerError {
     fn from(err: std::io::Error) -> ServerError {
-        tracing::error!(error_type = "std::io", error = ?err);
         ServerError::InternalServerError(err.to_string())
     }
 }
 
 impl From<tera::Error> for ServerError {
     fn from(err: tera::Error) -> ServerError {
-        tracing::error!(error_type = "tera", error = ?err);
         ServerError::InternalServerError(err.to_string())
     }
 }
@@ -77,6 +73,7 @@ impl IntoResponse for ServerError {
             ServerError::NotFound(_) => StatusCode::NOT_FOUND,
         };
 
+        tracing::error!(render_error = ?self);
         (status, [("content-type", "text/html")], self.to_string()).into_response()
     }
 }
