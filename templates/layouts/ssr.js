@@ -2,6 +2,7 @@
   'use strict';
   const SEL = '[data-init],[data-bind],[data-effect],[data-store]'
   const STORES = {}
+  const SCROLL_CACHE = {} // Store scroll positions for back/forward navigation
 
   /**
    * Monkey-patches history.pushState and history.replaceState so that `L`
@@ -10,7 +11,12 @@
    */
   ;['pushState', 'replaceState'].forEach(m => {
     const o = H[m].bind(H)
-    H[m] = (s, t, u) => { o(s, t, u); u && (L = new URL(u, L.href)) }
+    H[m] = (s, t, u) => {
+      // Save current scroll position before navigation
+      if (m === 'pushState') SCROLL_CACHE[L.href] = {x: $w.scrollX, y: $w.scrollY}
+      o(s, t, u)
+      u && (L = new URL(u, L.href))
+    }
   })
 
   /**
@@ -369,7 +375,19 @@
       if (($c = $($p, 'title'))) $($d, 'title', ($o) => $o.textContent = $c.textContent)
       if ($($p, '[data-swap]')) return swapElements($p)
       if (($c = $($p, 'body'))) $d.body.innerHTML = $c.innerHTML
-      if (L.hash) $($d, L.hash, el => el.scrollIntoView({behavior: 'auto'}))
+
+      // Handle scroll position
+      if (L.hash) {
+        // Scroll to anchor
+        $($d, L.hash, el => el.scrollIntoView({behavior: 'auto'}))
+      } else if (SCROLL_CACHE[L.href]) {
+        // Restore scroll position for back/forward navigation
+        const {x, y} = SCROLL_CACHE[L.href]
+        $w.scrollTo(x, y)
+      } else {
+        // Scroll to top for new page navigation
+        $w.scrollTo(0, 0)
+      }
     } else {
       const $p = $d.createRange().createContextualFragment(data)
       if (url.length) $($d, `[data-owner="${url}"]`, ($c) => $c.remove())
@@ -449,6 +467,8 @@
    * location to update the page content accordingly.
    */
   listen($w, $w, 'popstate', () => {
+    // Save current scroll position before navigating back/forward
+    SCROLL_CACHE[L.href] = {x: $w.scrollX, y: $w.scrollY}
     const O = L
     L = new URL(location.href)
     if (O.pathname == L.pathname && O.search == L.search) return
