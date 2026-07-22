@@ -34,9 +34,10 @@
       this._animate(true);
 
       try {
+        const host = document.querySelector('#pac_host').value;
         const url = new URL(document.querySelector('#pac_url').value);
         this.log(null);
-        this.log('FindProxyForURL', [url, url.hostname], null);
+        this.log('FindProxyForURL', [url, host.length ? host : url.hostname], null);
 
         this.findProxyForURL = this.rulesInput.value
             .replace(/function\s+FindProxyForURL[^{]+{/, '')
@@ -50,7 +51,7 @@
         this.findProxyForURL = this.findProxyForURL.replace(/\b(new\s|document\.|window\.|cookie\b)/, 'ILLEGAL');
 
         const fn = new AsyncFunction('url', 'host', this.findProxyForURL).bind(this);
-        fn(url.toString(), url.hostname).then(
+        fn(url.toString(), host.length ? host : url.hostname).then(
           (rule) => {
             const lastCell = this.logEl.querySelector('tbody tr td:last-child');
             if (lastCell) lastCell.textContent = rule;
@@ -97,7 +98,9 @@
     }
 
     async dnsDomainIs(host, domain) {
-      return host.endsWith(domain);
+      if (host === domain) return true;
+      if (domain.startsWith('.')) return host.endsWith(domain);
+      return host.endsWith('.' + domain);
     }
 
     async dnsDomainLevels(host) {
@@ -129,7 +132,12 @@
     }
 
     async isResolvable(host) {
-      return await this.dnsResolve(host) ? true : false;
+      try {
+        const ip = await this.dnsResolve(host);
+        return ip && ip.length > 0 && ip.match(/[0-9.:]/);
+      } catch (err) {
+        return false;
+      }
     }
 
     async isPlainHostName(str) {
@@ -137,15 +145,20 @@
     }
 
     async localHostOrDomainIs(host, str) {
-      return str.match(/^\./) ? await this.dnsDomainIs(host, str) : host === str || host.split('.')[0] === str;
+      if (str.startsWith('.')) return await this.dnsDomainIs(host, str);
+      return host === str || (host.indexOf('.') === -1 && host === str.split('.')[0]);
     }
 
     async myIpAddress() {
       return this.myIpAddressInput.value || this.remoteAddress || '127.0.0.1';
     }
 
-    async shExpMatch(host, re) {
-      return host.match(new RegExp(re.replace(/\*/g, '.*?'), 'i')) ? true : false;
+    async shExpMatch(host, shexp) {
+      const pattern = shexp
+        .replace(/[.+^${}()|[\]\\]/g, '\\$&')  // Escape regex special chars
+        .replace(/\*/g, '.*')                   // * → match any chars
+        .replace(/\?/g, '.');                   // ? → match single char
+      return new RegExp('^' + pattern + '$', 'i').test(host);
     }
 
     async timeRange() {
