@@ -126,10 +126,7 @@ pub async fn get_photostream(
     if method == Method::HEAD {
         return Ok((
             StatusCode::OK,
-            [
-                ("content-type", "text/html"),
-                ("cache-control", "max-age=300"),
-            ],
+            [ct("text/html"), cache_control_header(&headers, 300)],
         )
             .into_response());
     }
@@ -157,13 +154,9 @@ pub async fn get_photostream(
     ctx.insert("article".to_owned(), &article);
 
     let rendered = state.tera.render("photostream/index.html", &ctx)?;
-
     Ok((
         StatusCode::OK,
-        [
-            ("content-type", "text/html"),
-            ("cache-control", "max-age=600"),
-        ],
+        [ct("text/html"), cache_control_header(&headers, 600)],
         rendered,
     )
         .into_response())
@@ -195,8 +188,8 @@ pub async fn post_webasset_urls(
     Ok((
         StatusCode::OK,
         [
-            ("content-type", "application/json"),
-            ("cache-control", "max-age=300"),
+            ct("application/json"),
+            ("cache-control", "max-age=300".to_string()),
         ],
         json_str,
     )

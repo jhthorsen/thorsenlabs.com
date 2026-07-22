@@ -84,10 +84,7 @@ pub async fn get_blog_index(
     if method == Method::HEAD {
         return Ok((
             StatusCode::OK,
-            [
-                ("content-type", "text/html"),
-                ("cache-control", "max-age=300"),
-            ],
+            [ct("text/html"), cache_control_header(&headers, 300)],
         )
             .into_response());
     }
@@ -114,10 +111,7 @@ pub async fn get_blog_index(
     let rendered = state.tera.render("layouts/article.html", &ctx)?;
     Ok((
         StatusCode::OK,
-        [
-            ("content-type", "text/html"),
-            ("cache-control", "max-age=300"),
-        ],
+        [ct("text/html"), cache_control_header(&headers, 300)],
         rendered,
     )
         .into_response())
@@ -129,7 +123,7 @@ fn get_blog_id(raw: Option<&str>) -> (String, String) {
         return (raw[..10].to_owned(), raw[11..].to_owned());
     }
 
-    ("".to_owned(), "".to_owned())
+    ("9999-12-31".to_owned(), raw.to_owned())
 }
 
 pub async fn get_blog_post(
@@ -142,10 +136,7 @@ pub async fn get_blog_post(
     if method == Method::HEAD {
         return Ok((
             StatusCode::OK,
-            [
-                ("content-type", "text/html"),
-                ("cache-control", "max-age=300"),
-            ],
+            [ct("text/html"), cache_control_header(&headers, 1800)],
         )
             .into_response());
     }
@@ -178,10 +169,7 @@ pub async fn get_blog_post(
     let rendered = state.tera.render("blog/entry.html", &ctx)?;
     Ok((
         StatusCode::OK,
-        [
-            ("content-type", "text/html"),
-            ("cache-control", "public, max-age=3600"),
-        ],
+        [ct("text/html"), cache_control_header(&headers, 3600)],
         rendered,
     )
         .into_response())

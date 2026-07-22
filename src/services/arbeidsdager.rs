@@ -86,10 +86,7 @@ pub async fn get_arbeidsdager_table(
 
     Ok((
         StatusCode::OK,
-        [
-            ("content-type", "text/html"),
-            ("cache-control", "max-age=300"),
-        ],
+        [ct("text/html"), cache_control_header(&headers, 300)],
         rendered,
     )
         .into_response())

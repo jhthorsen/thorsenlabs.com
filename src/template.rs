@@ -38,7 +38,7 @@ pub fn global_tera() -> Tera {
     .to_owned()
 }
 
-fn header_value_to_string(value: Option<&HeaderValue>) -> String {
+pub fn header_value_to_string(value: Option<&HeaderValue>) -> String {
     value
         .unwrap_or(&HeaderValue::from_static(""))
         .to_str()

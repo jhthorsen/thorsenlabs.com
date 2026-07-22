@@ -38,17 +38,14 @@ pub async fn get_article(
     if method == Method::HEAD {
         return Ok((
             StatusCode::OK,
-            [
-                ("content-type", "text/html"),
-                ("cache-control", "max-age=300"),
-            ],
+            [ct("text/html"), cache_control_header(&headers, 300)],
         )
             .into_response());
     }
 
     if ext == "html" {
         let Ok(qs) = Query::<QueryParams>::try_from_uri(&uri) else {
-            return Err(ServerError::BadRequest("Invalid query string.".to_owned()));
+            return Err(ServerError::BadRequest("Invalid query string".to_owned()));
         };
 
         ctx.insert("query".to_owned(), &qs.0);
@@ -62,10 +59,7 @@ pub async fn get_article(
         let rendered = state.tera.render(&article_abs_path, &ctx)?;
         return Ok((
             StatusCode::OK,
-            [
-                ("content-type", "text/html"),
-                ("cache-control", "max-age=300"),
-            ],
+            [ct("text/html"), cache_control_header(&headers, 300)],
             rendered,
         )
             .into_response());
@@ -88,10 +82,7 @@ pub async fn get_article(
         let rendered = state.tera.render("layouts/article.html", &ctx)?;
         return Ok((
             StatusCode::OK,
-            [
-                ("content-type", "text/html"),
-                ("cache-control", "max-age=300"),
-            ],
+            [ct("text/html"), cache_control_header(&headers, 300)],
             rendered,
         )
             .into_response());
