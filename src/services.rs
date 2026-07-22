@@ -4,6 +4,7 @@ mod blog;
 mod events;
 mod helpers;
 mod photostream;
+mod script;
 
 use axum::Router;
 use axum::routing::{get, post};
@@ -15,8 +16,8 @@ pub fn router(state: crate::AppState) -> Router {
     let router = Router::new()
         .nest_service("/css", ServeDir::new(format!("{}/css", static_dir)))
         .nest_service("/fonts", ServeDir::new(format!("{}/fonts", static_dir)))
-        .nest_service("/js", ServeDir::new(format!("{}/js", static_dir)))
         .nest_service("/images", ServeDir::new(format!("{}/images", static_dir)))
+        .route("/js/{*name}", get(script::get_script))
         .route(
             "/arbeidsdager/table/{year}",
             get(arbeidsdager::get_arbeidsdager_table),

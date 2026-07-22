@@ -84,10 +84,5 @@ pub async fn get_arbeidsdager_table(
         state.tera.render("arbeidsdager/table.html", &ctx)?
     };
 
-    Ok((
-        StatusCode::OK,
-        [ct("text/html"), cache_control_header(&headers, 300)],
-        rendered,
-    )
-        .into_response())
+    Ok(Html(rendered).into_response())
 }

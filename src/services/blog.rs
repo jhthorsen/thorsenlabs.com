@@ -82,11 +82,7 @@ pub async fn get_blog_index(
     method: Method,
 ) -> Result<Response, ServerError> {
     if method == Method::HEAD {
-        return Ok((
-            StatusCode::OK,
-            [ct("text/html"), cache_control_header(&headers, 300)],
-        )
-            .into_response());
+        return Ok(StatusCode::OK.into_response());
     }
 
     let mut ctx = crate::template::template_context(&headers, &uri);
@@ -109,12 +105,7 @@ pub async fn get_blog_index(
     article.scoped_css = "blog/scoped.css".to_owned();
     ctx.insert("article".to_owned(), &article);
     let rendered = state.tera.render("layouts/article.html", &ctx)?;
-    Ok((
-        StatusCode::OK,
-        [ct("text/html"), cache_control_header(&headers, 300)],
-        rendered,
-    )
-        .into_response())
+    Ok(Html(rendered).into_response())
 }
 
 fn get_blog_id(raw: Option<&str>) -> (String, String) {
@@ -134,11 +125,7 @@ pub async fn get_blog_post(
     method: Method,
 ) -> Result<Response, ServerError> {
     if method == Method::HEAD {
-        return Ok((
-            StatusCode::OK,
-            [ct("text/html"), cache_control_header(&headers, 1800)],
-        )
-            .into_response());
+        return Ok(StatusCode::OK.into_response());
     }
 
     let mut ctx = crate::template::template_context(&headers, &uri);
@@ -167,10 +154,5 @@ pub async fn get_blog_post(
     ctx.insert("article".to_owned(), &article);
 
     let rendered = state.tera.render("blog/entry.html", &ctx)?;
-    Ok((
-        StatusCode::OK,
-        [ct("text/html"), cache_control_header(&headers, 3600)],
-        rendered,
-    )
-        .into_response())
+    Ok(Html(rendered).into_response())
 }

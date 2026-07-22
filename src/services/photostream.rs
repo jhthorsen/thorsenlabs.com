@@ -1,5 +1,4 @@
 use super::helpers::*;
-use axum::Json;
 use chrono::{DateTime, Utc};
 use reqwest;
 use serde_with::serde_as;
@@ -124,11 +123,7 @@ pub async fn get_photostream(
     method: Method,
 ) -> Result<Response, ServerError> {
     if method == Method::HEAD {
-        return Ok((
-            StatusCode::OK,
-            [ct("text/html"), cache_control_header(&headers, 300)],
-        )
-            .into_response());
+        return Ok(StatusCode::OK.into_response());
     }
 
     let mut ctx = crate::template::template_context(&headers, &uri);
@@ -154,12 +149,7 @@ pub async fn get_photostream(
     ctx.insert("article".to_owned(), &article);
 
     let rendered = state.tera.render("photostream/index.html", &ctx)?;
-    Ok((
-        StatusCode::OK,
-        [ct("text/html"), cache_control_header(&headers, 600)],
-        rendered,
-    )
-        .into_response())
+    Ok(Html(rendered).into_response())
 }
 
 pub async fn post_webasset_urls(
@@ -186,12 +176,8 @@ pub async fn post_webasset_urls(
         .await?;
 
     Ok((
-        StatusCode::OK,
-        [
-            ct("application/json"),
-            ("cache-control", "max-age=300".to_string()),
-        ],
-        json_str,
+        [("cache-control", "max-age=300".to_string())],
+        Json(json_str),
     )
         .into_response())
 }

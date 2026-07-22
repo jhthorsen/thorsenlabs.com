@@ -36,11 +36,7 @@ pub async fn get_article(
     let ext = template_type_from_path(&article_rel_path.to_owned())?;
 
     if method == Method::HEAD {
-        return Ok((
-            StatusCode::OK,
-            [ct("text/html"), cache_control_header(&headers, 300)],
-        )
-            .into_response());
+        return Ok(StatusCode::OK.into_response());
     }
 
     if ext == "html" {
@@ -57,12 +53,7 @@ pub async fn get_article(
 
         let article_abs_path = format!("{}/index.html", article_rel_path);
         let rendered = state.tera.render(&article_abs_path, &ctx)?;
-        return Ok((
-            StatusCode::OK,
-            [ct("text/html"), cache_control_header(&headers, 300)],
-            rendered,
-        )
-            .into_response());
+        return Ok(Html(rendered).into_response());
     }
     if ext == "md" {
         let article_abs_path = document_path(&format!("{}/index.md", article_rel_path));
@@ -80,12 +71,7 @@ pub async fn get_article(
         ctx.insert("article".to_owned(), &article);
 
         let rendered = state.tera.render("layouts/article.html", &ctx)?;
-        return Ok((
-            StatusCode::OK,
-            [ct("text/html"), cache_control_header(&headers, 300)],
-            rendered,
-        )
-            .into_response());
+        return Ok(Html(rendered).into_response());
     }
 
     Err(ServerError::NotFound(format!(

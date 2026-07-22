@@ -32,6 +32,7 @@ pub fn global_tera() -> Tera {
         tera.register_filter("match", template_filter_match);
         tera.register_function("markdown", template_function_markdown);
         tera.register_function("qs", template_function_qs);
+        tera.register_function("script", template_function_script);
         tera.register_function("slurp", template_function_slurp);
         tera
     })
@@ -156,6 +157,26 @@ fn template_function_qs(args: &HashMap<String, tera::Value>) -> Result<tera::Val
     }
 
     return Ok(to_value(path)?);
+}
+
+fn template_function_script(args: &HashMap<String, tera::Value>) -> Result<tera::Value, Error> {
+    let Some(nonce) = args.get("nonce").and_then(|n| n.as_str()) else {
+        return Err(Error::msg("script function requires 'nonce' argument"));
+    };
+
+    let Some(src) = args.get("src").and_then(|src| src.as_str()) else {
+        return Err(Error::msg("script function requires 'src' argument"));
+    };
+
+    let mtime = std::fs::metadata(document_path(src))
+        .and_then(|m| m.modified())
+        .map(|t| t.duration_since(std::time::UNIX_EPOCH).unwrap().as_secs())
+        .unwrap_or(0);
+
+    let name = src.trim_end_matches(".js");
+    Ok(to_value(format!(
+        r#"<script src="/js{name}@{mtime:x}.js" nonce="{nonce}"></script>"#,
+    ))?)
 }
 
 fn template_function_slurp(args: &HashMap<String, tera::Value>) -> Result<tera::Value, Error> {
