@@ -54,4 +54,4 @@ function notification(message) {
 
   document.addEventListener('ssr:init', () => thorsen.syntaxHighlight())
   thorsen.syntaxHighlight()
-})(window.thorsen || (window.thorsen = {}))
+})(window.thorsen || (window.thorsen = {}));

@@ -89,5 +89,5 @@
     <blockquote>Tabellen over er hentet fra <a href="https://webapi.no/">webapi.no</a>.</blockquote>
   </article>
 </main>
-{{ script(src="/arbeidsdager/arbeidsdager.js", nonce=nonce) | safe }}
+<script nonce="{{ nonce }}" src="{{ src(path="/arbeidsdager/arbeidsdager.js") }}"></script>
 {% endblock %}

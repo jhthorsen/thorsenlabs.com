@@ -329,6 +329,6 @@ input[type=checkbox] {
 <footer class="footer">
   <p class="copyright">&copy; <a href="http://thorsenlabs.com">Jan Henning Thorsen</a></p>
 </footer>
-{{ script(src="/timer/timer.js", nonce=nonce) | safe }}
+<script nonce="{{ nonce }}" src="{{ src(path="/timer/timer.js") }}"></script>
 </body>
 </html>

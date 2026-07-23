@@ -84,5 +84,5 @@ function FindProxyForURL(url, host) {
     </footer>
   </article>
 </main>
-{{ script(src="/pac/pac.js", nonce=nonce) | safe }}
+<script nonce="{{ nonce }}" src="{{ src(path="/pac/pac.js") }}"></script>
 {% endblock %}

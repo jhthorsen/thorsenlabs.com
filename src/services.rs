@@ -2,10 +2,10 @@ mod arbeidsdager;
 mod article;
 mod blog;
 mod events;
+mod files;
 mod helpers;
 mod network;
 mod photostream;
-mod script;
 
 use axum::Router;
 use axum::routing::{get, post};
@@ -15,10 +15,10 @@ use tower_http::trace::TraceLayer;
 pub fn router(state: crate::AppState) -> Router {
     let static_dir = std::env::var("THORSEN_STATIC_DIR").unwrap_or("./static".to_owned());
     let router = Router::new()
-        .nest_service("/css", ServeDir::new(format!("{}/css", static_dir)))
         .nest_service("/fonts", ServeDir::new(format!("{}/fonts", static_dir)))
         .nest_service("/images", ServeDir::new(format!("{}/images", static_dir)))
-        .route("/js/{*name}", get(script::get_script))
+        .route("/css/{*name}", get(files::get_style))
+        .route("/js/{*name}", get(files::get_script))
         .route(
             "/arbeidsdager/table/{year}",
             get(arbeidsdager::get_arbeidsdager_table),

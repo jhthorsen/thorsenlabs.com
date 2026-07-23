@@ -82,5 +82,5 @@
   </a>
 </div>
 {% endif %}
-{{ script(src="/photostream/photostream.js", nonce=nonce) | safe }}
+<script nonce="{{ nonce }}" src="{{ athash(src="/photostream/photostream.js") }}"></script>
 {% endblock %}

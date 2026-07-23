@@ -1,5 +1,4 @@
 :root {
-  --pico-background-color: rgb(7, 25, 39);
   --pico-font-size: 115%;
   --pico-form-element-spacing-vertical: 0.4em;
   --pico-form-element-spacing-horizontal: 0.7em;
@@ -24,13 +23,16 @@ body {
   }
 }
 
+p:has(img:first-child:last-child) {
+  margin: 0;
+}
+
 pre {
   font-size: 0.85em;
   border-radius: 0.5rem;
 }
 
 main > article {
-  --pico-block-spacing-vertical: 2rem;
   background-color: transparent;
 }
 
@@ -57,6 +59,11 @@ table {
     margin: 0 !important;
     width: auto;
   }
+}
+
+h1, h2, h3 {
+  font-weight: normal;
+  letter-spacing: 1px;
 }
 
 h1, h2, h3, h3, h4, h5, h6 {
@@ -109,6 +116,11 @@ h6 { --font-scaling: 2.0vw; --pico-typography-spacing-top: 2rem }
     padding-right: 0.3rem;
     margin-top: -1rem;
     vertical-align: bottom;
+
+    @media (max-width: 600px) {
+      position: relative;
+      top: 0.3rem;
+    }
   }
 
   @media (min-width: 600px) {

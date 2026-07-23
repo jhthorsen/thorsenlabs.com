@@ -49,8 +49,7 @@
           <meta property="og:image" content="{{ base_url | safe }}/images/jht-profilbilde-e1553101127296-768x693.jpg">
         {% endif %}
       {% endblock %}
-
-      <link rel="stylesheet" href="/css/pico@2.1.1.min.css">
+      <link rel="stylesheet" href="{{ src(path="/layouts/pico.css") }} ">
       <style>
         {{ slurp(name="css/override.css", fallback="/* override.css */") | safe }}
       </style>
@@ -101,9 +100,9 @@ and [Rust](https://www.rust-lang.org/).
   {% endblock %}
 
 {% if not csr and nonce %}
-  <script nonce="{{ nonce }}" src="/js/layouts/idiomorph+10224e0.js"></script>
-  <script nonce="{{ nonce }}" src="/js/layouts/ssr+b60c4f61.js"></script>
-  {{ script(src="/layouts/thorsenlabs.js", nonce=nonce) | safe }}
+  <script nonce="{{ nonce }}" src="{{ src(path="/layouts/idiomorph.js") }}"></script>
+  <script nonce="{{ nonce }}" src="{{ src(path="/layouts/ssr.js") }}"></script>
+  <script nonce="{{ nonce }}" src="{{ src(path="/layouts/thorsenlabs.js") }}"></script>
 {% endif %}
 </body>
 </html>
