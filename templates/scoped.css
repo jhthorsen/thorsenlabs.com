@@ -6,8 +6,10 @@ article#about {
       float: right;
       margin-right: 0;
       max-width: 35%;
-      margin-left: 1rem;
+      margin-left: clamp(1rem, 5vw, 3rem);
+      margin-bottom: clamp(1rem, 5vw, 3rem);
       margin-top: -0.5rem;
+      border-radius: 1rem;
     }
   }
 

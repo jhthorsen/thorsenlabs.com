@@ -42,20 +42,16 @@
 @media (min-width:768px){:host,:root{--pico-font-size:112.5%}}
 @media (min-width:1024px){:host,:root{--pico-font-size:118.75%}}
 @media (min-width:1280px){:host,:root{--pico-font-size:125%}}
-@media (min-width:1536px){:host,:root{--pico-font-size:131.25%}}a{--pico-text-decoration:underline}a.contrast,a.secondary{--pico-text-decoration:underline}small{--pico-font-size:0.875em}h1,h2,h3,h4,h5,h6{--pico-font-weight:700}h1{--pico-font-size:2rem;
---pico-line-height:1.125;
---pico-typography-spacing-top:3rem}h2{--pico-font-size:1.75rem;
---pico-line-height:1.15;
---pico-typography-spacing-top:2.625rem}h3{--pico-font-size:1.5rem;
---pico-line-height:1.175;
---pico-typography-spacing-top:2.25rem}h4{--pico-font-size:1.25rem;
---pico-line-height:1.2;
---pico-typography-spacing-top:1.874rem}h5{--pico-font-size:1.125rem;
---pico-line-height:1.225;
---pico-typography-spacing-top:1.6875rem}h6{--pico-font-size:1rem;
---pico-line-height:1.25;
---pico-typography-spacing-top:1.5rem}tfoot td,tfoot th,thead td,thead th{--pico-font-weight:600;
---pico-border-width:0.1875rem}code,kbd,pre,samp{--pico-font-family:var(--pico-font-family-monospace)}kbd{--pico-font-weight:bolder}:where(select,textarea),input:not([type=submit],[type=button],[type=reset],[type=checkbox],[type=radio],[type=file]){--pico-outline-width:0.0625rem}
+@media (min-width:1536px){:host,:root{--pico-font-size:131.25%}}a{--pico-text-decoration:underline}a.contrast,a.secondary{--pico-text-decoration:underline}small{--pico-font-size:0.875em}h1,h2,h3,h4,h5,h6{--pico-font-weight:700}
+h1{--pico-font-size:2rem;--pico-line-height:1.125;--pico-typography-spacing-top:3rem}
+h2{--pico-font-size:1.75rem;--pico-line-height:1.15;--pico-typography-spacing-top:2.625rem}
+h3{--pico-font-size:1.5rem;--pico-line-height:1.175;--pico-typography-spacing-top:2.25rem}
+h4{--pico-font-size:1.25rem;--pico-line-height:1.2;--pico-typography-spacing-top:1.874rem}
+h5{--pico-font-size:1.125rem;--pico-line-height:1.225;--pico-typography-spacing-top:1.6875rem}
+h6{--pico-font-size:1rem;--pico-line-height:1.25;--pico-typography-spacing-top:1.5rem}
+tfoot td,tfoot th,thead td,thead th{--pico-font-weight:600;--pico-border-width:0.1875rem}
+code,kbd,pre,samp{--pico-font-family:var(--pico-font-family-monospace)}
+kbd{--pico-font-weight:bolder}:where(select,textarea),input:not([type=submit],[type=button],[type=reset],[type=checkbox],[type=radio],[type=file]){--pico-outline-width:0.0625rem}
 [type=search]{--pico-border-radius:5rem}
 [type=checkbox],[type=radio]{--pico-border-width:0.125rem}
 [type=checkbox][role=switch]{--pico-border-width:0.1875rem}details.dropdown summary:not([role=button]){--pico-outline-width:0.0625rem}nav details.dropdown summary:focus-visible{--pico-outline-width:0.125rem}

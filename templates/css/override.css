@@ -3,8 +3,9 @@
   --pico-font-size: 115%;
   --pico-form-element-spacing-vertical: 0.4em;
   --pico-form-element-spacing-horizontal: 0.7em;
+  --pico-typography-spacing-vertical: 1.8rem;
   --pico-border-radius: 1rem;
-  --sub-title-heading-margin: 0.3rem;
+  --sub-title-heading-margin: 0.8rem;
   --sub-title-font-size: 0.9rem;
 }
 
@@ -35,6 +36,7 @@ main > article {
 
 article > header {
   background-color: transparent;
+  border-bottom: 0;
 }
 
 article > header table {
@@ -56,6 +58,17 @@ table {
     width: auto;
   }
 }
+
+h1, h2, h3, h3, h4, h5, h6 {
+  font-size: clamp(var(--pico-font-size), var(--font-scaling), calc(var(--pico-font-size) * 1.3));
+}
+
+h1 { --font-scaling: 5.0vw; }
+h2 { --font-scaling: 4.0vw; --pico-typography-spacing-top: 3.125rem }
+h3 { --font-scaling: 3.5vw; --pico-typography-spacing-top: 2.75rem }
+h4 { --font-scaling: 3.0vw; --pico-typography-spacing-top: 2.374rem }
+h5 { --font-scaling: 2.5vw; --pico-typography-spacing-top: 2.1875rem }
+h6 { --font-scaling: 2.0vw; --pico-typography-spacing-top: 2rem }
 
 #header,
 #footer {

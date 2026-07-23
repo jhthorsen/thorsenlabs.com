@@ -1,11 +1,14 @@
 article#curriculum-vitae {
-  h1 + p > img {
-    border-radius: 1rem;
-    margin-left: 1rem;
-    margin-top: -0.5rem;
-    float: right;
-    width: 25vw;
-    max-width: min(60vh, 25vw);
+  > header {
+    img {
+      float: right;
+      margin-right: 0;
+      max-width: 38%;
+      margin-left: clamp(1rem, 5vw, 3rem);
+      margin-bottom: clamp(1rem, 5vw, 3rem);
+      margin-top: -0.5rem;
+      border-radius: 1rem;
+    }
 
     @media (max-width: 32rem) {
       display: none;
