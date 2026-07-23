@@ -50,9 +50,7 @@
         {% endif %}
       {% endblock %}
       <link rel="stylesheet" href="{{ src(path="/layouts/pico.css") }} ">
-      <style>
-        {{ slurp(name="css/override.css", fallback="/* override.css */") | safe }}
-      </style>
+      <link rel="stylesheet" href="{{ src(path="/layouts/override.css") }} ">
     {% endif %}
     {% if article is defined %}
       <style nonce="{{ nonce | default(value="") }}">
