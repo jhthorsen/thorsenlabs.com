@@ -1,6 +1,7 @@
 ---
 title: Which name to pick?
 date: 2009-05-12
+status: published
 ---
 
 I'm writing a new [module](http://github.com/jhthorsen/net-isc-dhcpd),

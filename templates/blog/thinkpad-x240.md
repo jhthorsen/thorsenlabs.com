@@ -1,6 +1,7 @@
 ---
 title: The Lenovo Thinkpad x240 is awful, but...
 date: 2014-09-27
+status: published
 ---
 
 ## Worst x-series laptop

@@ -1,6 +1,7 @@
 ---
 title: Home Assistant
 date: 2025-03-09
+status: published
 ---
 
 [Home Assistant](https://www.home-assistant.io) is an amazing project, and I can see how it's the [most popular](https://octoverse.github.com/2022/state-of-open-source) open source project. Many YouTubers say that Home Assistant is not for "common people", but I'm not sure if I agree. Yes, you have to have some tech knowledge, but I'm guessing you already do, if you're into home automation.

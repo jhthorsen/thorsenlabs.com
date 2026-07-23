@@ -1,6 +1,7 @@
 ---
 title: My x200 used to say "beep"
 date: 2010-07-13
+status: published
 ---
 
 I've been using my [Thinkpad

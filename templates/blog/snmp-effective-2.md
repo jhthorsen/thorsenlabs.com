@@ -1,6 +1,7 @@
 ---
 title: SNMP::Effective
 date: 2006-02-19
+status: published
 ---
 
 I'm done writing the code for SNMP::Effective now. It has show to be

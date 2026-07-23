@@ -1,6 +1,7 @@
 ---
 title: YAPC::Europe::2006 Birmingham
 date: 2006-09-04
+status: published
 ---
 
 [4th of September,

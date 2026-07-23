@@ -26,16 +26,11 @@ footer: blog/footer.md
             continue;
         }
 
-        for skip in ["footer.md", "header.md", "index.md"] {
-            if basename == skip {
-                continue;
-            }
-        }
-
         let mut blog = Markdown::new_from_path(&blog_files_item.path());
         if !blog.read() {
             continue;
         }
+
         if blog.status != "published"
             && std::env::var("APP_ENV").unwrap_or_default() != "development"
         {

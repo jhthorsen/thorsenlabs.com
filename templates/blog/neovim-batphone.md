@@ -1,6 +1,7 @@
 ---
 title: My Neovim setup
 date: 2025-03-10
+status: published
 ---
 
 Earlier in February I got inspired by [LazyVim](https://www.lazyvim.org) and started converting [my neovim configuration](https://github.com/jhthorsen/batphone.nvim) into a plugin. I must say though, that I am a bit envious to newcomers that can start out fresh with LazyVim, since it just looks amazing. I do think my setup is worth a look though, since it's a bit closer to the core neovim experience, and even though opinionated, it's easy to fork and make it into your own.

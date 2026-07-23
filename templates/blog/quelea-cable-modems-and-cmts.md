@@ -1,6 +1,7 @@
 ---
 title: Quelea
 date: 2007-09-01
+status: published
 ---
 
 This project is shut down.

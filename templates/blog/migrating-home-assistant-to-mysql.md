@@ -1,6 +1,7 @@
 ---
 title: Migrating Home Assistant from SQLite to MySQL
 date: 2026-01-04
+status: published
 ---
 
 I wanted to change to MySQL as [recorder](https://www.home-assistant.io/integrations/recorder) backend for my Home Assistant instance, but it was not as easy as I hoped it would be. Home Assistant does not provide any migrationg tools, so I had to fiddle around to move my data from SQLite to MySQL.

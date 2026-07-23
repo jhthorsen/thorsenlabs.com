@@ -1,6 +1,7 @@
 ---
 title: Howto deploy #Mojolicious to \@dotcloud
 date: 2012-09-15
+status: published
 ---
 
 After sending some

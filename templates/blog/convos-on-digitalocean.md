@@ -1,6 +1,7 @@
 ---
 title: Howto set up Convos on \@digitalocean
 date: 2014-03-02
+status: published
 ---
 
 From [convos.by](http://convos.by):

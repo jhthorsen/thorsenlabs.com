@@ -1,6 +1,7 @@
 ---
 title: How to validate your input/output with a OpenAPI schema
 date: 2015-07-05
+status: published
 ---
 
 ## OUTDATED

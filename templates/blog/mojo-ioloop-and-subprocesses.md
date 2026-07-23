@@ -1,6 +1,7 @@
 ---
 title: Mojo::IOLoop likes running programs asynchronously
 date: 2022-06-12
+status: published
 ---
 
 Want to be able to run programs and arbitrary Perl code asynchronously,

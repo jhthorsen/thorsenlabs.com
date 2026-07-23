@@ -1,6 +1,7 @@
 ---
 title: Cloudinary examples for applying effects to your images
 date: 2012-07-11
+status: published
 ---
 
 So yesterday I

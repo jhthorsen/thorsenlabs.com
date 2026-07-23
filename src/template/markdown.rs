@@ -43,7 +43,7 @@ impl Markdown {
             ingress: String::from(""),
             path: path.to_path_buf(),
             scoped_css: String::from(""),
-            status: String::from("published"),
+            status: String::from("draft"),
             title: basename.replace("-", " "),
         }
     }

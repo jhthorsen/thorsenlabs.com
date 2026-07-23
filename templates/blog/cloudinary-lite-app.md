@@ -1,6 +1,7 @@
 ---
 title: A #Mojolicious lite app that use \@Cloudinary
 date: 2012-07-14
+status: published
 ---
 
 So earlier this week I've written about [How to deliver your images

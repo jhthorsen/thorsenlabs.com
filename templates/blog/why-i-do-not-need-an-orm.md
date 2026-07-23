@@ -1,6 +1,7 @@
 ---
 title: Why I don't need an ORM
 date: 2024-10-30
+status: published
 ---
 
 Once upon a time, I thought ORM's was the meaning of life. I bought into the

@@ -1,6 +1,7 @@
 ---
 title: More perl modules
 date: 2008-05-06
+status: published
 ---
 
 I'm working on some more perl-modules now:

@@ -1,6 +1,7 @@
 ---
 title: Online DOCSIS config file editor
 date: 2009-09-18
+status: published
 ---
 
 I've written an [online DOCSIS config file

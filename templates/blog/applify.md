@@ -1,6 +1,7 @@
 ---
 title: Applify: Scripting without boilerplate
 date: 2012-07-20
+status: published
 ---
 
 [Applify](https://metacpan.org/module/Applify) is a module which helps

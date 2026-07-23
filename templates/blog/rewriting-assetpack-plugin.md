@@ -1,6 +1,7 @@
 ---
 title: Rewriting Mojolicious::Plugin::AssetPack
 date: 2016-02-21
+status: published
 ---
 
 Update: I suggest checking out

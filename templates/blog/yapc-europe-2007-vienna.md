@@ -1,6 +1,7 @@
 ---
 title: YAPC::Europe::2007 Vienna
 date: 2007-08-30
+status: published
 ---
 
 [YAPC::Europe::2007](http://vienna.yapceurope.org/ye2007) was a blast! I

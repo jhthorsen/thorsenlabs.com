@@ -1,6 +1,7 @@
 ---
 title: How I write web applications
 date: 2015-10-31
+status: published
 ---
 
 This blog post is about the standard components I use when I develop and

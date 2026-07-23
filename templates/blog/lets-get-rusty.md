@@ -1,6 +1,7 @@
 ---
 title: I'm getting rusty
 date: 2024-10-27
+status: published
 ---
 
 I've been using [Perl](https://www.perl.org) and

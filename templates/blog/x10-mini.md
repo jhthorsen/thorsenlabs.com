@@ -1,6 +1,7 @@
 ---
 title: Xperia X10 mini
 date: 2010-07-12
+status: published
 ---
 
 So I've been using my [X10 mini](http://www.sonyericsson.com/cws/corporate/products/phoneportfolio/specification/xperiax10mini)

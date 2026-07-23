@@ -1,6 +1,7 @@
 ---
 title: Testing with a real database
 date: 2015-09-20
+status: published
 ---
 
 Writing tests against a database is a struggle. Maybe the best way is to

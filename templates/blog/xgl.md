@@ -1,6 +1,7 @@
 ---
 title: Xgl
 date: 2006-03-07
+status: published
 ---
 
 I've managed to get

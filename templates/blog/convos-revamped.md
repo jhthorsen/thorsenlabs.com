@@ -1,6 +1,7 @@
 ---
 title: Convos revamped!
 date: 2015-08-31
+status: published
 ---
 
 [Convos](http://convos.by/) is a chat application that runs in your

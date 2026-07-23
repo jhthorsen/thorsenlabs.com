@@ -1,6 +1,7 @@
 ---
 title: Line noise: parentheses
 date: 2009-06-01
+status: published
 ---
 
 I've been discussing how bad perl code looks and I'm a bit surprised: I

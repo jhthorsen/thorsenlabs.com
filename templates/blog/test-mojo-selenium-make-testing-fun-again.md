@@ -1,6 +1,7 @@
 ---
 title: Browser testing is hard. Let's go shopping
 date: 2017-05-03
+status: published
 ---
 
 Tonight at the monthly Oslo.pm

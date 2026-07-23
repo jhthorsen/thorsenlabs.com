@@ -1,6 +1,7 @@
 ---
 title: rt.cpan.org -- great fun!
 date: 2009-09-09
+status: published
 ---
 
 I must say I enjoy getting rt-tickets. "Why?", you might ask. Well, It's

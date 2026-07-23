@@ -1,6 +1,7 @@
 ---
 title: Continuous deployment with #Mojolicious and \@github
 date: 2013-08-13
+status: published
 ---
 
 After hearing [Curtis Poe](https://twitter.com/OvidPerl) giving the talk

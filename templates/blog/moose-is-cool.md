@@ -1,6 +1,7 @@
 ---
 title: Wow, Moose is cool!
 date: 2009-05-30
+status: published
 ---
 
 I was introducing [Moose](http://search.cpan.org/dist/Moose) (and perl

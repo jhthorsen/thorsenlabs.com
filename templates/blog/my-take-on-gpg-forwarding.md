@@ -1,6 +1,7 @@
 ---
 title: My take on gpg forwarding
 date: 2024-07-24
+status: published
 ---
 
 I've been searching around the Internet for how to forward gpg sockets,

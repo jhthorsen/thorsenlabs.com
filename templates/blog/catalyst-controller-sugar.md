@@ -1,6 +1,7 @@
 ---
 title: CatalystX::Controller::Sugar
 date: 2009-09-10
+status: published
 ---
 
 I've written a module I think is rather useful:

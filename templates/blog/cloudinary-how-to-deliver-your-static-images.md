@@ -1,6 +1,7 @@
 ---
 title: How to deliver your images through Cloudinary with Perl
 date: 2012-07-10
+status: published
 ---
 
 [Cloudinary](http://cloudinary.com) is a cloud-based service for image

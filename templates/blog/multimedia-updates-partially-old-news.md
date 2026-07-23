@@ -1,6 +1,7 @@
 ---
 title: Multimedia updates (partially old news)
 date: 2008-05-25
+status: published
 ---
 
 I've been enjoying xbox mediacenter on my xbox 1.x for several years now

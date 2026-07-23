@@ -1,6 +1,7 @@
 ---
 title: Mojopaste -- A #pastebin based on #Mojolicious
 date: 2013-09-05
+status: published
 ---
 
 ```c

@@ -1,6 +1,7 @@
 ---
 title: Finally got Nextcloud running with Caddy and php-fpm
 date: 2024-10-22
+status: published
 ---
 
 I've been running [Nextcloud](https://nextcloud.com) for many years, but it has

@@ -1,6 +1,7 @@
 ---
 title: Write and test Perl command line tools with ease
 date: 2022-05-30
+status: published
 ---
 
 Writing command line tools often involves a lot of boilerplate and they

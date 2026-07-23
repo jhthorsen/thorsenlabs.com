@@ -1,6 +1,7 @@
 ---
 title: How to deploy #Mojolicious apps on \@DigitalOcean
 date: 2014-03-09
+status: published
 ---
 
 [Mojolicious](http://mojolicious.org) is truly a modern web framework.

@@ -1,6 +1,7 @@
 ---
 title: Reasons for choosing Mojolicious
 date: 2015-07-10
+status: published
 ---
 
 This blog post is a response to <http://perlmonks.org/?node_id=1133505>.
