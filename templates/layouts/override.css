@@ -23,10 +23,6 @@ body {
   }
 }
 
-p:has(img:first-child:last-child) {
-  margin: 0;
-}
-
 pre {
   font-size: 0.85em;
   border-radius: 0.5rem;
@@ -34,6 +30,7 @@ pre {
 
 main > article {
   background-color: transparent;
+  box-shadow: none;
 }
 
 article > header {
@@ -129,11 +126,51 @@ h6 { --font-scaling: 2.0vw; --pico-typography-spacing-top: 2rem }
 }
 
 #footer {
-  font-size: 0.8em;
+  font-size: 0.85em;
   margin-block-start: 3rem;
+  padding-block: 3rem 1.5rem;
+  border-top: 0.8rem dashed var(--pico-table-row-stripped-background-color);
+
+  a {
+    color: var(--pico-muted-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--pico-primary-hover);
+      text-decoration: none;
+    }
+  }
+
+  h3 {
+    font-size: 0.95em;
+    color: var(--pico-color);
+    margin-block-end: 0.5rem;
+  }
 
   p {
-    margin-block: 1rem;
+    margin-block: 0.5rem;
+    color: var(--pico-muted-color);
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+
+    li {
+      list-style: none;
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-block-end: 2rem;
+
+    @media (min-width: 600px) {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
   }
 }
 

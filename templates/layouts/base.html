@@ -73,7 +73,6 @@
           <ul>
             <li><a href="/">About</a></li>
             <li><a href="/blog">Blog</a></li>
-            <li><a href="/contact">Contact</a></li>
           </ul>
         </nav>
       </div>
@@ -87,12 +86,35 @@
 
   {% block footer %}
     <footer id="footer">
-      <div class="document-width">
-    {% filter markdown %}
-&copy; 2024 - Powered by Me,
+      <div class="document-width grid">
+        <div>
+          {% filter markdown %}
+### Thorsenlabs
+This website is powered by
+[Me](mailto:hei@thorsenlabs.com),
 [Hetzner](https://www.hetzner.com)
 and [Rust](https://www.rust-lang.org/).
-    {% endfilter %}
+
+&copy; 2026
+          {% endfilter %}
+        </div>
+        <div>
+          {% filter markdown %}
+### Quick Links
+* [About](/)
+* [Blog](/blog)
+* [Curriculum Vitae](/curriculum-vitae)
+* [Contact](/contact)
+          {% endfilter %}
+        </div>
+        <div>
+          {% filter markdown %}
+### Connect
+* [hei@thorsenlabs.com](mailto:hei@thorsenlabs.com)
+* [GitHub](https://github.com/jhthorsen)
+* [Linkedin](https://www.linkedin.com/in/jhthorsen/)
+          {% endfilter %}
+        </div>
       </div>
     </footer>
   {% endblock %}

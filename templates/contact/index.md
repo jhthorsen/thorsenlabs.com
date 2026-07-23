@@ -5,8 +5,7 @@ description: Ways to contact Jan Henning Thorsen
 
 <header>
 
-Ways to get in touch
-====================
+# Ways to get in touch
 
 The most convenient way is to send an email to
 [hei@thorsenlabs.com](mailto:hei@thorsenlabs.com).
