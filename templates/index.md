@@ -10,7 +10,9 @@ header: header.md
 ### Convos
 *A browser based IRC client*
 
-[![Convos illustration](https://convos.chat/screenshots/2020-05-28-convos-chat.jpg)](https://convos.chat/)
+<a href="https://convos.chat/">
+  <img src="https://convos.chat/screenshots/2020-05-28-convos-chat.jpg" alt="Convos illustration" loading="lazy">
+</a>
 
 [Convos](https://convos.chat/) is an IRC client that runs in your browser and
 brings the IRC experience into the 21st century. It features a persistent
@@ -20,7 +22,9 @@ browser window.
 ### Proxy For URL
 *An online PAC file tester*
 
-[![Proxy For URL illustration](/images/2022-02-20-proxyforurl.jpg)](/pac)
+<a href="/pac">
+  <img src="/images/2022-02-20-proxyforurl.jpg" alt="Proxy For URL illustration" loading="lazy">
+</a>
 
 [Proxy For URL](/pac) is a tool for testing [proxy
 auto-config](https://developer.mozilla.org/en-US/docs/Web/HTTP/Proxy_servers_and_tunneling/Proxy_Auto-Configuration_PAC_file)
@@ -30,7 +34,9 @@ destination or are forwarded to a web proxy server.
 ### Timekeeper
 *A shareable timer*
 
-<a href="/timer" target="_top">![Timekeeper illustration](/images/2022-02-20-timekeeper.jpg)</a>
+<a href="/timer" target="_top">
+  <img src="/images/2022-02-20-timekeeper.jpg" alt="Timekeeper illustration" loading="lazy">
+</a>
 
 <a href="/timer" target="_top">Timekeeper</a> is a web app for creating shareable
 timers. Simply copy and paste the URL in your browser to a friend or coworker
@@ -39,7 +45,9 @@ after setting a timer.
 ### Mojopaste
 *A pastebin*
 
-<a href="/paste/" target="_top">![Mojopaste illustration](/images/2022-02-20-mojopaste.jpg)</a>
+<a href="/paste/" target="_top">
+  <img src="/images/2022-02-20-mojopaste.jpg" alt="Mojopaste illustration" loading="lazy">
+</a>
 
 <a href="/paste/" target="_top">Mojopaste</a> is a pastebin application. There are
 about one million of these out there, but if you need to run something
@@ -49,7 +57,9 @@ application.
 ### Frank Thorsen
 *My dad’s website*
 
-[![Frank Thorsen illustration](/images/2019-03-23-frank.thorsen.pm.png)](https://frank.thorsen.pm/)
+<a href="https://frank.thorsen.pm/">
+  <img src="/images/2019-03-23-frank.thorsen.pm.jpg" alt="Frank Thorsen illustration" loading="lazy">
+</a>
 
 My dad wrote a book, and [this page](https://frank.thorsen.pm/) is about him
 and his book.
