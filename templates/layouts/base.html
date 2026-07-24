@@ -65,14 +65,14 @@
         <nav>
           <ul>
             <li>
-              <a href="/" class="brand">
+              <a href="#footer" class="brand">
                 <img src="/images/brand.png" alt="Profile picture of Jan Henning Thorsen"> Thorsenlabs
               </a>
             </li>
           </ul>
           <ul>
-            <li><a href="/">About</a></li>
-            <li><a href="/blog">Blog</a></li>
+            <li><a href="/" {% if path == "/" %}aria-current{% endif %}>About</a></li>
+            <li><a href="/blog" {% if path | match(re="^/blog") %}aria-current{% endif %}>Blog</a></li>
           </ul>
         </nav>
       </div>
@@ -91,9 +91,11 @@
           {% filter markdown %}
 ### Thorsenlabs
 This website is powered by
-[Me](mailto:hei@thorsenlabs.com),
+[me](/curriculum-vitae),
 [Hetzner](https://www.hetzner.com)
 and [Rust](https://www.rust-lang.org/).
+
+<a href="#top">↑ Back to top</a>
 
 &copy; 2026
           {% endfilter %}
@@ -103,8 +105,8 @@ and [Rust](https://www.rust-lang.org/).
 ### Quick Links
 * [About](/)
 * [Blog](/blog)
-* [Curriculum Vitae](/curriculum-vitae)
 * [Contact](/contact)
+* [Curriculum Vitae](/curriculum-vitae)
           {% endfilter %}
         </div>
         <div>
@@ -112,7 +114,7 @@ and [Rust](https://www.rust-lang.org/).
 ### Connect
 * [hei@thorsenlabs.com](mailto:hei@thorsenlabs.com)
 * [GitHub](https://github.com/jhthorsen)
-* [Linkedin](https://www.linkedin.com/in/jhthorsen/)
+* [LinkedIn](https://www.linkedin.com/in/jhthorsen/)
           {% endfilter %}
         </div>
       </div>

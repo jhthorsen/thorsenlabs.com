@@ -2,13 +2,14 @@
   --pico-font-size: 115%;
   --pico-form-element-spacing-vertical: 0.4em;
   --pico-form-element-spacing-horizontal: 0.7em;
-  --pico-typography-spacing-vertical: 1.8rem;
+  --pico-typography-spacing-vertical: min(1em, 1.6rem);
   --pico-border-radius: 1rem;
   --sub-title-heading-margin: 0.8rem;
   --sub-title-font-size: 0.9rem;
 }
 
 html, body {
+  scroll-behavior: smooth;
   min-height: 100vh;
   margin: 0;
   padding: 0;
@@ -108,6 +109,10 @@ h6 { --font-scaling: 2.0vw; --pico-typography-spacing-top: 2rem }
     text-decoration: none;
   }
 
+  a[aria-current] {
+    text-decoration: underline;
+  }
+
   img {
     height: 2.2rem;
     padding-right: 0.3rem;
@@ -128,34 +133,40 @@ h6 { --font-scaling: 2.0vw; --pico-typography-spacing-top: 2rem }
 #footer {
   font-size: 0.85em;
   margin-block-start: 3rem;
-  padding-block: 3rem 1.5rem;
-  border-top: 0.8rem dashed var(--pico-table-row-stripped-background-color);
+  padding-block: 3rem max(38vh, 15rem);
+  border-top: 0.5rem dashed rgba(76, 101, 145, 0.2);
+
+  a[href="#top"] {
+    text-decoration: none;
+  }
+
+  p,
+  a {
+    color: var(--pico-muted-color);
+  }
 
   a {
     color: var(--pico-muted-color);
-    text-decoration: none;
     transition: color 0.2s ease;
 
     &:hover {
       color: var(--pico-primary-hover);
-      text-decoration: none;
     }
   }
 
   h3 {
     font-size: 0.95em;
-    color: var(--pico-color);
     margin-block-end: 0.5rem;
   }
 
   p {
     margin-block: 0.5rem;
-    color: var(--pico-muted-color);
   }
 
   ul {
     padding: 0;
     margin: 0;
+    white-space: nowrap;
 
     li {
       list-style: none;
@@ -170,6 +181,23 @@ h6 { --font-scaling: 2.0vw; --pico-typography-spacing-top: 2rem }
 
     @media (min-width: 600px) {
       grid-template-columns: 2fr 1fr 1fr;
+    }
+  }
+
+  .back-to-top {
+    margin-block-start: 1rem;
+
+    a {
+      display: inline-block;
+      font-size: 0.95em;
+      font-weight: 500;
+      padding: 0.4rem 1rem;
+      border-radius: var(--pico-border-radius);
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(76, 101, 145, 0.1);
+      }
     }
   }
 }
