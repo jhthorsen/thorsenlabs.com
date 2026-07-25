@@ -60,7 +60,7 @@ kbd{--pico-font-weight:bolder}:where(select,textarea),input:not([type=submit],[t
 [role=group]:has(button.contrast:focus,[type=submit].contrast:focus,[type=button].contrast:focus,[role=button].contrast:focus),[role=search]:has(button.contrast:focus,[type=submit].contrast:focus,[type=button].contrast:focus,[role=button].contrast:focus){--pico-group-box-shadow-focus-with-button:0 0 0 var(--pico-outline-width) var(--pico-contrast-focus)}
 [role=group] [role=button],[role=group] [type=button],[role=group] [type=submit],[role=group] button,[role=search] [role=button],[role=search] [type=button],[role=search] [type=submit],[role=search] button{--pico-form-element-spacing-horizontal:2rem}details summary[role=button]:not(.outline)::after{filter:brightness(0) invert(1)}
 [aria-busy=true]:not(input,select,textarea):is(button,[type=submit],[type=button],[type=reset],[role=button]):not(.outline)::before{filter:brightness(0) invert(0)}:host(:not([data-theme=dark])),:root:not([data-theme=dark]),[data-theme=light]{color-scheme:light;
---pico-background-color:hsl(201 100% 91% / 100%);
+--pico-background-color:hsl(220, 90%, 92%);
 --pico-color:#373c44;
 --pico-text-selection-color:rgba(149, 144, 130, 0.25);
 --pico-muted-color:#646b79;
