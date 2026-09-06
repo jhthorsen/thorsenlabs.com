@@ -41,13 +41,11 @@ I've studied these topics in both personal and work relations:
 * [Svelte](https://svelte.dev/)
 * [Vue.js](https://vuejs.org/)
 * [React](https://facebook.github.io/react/)
-* [ngin](https://www.nginx.com/)[x](https://httpd.apache.org)
 * HTTP and RESTful web APIs.
 
 ### Rust and Go
 
-Since early 2024 I’ve been fortunate to program in Go and Rust. The webpage you
-are visiting now is written in Rust.
+Since early 2024 I’ve been fortunate to program in Go and Rust. The webpage you are visiting now is written in Rust.
 
 ### Perl
 
@@ -68,8 +66,6 @@ are visiting now is written in Rust.
 ### Other
 
 * Interested in delivering quality products. Quality to me, means readable code, good test coverage and structured documentation.
-* My second language is JavaScript. I would very much like to get more familiar with [NodeJS](https://nodejs.org/en/) in the backend.
-* I like to be involved in system design. I'm good at seeing small changes, that have big impact.
 * Passion for open source. I have a hard time seeing myself work with (only) closed technologies.
 * [Git](https://git-scm.com/) - Version control system.
 * [Ansible](https://www.ansible.com) - System automation.
@@ -78,13 +74,8 @@ are visiting now is written in Rust.
 
 ## Projects
 
-* [Mojolicious](https://mojolicious.org) - Real time web framework.
-* [Convos](https://www.convos.by) - Web based chat application.
-* [See also Github for complete list of projects.](https://www.github.com/jhthorsen)
+* See [Github](https://www.github.com/jhthorsen) for a complete list of projects.
 
 ## Personal interests
 
-My main interest is programming, both in frontend and backend. I like to learn
-new things about API design, but also design principles regarding frontend
-development. I also like to take a walk, jog or go skiing. Whenever I can, I
-travel to meet new people and experience new places.
+My main interest is programming, both in frontend and backend. I like to learn new things about API design, but also design principles regarding frontend development. I also like to take a walk, jog or go skiing. Whenever I can, I travel to meet new people and experience new places.
