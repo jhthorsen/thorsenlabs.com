@@ -65,8 +65,9 @@ Multi-word terms match path components in order, so `cd customer api` can find a
 $ tt start --account Acme --description 'Fix login bug' --tags 'web urgent'
 
   ID          Date        Account  Start  Stop  Duration  Tags
-  —————————————————————————————————————————————————————————————
+  ——————————————————————————————————————————————————————————————————
   QkYy8uYJyG  2026-09-06  Acme     09:15  -     0h 0m     urgent,web
+
 ```
 
 Stop the active entry when you are done:
@@ -75,8 +76,9 @@ Stop the active entry when you are done:
 $ tt stop
 
   ID          Date        Account  Start  Stop   Duration  Tags
-  ——————————————————————————————————————————————————————————————
+  ——————————————————————————————————————————————————————————————————
   QkYy8uYJyG  2026-09-06  Acme     09:15  10:05  0h 50m   urgent,web
+
 ```
 
 IDs are random, so yours will differ. `tt status` shows entries from today, while `tt report` can select a date range, account, tag, or entry ID. It can also group the result by day or month:
@@ -85,7 +87,7 @@ IDs are random, so yours will differ. `tt status` shows entries from today, whil
 $ tt report --start -1m --group day
 
   Period      Accounts  Duration  Tags
-  ———————————————————————————————————
+  —————————————————————————————————————————————————
   2026-09-06  Acme      1h 30m    urgent,web,review
 
   Period:   2026-08-07 -> 2026-09-06
@@ -93,6 +95,7 @@ $ tt report --start -1m --group day
   Tag:      any
   Events:   2
   Total:    1h 30m
+
 ```
 
 Run `tt commands` to see a summary of commands executed during matching entries, or add `--full` for every invocation. This is handy when filling in a timesheet or reconstructing what happened during an incident.
@@ -101,10 +104,11 @@ Run `tt commands` to see a summary of commands executed during matching entries,
 $ tt commands --full
 
   Date        Start  Command                 Duration  Exit
-  ————————————————————————————————————————————————————
+  —————————————————————————————————————————————————————————
   2026-09-06  09:19  git status -sb          1s        0
   2026-09-06  09:26  nvim app/login.js       18m 42s   0
   2026-09-06  09:47  npm test -- login       2m 11s    0
+
 ```
 
 `tt` understands epoch seconds, `HH:MM`, ISO timestamps, and offsets such as `-1d` or `-1m`. Use `tt --help` for the full command reference.
