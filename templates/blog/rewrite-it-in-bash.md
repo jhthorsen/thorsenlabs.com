@@ -1,5 +1,5 @@
 ---
-title: Rewrite It in Bash: A Terminal Toolkit, replacing atuin, fzf, oh-my-posh and zoxide
+title: A Local-First Bash Toolkit for History, Prompts, and Directory Jumps
 date: 2026-09-07
 status: published
 ---
