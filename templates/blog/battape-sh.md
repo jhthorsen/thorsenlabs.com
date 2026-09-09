@@ -162,6 +162,19 @@ cd() { battape_cd "$@"; }
 
 Battape uses Bash's DEBUG trap to measure commands. It intentionally refuses to enable recording when another DEBUG trap is already installed, rather than overwriting it.
 
+## Import existing history entries
+
+The following bash script can import an existing bash history:
+
+```bash
+#!/usr/bin/env bash
+grep -v "'" "$HOME/.bash_history" | while read -r cmd; do
+  sqlite3 "$HOME/.local/share/battape/battape.sqlite" \
+    "insert into history (id, start, end, hostname, tty, pwd, command, exit_status)
+    values (substr(hex(randomblob(10)), 1, 10), 0, 0, '$HOSTNAME', '/dev/tty', '/tmp', '$cmd', 0)";
+done
+```
+
 ## Configuration
 
 You can override many options before sourcing `battape.sh`. The defaults work without any configuration; this is one possible adjustment for an ASCII-only prompt and a smaller history picker:
