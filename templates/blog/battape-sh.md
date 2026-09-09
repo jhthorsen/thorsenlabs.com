@@ -162,18 +162,53 @@ cd() { battape_cd "$@"; }
 
 Battape uses Bash's DEBUG trap to measure commands. It intentionally refuses to enable recording when another DEBUG trap is already installed, rather than overwriting it.
 
-## Import existing history entries
+## Import Existing History Entries
 
-The following bash script can import an existing bash history:
+After installing and sourcing `battape.sh`, import commands from an existing Bash history file with this script. It skips Bash's optional timestamp lines and escapes single quotes before inserting commands into SQLite:
 
 ```bash
 #!/usr/bin/env bash
-grep -v "'" "$HOME/.bash_history" | while read -r cmd; do
-  sqlite3 "$HOME/.local/share/battape/battape.sqlite" \
-    "insert into history (id, start, end, hostname, tty, pwd, command, exit_status)
-    values (substr(hex(randomblob(10)), 1, 10), 0, 0, '$HOSTNAME', '/dev/tty', '/tmp', '$cmd', 0)";
-done
+
+history_file=${HISTFILE:-"$HOME/.bash_history"}
+
+while IFS= read -r cmd || [[ -n $cmd ]]; do
+  [[ -z $cmd || $cmd =~ ^#[0-9]+$ ]] && continue
+
+  cmd=${cmd//\'/\'\'}
+  sqlite3 "$BATTAPE_DB" "
+    insert into history (id, start, end, hostname, tty, pwd, command, exit_status)
+    values (
+      substr(hex(randomblob(10)), 1, 10),
+      0, 0,
+      '$(hostname)',
+      '/dev/tty',
+      '$HOME',
+      '$cmd',
+      0
+    );
+  "
+done < "$history_file"
 ```
+
+Imported entries do not have their original working directory, terminal, duration, or exit status, so the script uses your home directory and zero values for those fields.
+
+## Import Directories for Quick Jump
+
+Battape learns directories from recorded commands. To seed its directory index, run the following from a directory tree you want to include. This records directories up to two levels below the current directory:
+
+```bash
+#!/usr/bin/env bash
+
+find . -type d -maxdepth 2 -mindepth 1 -print0 |
+  while IFS= read -r -d '' dir; do
+    (
+      cd -- "$dir" || exit
+      eval "$PROMPT_COMMAND"
+    )
+  done
+```
+
+The subshell keeps the script in its original directory, and `-print0` handles directory names containing spaces or other special characters.
 
 ## Configuration
 
