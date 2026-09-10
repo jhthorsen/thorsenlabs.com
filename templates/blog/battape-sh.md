@@ -168,14 +168,16 @@ After installing and sourcing `battape.sh`, import commands from an existing Bas
 
 ```bash
 #!/usr/bin/env bash
-
 history_file=${HISTFILE:-"$HOME/.bash_history"}
+declare -A seen_commands=()
 
 while IFS= read -r cmd || [[ -n $cmd ]]; do
   [[ -z $cmd || $cmd =~ ^#[0-9]+$ ]] && continue
+  [[ -n ${seen_commands["$cmd"]+x} ]] && continue
+  seen_commands["$cmd"]=1
 
   cmd=${cmd//\'/\'\'}
-  sqlite3 "$BATTAPE_DB" "
+  sqlite3 "$HOME/.local/share/battape/battape.sqlite" "
     insert into history (id, start, end, hostname, tty, pwd, command, exit_status)
     values (
       substr(hex(randomblob(10)), 1, 10),
@@ -184,9 +186,7 @@ while IFS= read -r cmd || [[ -n $cmd ]]; do
       '/dev/tty',
       '$HOME',
       '$cmd',
-      0
-    );
-  "
+      0)";
 done < "$history_file"
 ```
 
