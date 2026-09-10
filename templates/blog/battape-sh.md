@@ -263,14 +263,6 @@ The colour variables accept terminal escape sequences. Prompt colour values must
 
 This setup still uses standard Unix tools—especially SQLite, `awk`, `sed`, and `tput`—so it is not “pure Bash” in a strict sense. It targets SQLite 3.46.x, which is available in Debian. In return for fewer dependencies and a single local database, you take responsibility for adapting the scripts to your own preferences.
 
-### Prompt render time
-
-It is possible to measure the cost of drawing the prompt, and the result is a useful check on the joke: Bash is not automatically faster. On this machine, I timed 100 warm renders in this checkout with Bash 5.3. Battape averaged 41 ms per prompt, including its normal Git checks and SQLite history write. My existing Oh My Posh 29.33.0 configuration averaged 18 ms per prompt.
-
-Battape does more than render its prompt at that point. It stores the previous command's start and end time, directory, hostname, terminal, and exit status in SQLite; calculates its duration; and runs the Git checks. Those stored records power the <kbd>Ctrl-R</kbd> history picker and smart `cd`, and are available to `tt` for time tracking. That makes the extra work part of the toolkit, rather than prompt decoration alone.
-
-That is not a universal comparison: prompts, repositories, disks, and caches differ, and the two configurations do not have identical features. It does mean I would not present battape as a performance replacement for Oh My Posh. Its appeal is that the implementation and data are local, small, and easy to adapt; prompt latency is something to measure with your own configuration.
-
 ## Conclusion
 
 Battape is not a universal replacement for the tools it borrows ideas from, nor is it the fastest prompt on my machine. It is a small, local toolkit whose behaviour and data are easy to inspect, install, and change. If that sounds useful, [install it](#what-you-need), try the parts you want, and make it your own.
