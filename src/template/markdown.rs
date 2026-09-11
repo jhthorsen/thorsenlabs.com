@@ -1,6 +1,7 @@
 use crate::template::basename_from_path;
 use pulldown_cmark::{Event, Tag, TagEnd};
 use serde::Serialize;
+use std::collections::HashSet;
 use std::{fs, path::Path, path::PathBuf};
 
 #[derive(Hash, Eq, PartialEq)]
@@ -50,7 +51,8 @@ impl Markdown {
 
     pub fn parse(&mut self, content: String) {
         let mut section = Section::Skip;
-        let parser = markdown_parser(&content.as_str());
+        let events = markdown_parser(&content.as_str()).collect::<Vec<_>>();
+        let parser = heading_ids(events).into_iter();
 
         let parser = parser.map(|event| {
             match event {
@@ -131,4 +133,100 @@ fn markdown_parser(text: &str) -> pulldown_cmark::Parser<'_> {
     options.insert(pulldown_cmark::Options::ENABLE_YAML_STYLE_METADATA_BLOCKS);
 
     pulldown_cmark::Parser::new_ext(&text, options)
+}
+
+fn heading_ids<'a>(events: Vec<Event<'a>>) -> Vec<Event<'a>> {
+    let mut used_ids = events
+        .iter()
+        .filter_map(|event| match event {
+            Event::Start(Tag::Heading { id: Some(id), .. }) => Some(id.to_string()),
+            _ => None,
+        })
+        .collect::<HashSet<_>>();
+    let mut generated_heading = 0;
+    let mut output = Vec::with_capacity(events.len());
+
+    for (index, event) in events.iter().enumerate() {
+        let event = match event {
+            Event::Start(Tag::Heading {
+                level,
+                id: None,
+                classes,
+                attrs,
+            }) => {
+                generated_heading += 1;
+                let heading = heading_text(&events, index);
+                let base = slugify_heading(&heading);
+                let base = if base.is_empty() {
+                    format!("heading-{generated_heading}")
+                } else {
+                    base
+                };
+                let mut id = base.clone();
+                let mut suffix = 2;
+                while used_ids.contains(&id) {
+                    id = format!("{base}-{suffix}");
+                    suffix += 1;
+                }
+                used_ids.insert(id.clone());
+
+                Event::Start(Tag::Heading {
+                    level: *level,
+                    id: Some(id.into()),
+                    classes: classes.clone(),
+                    attrs: attrs.clone(),
+                })
+            }
+            _ => event.clone(),
+        };
+        output.push(event);
+    }
+
+    output
+}
+
+fn heading_text<'a>(events: &[Event<'a>], start: usize) -> String {
+    events[start + 1..]
+        .iter()
+        .take_while(|event| !matches!(event, Event::End(TagEnd::Heading(_))))
+        .filter_map(|event| match event {
+            Event::Text(text) | Event::Code(text) => Some(text.as_ref()),
+            _ => None,
+        })
+        .collect::<String>()
+}
+
+fn slugify_heading(text: &str) -> String {
+    let mut slug = String::new();
+    let mut needs_separator = false;
+
+    for character in text.chars() {
+        if character.is_alphanumeric() {
+            if needs_separator && !slug.is_empty() {
+                slug.push('-');
+            }
+            slug.extend(character.to_lowercase());
+            needs_separator = false;
+        } else if !slug.is_empty() {
+            needs_separator = true;
+        }
+    }
+
+    slug
+}
+
+#[cfg(test)]
+mod tests {
+    use super::Markdown;
+    use std::path::Path;
+
+    #[test]
+    fn adds_ids_to_markdown_headings() {
+        let mut markdown = Markdown::new_from_path(Path::new("/dev/null"));
+        markdown.parse("# Hello, world!\n\n## Hello, world!\n\n### Explicit {#custom}".into());
+
+        assert!(markdown.content.contains("<h1 id=\"hello-world\">"));
+        assert!(markdown.content.contains("<h2 id=\"hello-world-2\">"));
+        assert!(markdown.content.contains("<h3 id=\"custom\">"));
+    }
 }
